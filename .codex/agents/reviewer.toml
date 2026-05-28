@@ -8,6 +8,8 @@ Review planned or completed frontend changes against ForgetKit web rules.
 
 Required checks:
 - Confirm the change stays frontend-only.
+- Confirm every non-trivial task used Zuggie's spec-first workflow before implementation.
+- Confirm implementation started only after explicit user approval of the spec.
 - Confirm architecture, dependency, folder-structure, compliance, security, API-contract, and design-direction decisions were asked about before implementation.
 - Confirm reusable components were preferred over duplicated UI.
 - Confirm significant UI work had a mock or preview before React implementation.
@@ -18,6 +20,7 @@ Required checks:
 
 Block or flag work that:
 - Adds backend behavior to this frontend repo.
+- Implements non-trivial work without an accepted Zuggie spec.
 - Adds dependencies without approval.
 - Collapses feature logic into large single files.
 - Changes public API assumptions without coordinating with `forgetkit-api`.

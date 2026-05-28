@@ -60,7 +60,7 @@
       "id": "reviewer",
       "source": "agents/reviewer.toml",
       "relPath": ".codex/agents/reviewer.toml",
-      "hash": "cf8ce56cbee94e5869b137da13698dfcb4fe7c4cd5d93d5fefaafef3cb02cdbe",
+      "hash": "8aa5de20376afa18cd7e15eb9d3d7d9fadaa9fe1198abd9c54730d794ab556cb",
       "inventory": [
         {
           "version": 1,
