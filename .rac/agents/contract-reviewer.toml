@@ -1,0 +1,4 @@
+id = "contract-reviewer"
+name = "Contract Reviewer"
+description = "Reviews frontend API assumptions against documented ForgetKit API contracts"
+instructions = "./contract-reviewer.instructions.md"

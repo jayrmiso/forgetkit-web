@@ -1,0 +1,4 @@
+id = "reviewer"
+name = "Reviewer"
+description = "Reviews ForgetKit web changes against frontend governance, architecture, validation, and UI preview rules"
+instructions = "./reviewer.instructions.md"

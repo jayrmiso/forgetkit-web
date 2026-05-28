@@ -1,0 +1,4 @@
+id = "ui-reviewer"
+name = "UI Reviewer"
+description = "Reviews ForgetKit web UI for preview discipline, accessibility, responsiveness, HeroUI/Tailwind consistency, and reusable components"
+instructions = "./ui-reviewer.instructions.md"
