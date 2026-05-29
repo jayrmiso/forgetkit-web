@@ -8,6 +8,8 @@ Use this before significant React UI implementation.
 
 Required:
 - Create or update a static/mock preview.
+- Provide a viewable browser URL for the preview, not only file paths.
+- For previews served from `public/`, start or reuse the local dev server and provide the matching `http://localhost:<port>/...` URL.
 - Explain the screen purpose and interaction model.
 - Ask for approval before converting to React components.
 - Preserve accessibility and responsive behavior expectations.
