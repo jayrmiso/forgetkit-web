@@ -25,32 +25,35 @@ export function WorkspaceSidebar() {
   return (
     <Sidebar className="border-r border-zinc-800/80" collapsible="offcanvas">
       <SidebarHeader className="border-b border-zinc-800/70 bg-zinc-950 px-4 py-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              className="h-11 w-full justify-between rounded-xl border-zinc-700/80 bg-zinc-900 text-zinc-100 shadow-[0_8px_20px_-16px_rgba(0,0,0,0.9)] hover:bg-zinc-800 hover:text-zinc-100"
+        <div className="space-y-2">
+          <p className="text-[11px] font-semibold tracking-wide text-zinc-500 uppercase">Select workspace</p>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="h-8 w-full justify-between rounded-md border-zinc-700/80 bg-zinc-900 px-2.5 text-xs font-medium text-zinc-100 shadow-[0_8px_20px_-16px_rgba(0,0,0,0.9)] hover:bg-zinc-800 hover:text-zinc-100"
+              >
+                <span className="truncate">Project Eclipse</span>
+                <ChevronDown className="size-3.5 text-zinc-400" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="start"
+              className="border-zinc-700 !bg-zinc-900 text-zinc-100"
             >
-              <span className="truncate text-sm font-medium">Project Eclipse</span>
-              <ChevronDown className="size-4 text-zinc-400" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            className="border-zinc-700 !bg-zinc-900 text-zinc-100"
-          >
-            <DropdownMenuItem className="focus:bg-zinc-800 focus:text-zinc-100">
-              <Check className="size-4 text-zinc-300" />
-              Project Eclipse
-            </DropdownMenuItem>
-            <DropdownMenuItem className="focus:bg-zinc-800 focus:text-zinc-100">
-              Luma Shift
-            </DropdownMenuItem>
-            <DropdownMenuItem className="focus:bg-zinc-800 focus:text-zinc-100">
-              Atelier Grayline
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <DropdownMenuItem className="focus:bg-zinc-800 focus:text-zinc-100">
+                <Check className="size-4 text-zinc-300" />
+                Project Eclipse
+              </DropdownMenuItem>
+              <DropdownMenuItem className="focus:bg-zinc-800 focus:text-zinc-100">
+                Luma Shift
+              </DropdownMenuItem>
+              <DropdownMenuItem className="focus:bg-zinc-800 focus:text-zinc-100">
+                Atelier Grayline
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </SidebarHeader>
 
       <SidebarContent className="bg-zinc-950/95 px-2 py-3">
