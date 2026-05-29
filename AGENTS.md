@@ -51,6 +51,7 @@ This repository is the frontend application only.
 - The visual direction should combine polished creative-studio UI with clean SaaS workspace ergonomics.
 - Build actual app screens, not marketing pages, unless explicitly requested.
 - Show an HTML/static mock preview or design preview before implementing significant React UI.
+- When handing off any preview, provide a viewable URL the user can open in a browser, not only file paths. For static assets under `public/`, start or reuse the dev server and provide the corresponding `http://localhost:<port>/...` URL.
 - Use HeroUI and Tailwind consistently; do not introduce another component library without approval.
 - Prefer reusable design primitives for buttons, fields, cards, panels, navigation, tabs, dialogs, and empty states.
 - Keep interfaces responsive for mobile and desktop.
