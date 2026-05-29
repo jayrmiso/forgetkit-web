@@ -8,7 +8,7 @@ import { WorkspaceSidebar } from "./_components/WorkspaceSidebar";
 export function FirstWorkspaceScreen() {
   return (
     <div className="first-workspace-screen min-h-screen bg-slate-50 text-slate-900 antialiased font-sans">
-      <div className="mx-auto max-w-7xl border border-slate-100 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.06),0_28px_56px_-36px_rgba(30,64,175,0.28)]">
+      <div className="mx-auto max-w-7xl border border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5">
         <SidebarProvider defaultOpen>
           <WorkspaceSidebar />
           <SidebarInset className="min-h-screen bg-slate-50">

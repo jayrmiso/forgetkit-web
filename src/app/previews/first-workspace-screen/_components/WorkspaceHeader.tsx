@@ -15,13 +15,13 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export function WorkspaceHeader() {
   return (
-    <header className="sticky top-0 z-20 border-b border-slate-100 bg-white/95 shadow-[0_1px_2px_rgba(15,23,42,0.05),0_10px_20px_-20px_rgba(37,99,235,0.45)] backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-slate-100 bg-white/95 shadow-sm backdrop-blur">
       <div className="flex flex-wrap items-center gap-3 px-4 py-3 md:px-6">
         <SidebarTrigger className="text-slate-600 hover:bg-slate-100 hover:text-slate-900" />
         <div className="relative min-w-[12rem] flex-1 sm:max-w-sm">
           <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" />
           <Input
-            className="border-slate-200 bg-white pl-9 text-slate-800 shadow-[0_1px_2px_rgba(15,23,42,0.04)] placeholder:text-slate-400"
+            className="border-slate-200 bg-white pl-9 text-slate-800 placeholder:text-slate-400"
             placeholder="Search assets, narratives, versions"
           />
         </div>

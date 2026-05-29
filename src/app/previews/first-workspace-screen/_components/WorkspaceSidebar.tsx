@@ -23,15 +23,15 @@ import { sidebarPrimaryItems, sidebarSecondaryItems } from "./mockData";
 
 export function WorkspaceSidebar() {
   return (
-    <Sidebar className="border-r border-slate-100 bg-white shadow-[2px_0_12px_-10px_rgba(15,23,42,0.18)]" collapsible="offcanvas">
+    <Sidebar className="border-r border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5" collapsible="offcanvas">
       <SidebarHeader className="border-b border-slate-100 bg-white px-4 py-4">
         <div className="space-y-2">
-          <p className="text-[11px] font-semibold tracking-wide text-slate-500 uppercase">Active project</p>
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Active project</p>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="h-8 w-full justify-between rounded-md border-slate-200 bg-slate-50 px-2.5 text-xs font-medium text-slate-800 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:bg-slate-100"
+                className="h-8 w-full justify-between rounded-md border-slate-200/80 bg-slate-50 px-2.5 text-xs font-medium text-slate-800 shadow-sm ring-1 ring-slate-950/5 hover:bg-slate-100"
               >
                 <span className="truncate">Project Eclipse</span>
                 <ChevronDown className="size-3.5 text-slate-500" />
@@ -51,7 +51,7 @@ export function WorkspaceSidebar() {
 
       <SidebarContent className="bg-white px-2 py-3">
         <SidebarGroup>
-          <p className="px-2 pb-2 text-[11px] font-semibold tracking-wide text-slate-500 uppercase">Core surfaces</p>
+          <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">Core surfaces</p>
           <SidebarMenu>
             {sidebarPrimaryItems.map((item) => (
               <SidebarMenuItem key={item.label}>
@@ -68,7 +68,7 @@ export function WorkspaceSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <p className="px-2 pb-2 text-[11px] font-semibold tracking-wide text-slate-500 uppercase">Integrations</p>
+          <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">Integrations</p>
           <SidebarMenu>
             {sidebarSecondaryItems.map((item) => (
               <SidebarMenuItem key={item.label}>
@@ -83,7 +83,7 @@ export function WorkspaceSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="border-t border-slate-100 bg-white p-3">
-        <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50/90 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+        <div className="flex items-center justify-between rounded-xl border border-slate-200/80 bg-slate-50/90 p-3 shadow-sm ring-1 ring-slate-950/5">
           <div className="flex items-center gap-2">
             <Avatar className="size-8">
               <AvatarFallback className="bg-blue-100 text-xs text-blue-800">KR</AvatarFallback>
@@ -97,7 +97,7 @@ export function WorkspaceSidebar() {
             Synced
           </Badge>
         </div>
-        <button className="mt-2 flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-700 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:bg-slate-50">
+        <button className="mt-2 flex w-full items-center justify-between rounded-lg border border-slate-200/80 bg-white px-3 py-2 text-xs text-slate-700 shadow-sm ring-1 ring-slate-950/5 hover:bg-slate-50">
           Open generation presets
           <ChevronRight className="size-3.5" />
         </button>
