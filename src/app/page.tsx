@@ -1,5 +1,5 @@
-import { FirstWorkspaceScreen } from "@/features/workspace/screens/FirstWorkspaceScreen";
+import { WorkspaceContent } from "@/features/workspace/components/WorkspaceContent";
 
 export default function Home() {
-  return <FirstWorkspaceScreen />;
+  return <WorkspaceContent />;
 }
