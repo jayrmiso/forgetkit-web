@@ -45,7 +45,7 @@ export function WorkspaceContent() {
         {kpiCards.map((card) => (
           <Card
             key={card.label}
-            className="border-slate-200/80 bg-white shadow-sm ring-1 ring-slate-950/5"
+            className="border-slate-100 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.06),0_10px_22px_-18px_rgba(37,99,235,0.35)]"
           >
             <CardHeader className="space-y-1 pb-2">
               <CardDescription className="text-slate-500">{card.label}</CardDescription>
@@ -59,7 +59,7 @@ export function WorkspaceContent() {
       </div>
 
       <div className="grid gap-4 xl:grid-cols-3">
-        <Card className="border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5 xl:col-span-2">
+        <Card className="border-slate-100 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.06),0_12px_24px_-20px_rgba(37,99,235,0.32)] xl:col-span-2">
           <CardHeader>
             <CardTitle className="text-base text-slate-900">Generation Workbench Modes</CardTitle>
             <CardDescription className="text-slate-500">
@@ -69,7 +69,7 @@ export function WorkspaceContent() {
           <CardContent>
             <div className="grid gap-2 sm:grid-cols-2">
               {generationModes.map((mode) => (
-                <div key={mode.name} className="flex items-center justify-between rounded-lg border border-slate-200/80 bg-slate-50/90 px-3 py-2 shadow-sm ring-1 ring-slate-950/5">
+                <div key={mode.name} className="flex items-center justify-between rounded-lg border border-slate-100 bg-slate-50/90 px-3 py-2 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
                   <p className="text-sm text-slate-800">{mode.name}</p>
                   <Badge variant="secondary" className={modeStyles[mode.status]}>
                     {mode.status}
@@ -80,14 +80,14 @@ export function WorkspaceContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5">
+        <Card className="border-slate-100 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.06),0_12px_24px_-20px_rgba(37,99,235,0.32)]">
           <CardHeader>
             <CardTitle className="text-base text-slate-900">Consistency Controls</CardTitle>
             <CardDescription className="text-slate-500">Preset, seed lock, and palette lock governance</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             {consistencyControls.map((control) => (
-              <div key={control.label} className="flex items-center gap-2 rounded-lg border border-slate-200/80 bg-slate-50/90 px-3 py-2 shadow-sm ring-1 ring-slate-950/5">
+              <div key={control.label} className="flex items-center gap-2 rounded-lg border border-slate-100 bg-slate-50/90 px-3 py-2 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
                 <control.icon className="size-4 text-blue-600" />
                 <div>
                   <p className="text-xs font-medium text-slate-600">{control.label}</p>
@@ -100,7 +100,7 @@ export function WorkspaceContent() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card className="border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5">
+        <Card className="border-slate-100 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.06),0_12px_24px_-20px_rgba(37,99,235,0.32)]">
           <CardHeader>
             <CardTitle className="text-base text-slate-900">Integration Readiness</CardTitle>
             <CardDescription className="text-slate-500">Supabase storage, Godot export, and Aseprite sync state</CardDescription>
@@ -109,7 +109,7 @@ export function WorkspaceContent() {
             {integrationRows.map((row) => (
               <div
                 key={row.integration}
-                className="rounded-lg border border-slate-200/80 bg-white px-3 py-2 shadow-sm ring-1 ring-slate-950/5"
+                className="rounded-lg border border-slate-100 bg-white px-3 py-2 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
               >
                 <div className="mb-1 flex items-center justify-between gap-2">
                   <p className="text-sm font-medium text-slate-900">{row.integration}</p>
@@ -123,7 +123,7 @@ export function WorkspaceContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5">
+        <Card className="border-slate-100 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.06),0_12px_24px_-20px_rgba(37,99,235,0.32)]">
           <CardHeader>
             <CardTitle className="text-base text-slate-900">Library Operations</CardTitle>
             <CardDescription className="text-slate-500">
@@ -131,7 +131,7 @@ export function WorkspaceContent() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 rounded-lg border border-slate-200/80 bg-slate-50/90 p-3 shadow-sm ring-1 ring-slate-950/5">
+            <div className="space-y-2 rounded-lg border border-slate-100 bg-slate-50/90 p-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
               <p className="text-sm font-medium text-slate-900">Current filters</p>
               <div className="flex flex-wrap gap-2">
                 {[
@@ -151,7 +151,7 @@ export function WorkspaceContent() {
         </Card>
       </div>
 
-      <Card className="border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5">
+      <Card className="border-slate-100 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.06),0_12px_24px_-20px_rgba(37,99,235,0.32)]">
         <CardHeader>
           <CardTitle className="text-base text-slate-900">Review, Compare, and Version Queue</CardTitle>
           <CardDescription className="text-slate-500">
@@ -159,7 +159,7 @@ export function WorkspaceContent() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto rounded-xl border border-slate-200/80 bg-white shadow-sm ring-1 ring-slate-950/5">
+          <div className="overflow-x-auto rounded-xl border border-slate-100 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
             <Table>
               <TableHeader>
                 <TableRow className="border-slate-200 hover:bg-transparent">
