@@ -1,9 +1,9 @@
 "use client";
 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { WorkspaceContent } from "./_components/WorkspaceContent";
-import { WorkspaceHeader } from "./_components/WorkspaceHeader";
-import { WorkspaceSidebar } from "./_components/WorkspaceSidebar";
+import { WorkspaceContent } from "../components/WorkspaceContent";
+import { WorkspaceHeader } from "../components/WorkspaceHeader";
+import { WorkspaceSidebar } from "../components/WorkspaceSidebar";
 
 export function FirstWorkspaceScreen() {
   return (

@@ -19,7 +19,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { sidebarPrimaryItems, sidebarSecondaryItems } from "./mockData";
+import { sidebarPrimaryItems, sidebarSecondaryItems } from "../data/mockData";
 
 function UnavailableOverlay({ label = "Soon" }: { label?: string }) {
   return (
