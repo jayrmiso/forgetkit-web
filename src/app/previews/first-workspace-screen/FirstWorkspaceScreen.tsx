@@ -7,16 +7,14 @@ import { WorkspaceSidebar } from "./_components/WorkspaceSidebar";
 
 export function FirstWorkspaceScreen() {
   return (
-    <div className="first-workspace-screen min-h-screen bg-slate-50 text-slate-900 antialiased font-sans">
-      <div className="mx-auto max-w-7xl border border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5">
-        <SidebarProvider defaultOpen>
-          <WorkspaceSidebar />
-          <SidebarInset className="min-h-screen bg-slate-50">
-            <WorkspaceHeader />
-            <WorkspaceContent />
-          </SidebarInset>
-        </SidebarProvider>
-      </div>
+    <div className="first-workspace-screen h-dvh overflow-hidden bg-[linear-gradient(180deg,#eef3f9_0%,#f7f9fc_28%,#f5f7fb_100%)] text-slate-900 antialiased font-sans">
+      <SidebarProvider defaultOpen className="min-h-dvh w-full">
+        <WorkspaceSidebar />
+        <SidebarInset className="flex min-h-0 flex-1 flex-col overflow-hidden">
+          <WorkspaceHeader />
+          <WorkspaceContent />
+        </SidebarInset>
+      </SidebarProvider>
     </div>
   );
 }
