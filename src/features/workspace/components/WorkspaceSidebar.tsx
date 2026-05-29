@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronRight, Lock } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, Lock } from "@/lib/icons";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
