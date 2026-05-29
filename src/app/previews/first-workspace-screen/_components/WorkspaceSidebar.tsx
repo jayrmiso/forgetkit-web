@@ -23,41 +23,45 @@ import { sidebarPrimaryItems, sidebarSecondaryItems } from "./mockData";
 
 export function WorkspaceSidebar() {
   return (
-    <Sidebar className="border-r border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5" collapsible="offcanvas">
-      <SidebarHeader className="border-b border-slate-100 bg-white px-4 py-4">
-        <div className="space-y-2">
-          <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Active project</p>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="h-8 w-full justify-between rounded-md border-slate-200/80 bg-slate-50 px-2.5 text-xs font-medium text-slate-800 shadow-sm ring-1 ring-slate-950/5 hover:bg-slate-100"
-              >
-                <span className="truncate">Project Eclipse</span>
-                <ChevronDown className="size-3.5 text-slate-500" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="border-slate-200 bg-white text-slate-800">
-              <DropdownMenuItem className="focus:bg-slate-100 focus:text-slate-900">
-                <Check className="size-4 text-blue-600" />
-                Project Eclipse
-              </DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-slate-100 focus:text-slate-900">Luma Shift</DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-slate-100 focus:text-slate-900">Atelier Grayline</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+    <Sidebar className="border-r border-zinc-800/80" collapsible="offcanvas">
+      <SidebarHeader className="border-b border-zinc-800/70 bg-zinc-950 px-4 py-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              className="h-11 w-full justify-between rounded-xl border-zinc-700/80 bg-zinc-900 text-zinc-100 shadow-[0_8px_20px_-16px_rgba(0,0,0,0.9)] hover:bg-zinc-800 hover:text-zinc-100"
+            >
+              <span className="truncate text-sm font-medium">Project Eclipse</span>
+              <ChevronDown className="size-4 text-zinc-400" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="start"
+            className="border-zinc-700 !bg-zinc-900 text-zinc-100"
+          >
+            <DropdownMenuItem className="focus:bg-zinc-800 focus:text-zinc-100">
+              <Check className="size-4 text-zinc-300" />
+              Project Eclipse
+            </DropdownMenuItem>
+            <DropdownMenuItem className="focus:bg-zinc-800 focus:text-zinc-100">
+              Luma Shift
+            </DropdownMenuItem>
+            <DropdownMenuItem className="focus:bg-zinc-800 focus:text-zinc-100">
+              Atelier Grayline
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarHeader>
 
-      <SidebarContent className="bg-white px-2 py-3">
+      <SidebarContent className="bg-zinc-950/95 px-2 py-3">
         <SidebarGroup>
-          <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">Core surfaces</p>
+          <p className="px-2 pb-2 text-[11px] font-semibold tracking-wide text-zinc-500 uppercase">Workflow</p>
           <SidebarMenu>
             {sidebarPrimaryItems.map((item) => (
               <SidebarMenuItem key={item.label}>
                 <SidebarMenuButton
                   isActive={item.isActive}
-                  className="text-slate-700 hover:text-slate-900 data-[active=true]:bg-blue-600 data-[active=true]:text-white"
+                  className="text-zinc-300 data-[active=true]:bg-zinc-800 data-[active=true]:text-white"
                 >
                   <item.icon className="size-4" />
                   <span>{item.label}</span>
@@ -68,11 +72,11 @@ export function WorkspaceSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">Integrations</p>
+          <p className="px-2 pb-2 text-[11px] font-semibold tracking-wide text-zinc-500 uppercase">Resources</p>
           <SidebarMenu>
             {sidebarSecondaryItems.map((item) => (
               <SidebarMenuItem key={item.label}>
-                <SidebarMenuButton className="text-slate-700 hover:text-slate-900">
+                <SidebarMenuButton className="text-zinc-300 hover:text-white">
                   <item.icon className="size-4" />
                   <span>{item.label}</span>
                 </SidebarMenuButton>
@@ -82,23 +86,23 @@ export function WorkspaceSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t border-slate-100 bg-white p-3">
-        <div className="flex items-center justify-between rounded-xl border border-slate-200/80 bg-slate-50/90 p-3 shadow-sm ring-1 ring-slate-950/5">
+      <SidebarFooter className="border-t border-zinc-800/70 bg-zinc-950/90 p-3">
+        <div className="flex items-center justify-between rounded-xl bg-zinc-800/80 p-3 shadow-[0_10px_24px_-20px_rgba(0,0,0,0.95)]">
           <div className="flex items-center gap-2">
             <Avatar className="size-8">
-              <AvatarFallback className="bg-blue-100 text-xs text-blue-800">KR</AvatarFallback>
+              <AvatarFallback className="bg-zinc-700 text-xs text-zinc-100">KR</AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-xs font-medium text-slate-800">Kai Rivera</p>
-              <p className="text-[11px] text-slate-500">Solo Dev Workspace</p>
+              <p className="text-xs font-medium text-zinc-100">Kai Rivera</p>
+              <p className="text-[11px] text-zinc-400">Creative Director</p>
             </div>
           </div>
-          <Badge variant="secondary" className="bg-blue-100 text-blue-700">
-            Synced
+          <Badge variant="secondary" className="bg-zinc-200 text-black">
+            Live
           </Badge>
         </div>
-        <button className="mt-2 flex w-full items-center justify-between rounded-lg border border-slate-200/80 bg-white px-3 py-2 text-xs text-slate-700 shadow-sm ring-1 ring-slate-950/5 hover:bg-slate-50">
-          Open generation presets
+        <button className="mt-2 flex w-full items-center justify-between rounded-lg border border-zinc-700/80 px-3 py-2 text-xs text-zinc-300 shadow-[0_8px_18px_-16px_rgba(0,0,0,0.9)] hover:bg-zinc-800/80">
+          Launch standup notes
           <ChevronRight className="size-3.5" />
         </button>
       </SidebarFooter>
