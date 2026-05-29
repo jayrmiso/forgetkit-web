@@ -7,11 +7,11 @@ import { WorkspaceSidebar } from "./_components/WorkspaceSidebar";
 
 export function FirstWorkspaceScreen() {
   return (
-    <div className="first-workspace-screen min-h-screen bg-black text-zinc-100 antialiased font-sans">
-      <div className="mx-auto max-w-7xl rounded-3xl border border-zinc-800/90 bg-zinc-950 shadow-[0_20px_55px_-28px_rgba(0,0,0,0.7)]">
+    <div className="first-workspace-screen min-h-screen bg-slate-50 text-slate-900 antialiased font-sans">
+      <div className="mx-auto max-w-7xl border border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5">
         <SidebarProvider defaultOpen>
           <WorkspaceSidebar />
-          <SidebarInset className="min-h-screen bg-transparent">
+          <SidebarInset className="min-h-screen bg-slate-50">
             <WorkspaceHeader />
             <WorkspaceContent />
           </SidebarInset>
