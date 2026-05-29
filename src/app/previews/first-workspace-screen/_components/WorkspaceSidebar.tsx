@@ -21,6 +21,20 @@ import {
 } from "@/components/ui/sidebar";
 import { sidebarPrimaryItems, sidebarSecondaryItems } from "./mockData";
 
+function UnavailableOverlay({ label = "Soon" }: { label?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 rounded-md bg-white/58 ring-1 ring-inset ring-slate-200/70 backdrop-blur-[1px]"
+    >
+      <span className="absolute right-2 top-1/2 inline-flex -translate-y-1/2 items-center gap-1 rounded-md border border-slate-300/70 bg-white/90 px-1.5 py-0.5 text-[10px] font-semibold tracking-wide text-slate-600 shadow-sm">
+        <Lock className="size-3" />
+        {label}
+      </span>
+    </span>
+  );
+}
+
 export function WorkspaceSidebar() {
   return (
     <Sidebar className="border-r border-slate-200/80 bg-white shadow-md ring-1 ring-slate-950/5" collapsible="offcanvas">
@@ -62,7 +76,7 @@ export function WorkspaceSidebar() {
                 >
                   <item.icon className="size-4" />
                   <span>{item.label}</span>
-                  {item.isUnavailable ? <span className="absolute inset-0 rounded-md bg-white/60" /> : null}
+                  {item.isUnavailable ? <UnavailableOverlay label={item.availabilityLabel ?? "Soon"} /> : null}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
@@ -80,7 +94,7 @@ export function WorkspaceSidebar() {
                 >
                   <item.icon className="size-4" />
                   <span>{item.label}</span>
-                  {item.isUnavailable ? <span className="absolute inset-0 rounded-md bg-white/60" /> : null}
+                  {item.isUnavailable ? <UnavailableOverlay label={item.availabilityLabel ?? "Soon"} /> : null}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
