@@ -1,4 +1,4 @@
-import type { SVGProps } from "react";
+import type { ReactElement, SVGProps } from "react";
 
 type IconProps = SVGProps<SVGSVGElement>;
 
@@ -10,7 +10,7 @@ function BaseIcon(props: IconProps) {
   );
 }
 
-export type LucideIcon = (props: IconProps) => JSX.Element;
+export type LucideIcon = (props: IconProps) => ReactElement;
 
 export const PanelLeftIcon = BaseIcon;
 export const Bell = BaseIcon;

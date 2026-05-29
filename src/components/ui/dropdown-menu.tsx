@@ -10,7 +10,11 @@ export function DropdownMenuTrigger({ asChild, children }: { asChild?: boolean; 
   return <>{children}</>;
 }
 
-export function DropdownMenuContent({ className, children, ...props }: React.ComponentProps<"div">) {
+export function DropdownMenuContent({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & { align?: "start" | "center" | "end" }) {
   return (
     <div className={cn("mt-1 rounded-md border bg-white p-1 shadow", className)} {...props}>
       {children}

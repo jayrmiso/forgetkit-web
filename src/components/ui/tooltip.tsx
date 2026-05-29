@@ -10,7 +10,16 @@ export function TooltipTrigger({ asChild, children }: { asChild?: boolean; child
   return <>{children}</>;
 }
 
-export function TooltipContent({ className, hidden, children, ...props }: React.ComponentProps<"div"> & { hidden?: boolean }) {
+export function TooltipContent({
+  className,
+  hidden,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & {
+  hidden?: boolean;
+  side?: "top" | "right" | "bottom" | "left";
+  align?: "start" | "center" | "end";
+}) {
   if (hidden) return null;
   return (
     <div className={cn("z-50 rounded bg-slate-900 px-2 py-1 text-xs text-white", className)} {...props}>
