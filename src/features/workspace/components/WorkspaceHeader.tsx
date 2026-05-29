@@ -1,4 +1,4 @@
-import { Bell, ChevronsUpDown, Search } from "lucide-react";
+import { Bell, ChevronsUpDown, Search } from "@/lib/icons";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
