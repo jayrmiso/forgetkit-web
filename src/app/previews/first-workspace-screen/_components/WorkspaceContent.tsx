@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -8,45 +7,30 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  consistencyControls,
-  generationModes,
-  integrationRows,
-  kpiCards,
-  queueRows,
-} from "./mockData";
+import { Badge } from "@/components/ui/badge";
+import { kpiCards, queueRows } from "./mockData";
+
+const riskStyles: Record<string, string> = {
+  Low: "bg-zinc-700/30 text-zinc-200",
+  Medium: "bg-zinc-600/35 text-zinc-100",
+  High: "bg-zinc-500/40 text-black",
+};
 
 const kpiToneStyles: Record<string, string> = {
-  neutral: "text-slate-500",
-  positive: "text-blue-700",
-  warning: "text-amber-700",
-};
-
-const modeStyles: Record<string, string> = {
-  Ready: "bg-blue-100 text-blue-700",
-  Calibrating: "bg-amber-100 text-amber-700",
-};
-
-const integrationStyles: Record<string, string> = {
-  Connected: "bg-emerald-100 text-emerald-700",
-  Pending: "bg-amber-100 text-amber-700",
-};
-
-const priorityStyles: Record<string, string> = {
-  P1: "bg-red-100 text-red-700",
-  P2: "bg-amber-100 text-amber-700",
-  P3: "bg-slate-100 text-slate-700",
+  neutral: "text-zinc-300",
+  positive: "text-zinc-100",
+  warning: "text-zinc-200",
 };
 
 export function WorkspaceContent() {
   return (
-    <section className="mx-auto w-full max-w-6xl space-y-5 px-4 py-6 md:px-6 lg:px-8">
+    <section className="mx-auto w-full max-w-6xl space-y-5 px-6 py-10 lg:px-8">
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {kpiCards.map((card) => (
-          <Card key={card.label} className="border-slate-200 bg-white shadow-sm">
+          <Card key={card.label} className="border-zinc-800/80 bg-zinc-900/80 shadow-[0_10px_24px_-18px_rgba(0,0,0,0.8)]">
             <CardHeader className="space-y-1 pb-2">
-              <CardDescription className="text-slate-500">{card.label}</CardDescription>
-              <CardTitle className="text-2xl text-slate-900">{card.value}</CardTitle>
+              <CardDescription className="text-zinc-400">{card.label}</CardDescription>
+              <CardTitle className="text-2xl text-zinc-100">{card.value}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className={`text-xs ${kpiToneStyles[card.tone]}`}>{card.helper}</p>
@@ -55,89 +39,36 @@ export function WorkspaceContent() {
         ))}
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-3">
-        <Card className="border-slate-200 bg-white shadow-sm xl:col-span-2">
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card className="border-zinc-800/80 bg-zinc-900/80 shadow-[0_10px_24px_-18px_rgba(0,0,0,0.8)]">
           <CardHeader>
-            <CardTitle className="text-base text-slate-900">Generation Workbench Modes</CardTitle>
-            <CardDescription className="text-slate-500">
-              Prompt-to-image, variation, upscale, removal, spritesheet, icon set, and text generation
-            </CardDescription>
+            <CardTitle className="text-base text-zinc-100">Narrative Throughput</CardTitle>
+            <CardDescription className="text-zinc-400">Scene branches approved over 14 days</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-2 sm:grid-cols-2">
-              {generationModes.map((mode) => (
-                <div key={mode.name} className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
-                  <p className="text-sm text-slate-800">{mode.name}</p>
-                  <Badge variant="secondary" className={modeStyles[mode.status]}>
-                    {mode.status}
-                  </Badge>
-                </div>
-              ))}
+            <div className="h-52 rounded-xl border border-zinc-800 bg-gradient-to-br from-zinc-800 via-zinc-900 to-black p-4">
+              <div className="flex h-full items-end gap-2">
+                {[35, 52, 48, 62, 58, 72, 66, 79].map((height, index) => (
+                  <div key={height} className="flex-1 rounded-t-md bg-zinc-300/70" style={{ height: `${height}%`, opacity: 0.55 + index * 0.05 }} />
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200 bg-white shadow-sm">
+        <Card className="border-zinc-800/80 bg-zinc-900/80 shadow-[0_10px_24px_-18px_rgba(0,0,0,0.8)]">
           <CardHeader>
-            <CardTitle className="text-base text-slate-900">Consistency Controls</CardTitle>
-            <CardDescription className="text-slate-500">Preset, seed lock, and palette lock governance</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {consistencyControls.map((control) => (
-              <div key={control.label} className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
-                <control.icon className="size-4 text-blue-600" />
-                <div>
-                  <p className="text-xs font-medium text-slate-600">{control.label}</p>
-                  <p className="text-sm text-slate-900">{control.value}</p>
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <Card className="border-slate-200 bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base text-slate-900">Integration Readiness</CardTitle>
-            <CardDescription className="text-slate-500">Supabase storage, Godot export, and Aseprite sync state</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {integrationRows.map((row) => (
-              <div key={row.integration} className="rounded-lg border border-slate-200 px-3 py-2">
-                <div className="mb-1 flex items-center justify-between gap-2">
-                  <p className="text-sm font-medium text-slate-900">{row.integration}</p>
-                  <Badge variant="secondary" className={integrationStyles[row.state]}>
-                    {row.state}
-                  </Badge>
-                </div>
-                <p className="text-xs text-slate-500">{row.note}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card className="border-slate-200 bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-base text-slate-900">Library Operations</CardTitle>
-            <CardDescription className="text-slate-500">
-              Metadata, tags, collections, status, and priority signals across assets and narrative
-            </CardDescription>
+            <CardTitle className="text-base text-zinc-100">Asset Load Distribution</CardTitle>
+            <CardDescription className="text-zinc-400">Current prep capacity by discipline</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-3">
-              <p className="text-sm font-medium text-slate-900">Current filters</p>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "Type: Spritesheet",
-                  "Status: Review",
-                  "Priority: P1/P2",
-                  "Collection: Biome-02",
-                  "Tag: npc-dialogue",
-                ].map((filter) => (
-                  <Badge key={filter} variant="outline" className="border-blue-200 bg-white text-blue-700">
-                    {filter}
-                  </Badge>
+            <div className="h-52 rounded-xl border border-zinc-800 bg-black p-4">
+              <div className="grid h-full grid-cols-6 gap-2">
+                {["22%", "18%", "16%", "15%", "17%", "12%"].map((value, index) => (
+                  <div key={value} className="flex flex-col justify-end rounded-md bg-zinc-800/80 p-2">
+                    <div className="mb-2 rounded-sm bg-zinc-300/70" style={{ height: `${30 + index * 10}%` }} />
+                    <p className="text-[11px] text-zinc-400">{value}</p>
+                  </div>
                 ))}
               </div>
             </div>
@@ -145,39 +76,35 @@ export function WorkspaceContent() {
         </Card>
       </div>
 
-      <Card className="border-slate-200 bg-white shadow-sm">
+      <Card className="border-zinc-800/80 bg-zinc-900/80 shadow-[0_10px_24px_-18px_rgba(0,0,0,0.8)]">
         <CardHeader>
-          <CardTitle className="text-base text-slate-900">Review, Compare, and Version Queue</CardTitle>
-          <CardDescription className="text-slate-500">
-            Full-history workflow with notes, approval state, compare view, and rollback readiness
-          </CardDescription>
+          <CardTitle className="text-base text-zinc-100">Preparation Queue</CardTitle>
+          <CardDescription className="text-zinc-400">High-density snapshot of current studio prep work</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto rounded-xl border border-slate-200">
+          <div className="overflow-x-auto rounded-xl border border-zinc-800 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]">
             <Table>
               <TableHeader>
-                <TableRow className="border-slate-200 hover:bg-transparent">
-                  <TableHead className="text-slate-500">ID</TableHead>
-                  <TableHead className="text-slate-500">Item</TableHead>
-                  <TableHead className="text-slate-500">Lane</TableHead>
-                  <TableHead className="text-slate-500">Status</TableHead>
-                  <TableHead className="text-slate-500">Owner</TableHead>
-                  <TableHead className="text-slate-500">Updated</TableHead>
-                  <TableHead className="text-slate-500">Priority</TableHead>
+                <TableRow className="border-zinc-800 hover:bg-transparent">
+                  <TableHead className="text-zinc-400">ID</TableHead>
+                  <TableHead className="text-zinc-400">Item</TableHead>
+                  <TableHead className="text-zinc-400">Stage</TableHead>
+                  <TableHead className="text-zinc-400">Owner</TableHead>
+                  <TableHead className="text-zinc-400">Due</TableHead>
+                  <TableHead className="text-zinc-400">Risk</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {queueRows.map((row) => (
-                  <TableRow key={row.id} className="border-slate-200 text-sm hover:bg-slate-50">
-                    <TableCell className="font-medium text-slate-700">{row.id}</TableCell>
-                    <TableCell className="text-slate-900">{row.item}</TableCell>
-                    <TableCell className="text-slate-700">{row.lane}</TableCell>
-                    <TableCell className="text-slate-700">{row.status}</TableCell>
-                    <TableCell className="text-slate-700">{row.owner}</TableCell>
-                    <TableCell className="text-slate-700">{row.updated}</TableCell>
+                  <TableRow key={row.id} className="border-zinc-800 text-sm hover:bg-zinc-800/40">
+                    <TableCell className="font-medium text-zinc-300">{row.id}</TableCell>
+                    <TableCell className="text-zinc-100">{row.item}</TableCell>
+                    <TableCell className="text-zinc-300">{row.stage}</TableCell>
+                    <TableCell className="text-zinc-300">{row.owner}</TableCell>
+                    <TableCell className="text-zinc-300">{row.due}</TableCell>
                     <TableCell>
-                      <Badge variant="secondary" className={priorityStyles[row.priority]}>
-                        {row.priority}
+                      <Badge variant="secondary" className={riskStyles[row.risk]}>
+                        {row.risk}
                       </Badge>
                     </TableCell>
                   </TableRow>
