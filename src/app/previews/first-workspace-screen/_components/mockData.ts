@@ -19,6 +19,8 @@ export type SidebarItem = {
   label: string;
   icon: LucideIcon;
   isActive?: boolean;
+  isUnavailable?: boolean;
+  availabilityLabel?: "Soon";
 };
 
 export type KpiCard = {
@@ -51,18 +53,18 @@ export type IntegrationRow = {
 
 export const sidebarPrimaryItems: SidebarItem[] = [
   { label: "Dashboard", icon: Layers, isActive: true },
-  { label: "Generation Workbench", icon: WandSparkles },
-  { label: "Asset Library", icon: FolderKanban },
-  { label: "Narrative Library", icon: BookOpenText },
-  { label: "Review & Compare", icon: RefreshCcw },
-  { label: "Version History", icon: Boxes },
+  { label: "Generation Workbench", icon: WandSparkles, isUnavailable: true, availabilityLabel: "Soon" },
+  { label: "Asset Library", icon: FolderKanban, isUnavailable: true, availabilityLabel: "Soon" },
+  { label: "Narrative Library", icon: BookOpenText, isUnavailable: true, availabilityLabel: "Soon" },
+  { label: "Review & Compare", icon: RefreshCcw, isUnavailable: true, availabilityLabel: "Soon" },
+  { label: "Version History", icon: Boxes, isUnavailable: true, availabilityLabel: "Soon" },
 ];
 
 export const sidebarSecondaryItems: SidebarItem[] = [
-  { label: "Supabase Storage", icon: Database },
-  { label: "Godot Export Readiness", icon: ClipboardCheck },
-  { label: "Aseprite Integration", icon: Spline },
-  { label: "Consistency Controls", icon: Lock },
+  { label: "Supabase Storage", icon: Database, isUnavailable: true, availabilityLabel: "Soon" },
+  { label: "Godot Export Readiness", icon: ClipboardCheck, isUnavailable: true, availabilityLabel: "Soon" },
+  { label: "Aseprite Integration", icon: Spline, isUnavailable: true, availabilityLabel: "Soon" },
+  { label: "Consistency Controls", icon: Lock, isUnavailable: true, availabilityLabel: "Soon" },
 ];
 
 export const kpiCards: KpiCard[] = [

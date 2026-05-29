@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronRight } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, Lock } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -57,10 +57,12 @@ export function WorkspaceSidebar() {
               <SidebarMenuItem key={item.label}>
                 <SidebarMenuButton
                   isActive={item.isActive}
-                  className="text-slate-700 hover:text-slate-900 data-[active=true]:bg-blue-600 data-[active=true]:text-white"
+                  disabled={item.isUnavailable}
+                  className="relative overflow-hidden text-slate-700 hover:text-slate-900 data-[active=true]:bg-blue-600 data-[active=true]:text-white data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-75"
                 >
                   <item.icon className="size-4" />
                   <span>{item.label}</span>
+                  {item.isUnavailable ? <span className="absolute inset-0 rounded-md bg-white/60" /> : null}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
@@ -72,9 +74,13 @@ export function WorkspaceSidebar() {
           <SidebarMenu>
             {sidebarSecondaryItems.map((item) => (
               <SidebarMenuItem key={item.label}>
-                <SidebarMenuButton className="text-slate-700 hover:text-slate-900">
+                <SidebarMenuButton
+                  disabled={item.isUnavailable}
+                  className="relative overflow-hidden text-slate-700 hover:text-slate-900 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-75"
+                >
                   <item.icon className="size-4" />
                   <span>{item.label}</span>
+                  {item.isUnavailable ? <span className="absolute inset-0 rounded-md bg-white/60" /> : null}
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
