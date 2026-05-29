@@ -19,8 +19,8 @@ export function WorkspaceHeader() {
         <SidebarTrigger className="h-9 w-9 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900" />
 
         <div className="min-w-[10rem]">
-          <p className="text-sm font-semibold text-slate-900">Workspace Preview</p>
-          <p className="text-xs text-slate-500">Sprint 08 · v0.1 preview</p>
+          <p className="text-sm font-semibold text-slate-900">Workspace</p>
+          <p className="text-xs text-slate-500">Sprint 08 · v0.1</p>
         </div>
 
         <div className="relative min-w-[12rem] flex-1 sm:max-w-sm">

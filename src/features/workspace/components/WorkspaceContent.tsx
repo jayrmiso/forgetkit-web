@@ -14,7 +14,7 @@ import {
   integrationRows,
   kpiCards,
   queueRows,
-} from "./mockData";
+} from "../data/mockData";
 
 const kpiToneStyles: Record<string, string> = {
   neutral: "text-slate-500",
