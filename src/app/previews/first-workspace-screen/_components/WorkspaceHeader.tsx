@@ -15,44 +15,47 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export function WorkspaceHeader() {
   return (
-    <header className="sticky top-0 z-20 border-b border-zinc-800/70 bg-zinc-950/95 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="flex flex-wrap items-center gap-3 px-4 py-3 md:px-6">
-        <SidebarTrigger className="text-zinc-300 hover:bg-zinc-800 hover:text-white" />
+        <SidebarTrigger className="text-slate-600 hover:bg-slate-100 hover:text-slate-900" />
         <div className="relative min-w-[12rem] flex-1 sm:max-w-sm">
-          <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-zinc-500" />
+          <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" />
           <Input
-            className="border-zinc-700 bg-zinc-800/80 pl-9 text-zinc-100 placeholder:text-zinc-500 shadow-[0_8px_20px_-16px_rgba(0,0,0,0.95)]"
-            placeholder="Search concepts, assets, notes"
+            className="border-slate-300 bg-white pl-9 text-slate-800 placeholder:text-slate-400"
+            placeholder="Search assets, narratives, versions"
           />
         </div>
 
         <div className="ml-auto flex items-center gap-2">
-          <Badge className="bg-zinc-200 text-black" variant="secondary">
-            Sprint 05
+          <Badge className="bg-blue-600 text-white" variant="secondary">
+            Sprint 08
           </Badge>
-          <Button variant="outline" className="border-zinc-700 bg-zinc-800/70 text-zinc-100 shadow-[0_8px_20px_-16px_rgba(0,0,0,0.9)]">
-            Quick Capture
+          <Badge variant="outline" className="border-slate-300 text-slate-700">
+            Supabase Connected
+          </Badge>
+          <Button variant="outline" className="border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100">
+            New Generation Job
           </Button>
           <Button
             size="icon"
             variant="ghost"
             aria-label="Open notifications"
-            className="text-zinc-300 hover:bg-zinc-800 hover:text-white"
+            className="text-slate-600 hover:bg-slate-100 hover:text-slate-900"
           >
             <Bell className="size-4" />
           </Button>
-          <Separator orientation="vertical" className="hidden h-8 bg-zinc-700 sm:block" />
+          <Separator orientation="vertical" className="hidden h-8 bg-slate-200 sm:block" />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="gap-2 text-zinc-200 shadow-[0_8px_18px_-16px_rgba(0,0,0,0.9)] hover:bg-zinc-800">
+              <Button variant="ghost" className="gap-2 text-slate-700 hover:bg-slate-100">
                 <Avatar className="size-7">
-                  <AvatarFallback className="bg-zinc-700 text-xs">KR</AvatarFallback>
+                  <AvatarFallback className="bg-blue-100 text-xs text-blue-800">KR</AvatarFallback>
                 </Avatar>
                 <span className="hidden sm:inline">Kai Rivera</span>
-                <ChevronsUpDown className="size-3.5 text-zinc-400" />
+                <ChevronsUpDown className="size-3.5 text-slate-500" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-44">
+            <DropdownMenuContent align="end" className="w-48 border-slate-200 bg-white">
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Workspace settings</DropdownMenuItem>
               <DropdownMenuItem>Sign out</DropdownMenuItem>
