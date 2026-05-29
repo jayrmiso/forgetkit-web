@@ -79,6 +79,7 @@ This repository is the frontend application only.
 - Keep `.rac/` as the source of truth and generate vendor-specific agent outputs from it.
 - Use the Zuggie RAC pack as the default structured AI workflow: spec first, accepted spec second, implementation third, review before completion.
 - Use local ForgetKit RAC agents and skills for project-specific architecture, decision, UI preview, API contract, and test gates.
+- Treat `PRODUCT_REQUIREMENTS.md` as the product source of truth for planning and prioritization. When the user asks questions like "what should we do next", "what's next", "what should we build", or requests roadmap/priorities, read `PRODUCT_REQUIREMENTS.md` first and ground recommendations in that document.
 
 ## Validation Before Completion
 - Run `npm run lint`.
