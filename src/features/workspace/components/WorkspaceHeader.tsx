@@ -54,15 +54,17 @@ export function WorkspaceHeader() {
           </Button>
           <Separator orientation="vertical" className="hidden h-8 bg-slate-200 sm:block" />
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-9 rounded-lg gap-2 text-slate-700 hover:bg-slate-100">
-                <Avatar className="size-7">
-                  <AvatarFallback className="bg-blue-100 text-xs text-blue-800">KR</AvatarFallback>
-                </Avatar>
-                <span>Kai Rivera</span>
-                <ChevronsUpDown className="size-3.5 text-slate-500" />
-              </Button>
-            </DropdownMenuTrigger>
+            <DropdownMenuTrigger
+              render={
+                <Button variant="ghost" className="h-9 rounded-lg gap-2 text-slate-700 hover:bg-slate-100">
+                  <Avatar className="size-7">
+                    <AvatarFallback className="bg-blue-100 text-xs text-blue-800">KR</AvatarFallback>
+                  </Avatar>
+                  <span>Kai Rivera</span>
+                  <ChevronsUpDown className="size-3.5 text-slate-500" />
+                </Button>
+              }
+            />
             <DropdownMenuContent align="end" className="w-48 border-slate-200 bg-white">
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Workspace settings</DropdownMenuItem>

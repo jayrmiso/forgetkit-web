@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronRight, Lock } from "lucide-react";
+import { ChevronDown, ChevronRight, Lock } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -42,27 +42,26 @@ export function WorkspaceSidebar() {
         <div className="flex w-full flex-col space-y-2 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:space-y-0">
           <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 group-data-[collapsible=icon]:hidden">Active project</p>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="h-8 w-full justify-between rounded-md border-slate-200/80 bg-white px-2 text-xs font-medium text-slate-800 shadow-sm ring-1 ring-slate-950/5 hover:bg-slate-50 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:border-0 group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:shadow-none group-data-[collapsible=icon]:hover:bg-slate-100"
-              >
-                <span className="inline-flex items-center gap-2 group-data-[collapsible=icon]:gap-0">
-                  <span className="inline-flex size-3.5 items-center justify-center rounded-sm border border-slate-300 text-[10px] font-semibold text-slate-500 group-data-[collapsible=icon]:size-4 group-data-[collapsible=icon]:border-0 group-data-[collapsible=icon]:text-slate-700">
-                    PE
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="outline"
+                  className="h-8 w-full justify-between rounded-md border-slate-200/80 bg-white px-2 text-xs font-medium text-slate-800 shadow-sm ring-1 ring-slate-950/5 hover:bg-slate-50 group-data-[collapsible=icon]:h-8 group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:border-0 group-data-[collapsible=icon]:bg-transparent group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:shadow-none group-data-[collapsible=icon]:hover:bg-slate-100"
+                >
+                  <span className="inline-flex items-center gap-2 group-data-[collapsible=icon]:gap-0">
+                    <span className="inline-flex size-3.5 items-center justify-center rounded-sm border border-slate-300 text-[10px] font-semibold text-slate-500 group-data-[collapsible=icon]:size-4 group-data-[collapsible=icon]:border-0 group-data-[collapsible=icon]:text-slate-700">
+                      PE
+                    </span>
+                    <span className="truncate group-data-[collapsible=icon]:hidden">Project Eclipse</span>
                   </span>
-                  <span className="truncate group-data-[collapsible=icon]:hidden">Project Eclipse</span>
-                </span>
-                <ChevronDown className="size-3.5 text-slate-500 group-data-[collapsible=icon]:hidden" />
-              </Button>
-            </DropdownMenuTrigger>
+                  <ChevronDown className="size-3.5 text-slate-500 group-data-[collapsible=icon]:hidden" />
+                </Button>
+              }
+            />
             <DropdownMenuContent align="start" className="border-slate-200 bg-white text-slate-800">
-              <DropdownMenuItem className="focus:bg-slate-100 focus:text-slate-900">
-                <Check className="size-4 text-blue-600" />
-                Project Eclipse
-              </DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-slate-100 focus:text-slate-900">Luma Shift</DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-slate-100 focus:text-slate-900">Atelier Grayline</DropdownMenuItem>
+              <DropdownMenuItem>Project Eclipse</DropdownMenuItem>
+              <DropdownMenuItem>Luma Shift</DropdownMenuItem>
+              <DropdownMenuItem>Atelier Grayline</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { WorkspaceHeader } from "@/features/workspace/components/WorkspaceHeader";
 import { WorkspaceSidebar } from "@/features/workspace/components/WorkspaceSidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,15 +19,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
-        <div className="h-dvh overflow-hidden bg-[linear-gradient(180deg,#eef3f9_0%,#f7f9fc_28%,#f5f7fb_100%)] text-slate-900 antialiased font-sans">
-          <SidebarProvider defaultOpen className="min-h-dvh w-full">
-            <WorkspaceSidebar />
-            <SidebarInset className="flex min-h-0 flex-1 flex-col overflow-hidden">
-              <WorkspaceHeader />
-              {children}
-            </SidebarInset>
-          </SidebarProvider>
-        </div>
+        <TooltipProvider>
+          <div className="h-dvh overflow-hidden bg-[linear-gradient(180deg,#eef3f9_0%,#f7f9fc_28%,#f5f7fb_100%)] text-slate-900 antialiased font-sans">
+            <SidebarProvider defaultOpen className="min-h-dvh w-full">
+              <WorkspaceSidebar />
+              <SidebarInset className="flex min-h-0 flex-1 flex-col overflow-hidden">
+                <WorkspaceHeader />
+                {children}
+              </SidebarInset>
+            </SidebarProvider>
+          </div>
+        </TooltipProvider>
       </body>
     </html>
   );
