@@ -13,7 +13,7 @@ import {
   Sparkles,
   Spline,
   WandSparkles,
-} from "@/lib/icons";
+} from "lucide-react";
 
 export type SidebarItem = {
   label: string;
