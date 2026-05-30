@@ -59,7 +59,7 @@ export function WorkspaceHeader() {
                 <Avatar className="size-7">
                   <AvatarFallback className="bg-blue-100 text-xs text-blue-800">KR</AvatarFallback>
                 </Avatar>
-                <span className="hidden sm:inline">Kai Rivera</span>
+                <span>Kai Rivera</span>
                 <ChevronsUpDown className="size-3.5 text-slate-500" />
               </Button>
             </DropdownMenuTrigger>
