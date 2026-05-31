@@ -76,7 +76,7 @@ export function WorkspaceSidebar() {
                 <SidebarMenuButton
                   isActive={item.isActive}
                   disabled={item.isUnavailable}
-                  className="relative overflow-hidden text-slate-700 hover:text-slate-900 data-[active=true]:bg-blue-600 data-[active=true]:text-white data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-75 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:gap-0"
+                  className="relative overflow-hidden text-slate-700 hover:text-slate-900 data-[active=true]:bg-slate-700 data-[active=true]:text-white data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-75 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:gap-0"
                   tooltip={item.label}
                 >
                   <item.icon className="size-4" />
@@ -120,14 +120,14 @@ export function WorkspaceSidebar() {
         <div className="flex items-center justify-between rounded-xl border border-slate-200/80 bg-white p-2 shadow-sm ring-1 ring-slate-950/5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:rounded-lg group-data-[collapsible=icon]:p-1.5">
           <div className="flex items-center gap-2">
             <Avatar className="size-8">
-              <AvatarFallback className="bg-blue-100 text-xs text-blue-800">KR</AvatarFallback>
+              <AvatarFallback className="bg-slate-200 text-xs text-slate-700">KR</AvatarFallback>
             </Avatar>
             <div className="group-data-[collapsible=icon]:hidden">
               <p className="text-xs font-medium text-slate-800">Kai Rivera</p>
               <p className="text-[11px] text-slate-500">Solo Dev Workspace</p>
             </div>
           </div>
-          <Badge variant="secondary" className="bg-blue-100 text-blue-700 group-data-[collapsible=icon]:hidden">
+          <Badge variant="secondary" className="bg-slate-200 text-slate-700 group-data-[collapsible=icon]:hidden">
             Synced
           </Badge>
         </div>

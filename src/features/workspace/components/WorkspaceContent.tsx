@@ -18,12 +18,12 @@ import {
 
 const kpiToneStyles: Record<string, string> = {
   neutral: "text-slate-500",
-  positive: "text-blue-700",
+  positive: "text-slate-700",
   warning: "text-amber-700",
 };
 
 const modeStyles: Record<string, string> = {
-  Ready: "bg-blue-100 text-blue-700",
+  Ready: "bg-slate-200 text-slate-700",
   Calibrating: "bg-amber-100 text-amber-700",
 };
 
@@ -46,7 +46,7 @@ export function WorkspaceContent() {
           {kpiCards.map((card) => (
             <Card
               key={card.label}
-              className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_28px_-24px_rgba(37,99,235,0.28)] ring-1 ring-slate-950/5"
+              className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_28px_-24px_rgba(15,23,42,0.12)] ring-1 ring-slate-950/5"
             >
               <CardHeader className="space-y-1 pb-2">
                 <CardDescription className="text-slate-500">{card.label}</CardDescription>
@@ -60,7 +60,7 @@ export function WorkspaceContent() {
         </div>
 
         <div className="grid gap-4 xl:grid-cols-3">
-          <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(37,99,235,0.28)] ring-1 ring-slate-950/5 xl:col-span-2">
+          <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(15,23,42,0.12)] ring-1 ring-slate-950/5 xl:col-span-2">
             <CardHeader>
               <CardTitle className="text-base text-slate-900">Generation Workbench Modes</CardTitle>
               <CardDescription className="text-slate-500">
@@ -71,7 +71,7 @@ export function WorkspaceContent() {
               <div className="grid gap-2 sm:grid-cols-2">
                 {generationModes.map((mode) => (
                   <div key={mode.name} className="flex items-center justify-between rounded-lg border border-slate-200/80 bg-slate-50/90 px-3 py-2 shadow-sm ring-1 ring-slate-950/5">
-                    <p className="text-sm text-slate-800">{mode.name}</p>
+                    <p className="text-sm text-slate-900">{mode.name}</p>
                     <Badge variant="secondary" className={modeStyles[mode.status]}>
                       {mode.status}
                     </Badge>
@@ -81,7 +81,7 @@ export function WorkspaceContent() {
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(37,99,235,0.28)] ring-1 ring-slate-950/5">
+          <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(15,23,42,0.12)] ring-1 ring-slate-950/5">
             <CardHeader>
               <CardTitle className="text-base text-slate-900">Consistency Controls</CardTitle>
               <CardDescription className="text-slate-500">Preset, seed lock, and palette lock governance</CardDescription>
@@ -89,9 +89,9 @@ export function WorkspaceContent() {
             <CardContent className="space-y-2">
               {consistencyControls.map((control) => (
                 <div key={control.label} className="flex items-center gap-2 rounded-lg border border-slate-200/80 bg-slate-50/90 px-3 py-2 shadow-sm ring-1 ring-slate-950/5">
-                  <control.icon className="size-4 text-blue-600" />
+                  <control.icon className="size-4 text-slate-700" />
                   <div>
-                    <p className="text-xs font-medium text-slate-600">{control.label}</p>
+                    <p className="text-xs font-medium text-slate-500">{control.label}</p>
                     <p className="text-sm text-slate-900">{control.value}</p>
                   </div>
                 </div>
@@ -101,7 +101,7 @@ export function WorkspaceContent() {
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
-          <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(37,99,235,0.28)] ring-1 ring-slate-950/5">
+          <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(15,23,42,0.12)] ring-1 ring-slate-950/5">
             <CardHeader>
               <CardTitle className="text-base text-slate-900">Integration Readiness</CardTitle>
               <CardDescription className="text-slate-500">Supabase storage, Godot export, and Aseprite sync state</CardDescription>
@@ -124,7 +124,7 @@ export function WorkspaceContent() {
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(37,99,235,0.28)] ring-1 ring-slate-950/5">
+          <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(15,23,42,0.12)] ring-1 ring-slate-950/5">
             <CardHeader>
               <CardTitle className="text-base text-slate-900">Library Operations</CardTitle>
               <CardDescription className="text-slate-500">
@@ -142,7 +142,7 @@ export function WorkspaceContent() {
                     "Collection: Biome-02",
                     "Tag: npc-dialogue",
                   ].map((filter) => (
-                    <Badge key={filter} variant="outline" className="border-blue-200 bg-white text-blue-700">
+                    <Badge key={filter} variant="outline" className="border-slate-300 bg-white text-slate-700">
                       {filter}
                     </Badge>
                   ))}
@@ -152,7 +152,7 @@ export function WorkspaceContent() {
           </Card>
         </div>
 
-        <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(37,99,235,0.28)] ring-1 ring-slate-950/5">
+        <Card className="border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04),0_14px_30px_-26px_rgba(15,23,42,0.12)] ring-1 ring-slate-950/5">
           <CardHeader>
             <CardTitle className="text-base text-slate-900">Review, Compare, and Version Queue</CardTitle>
             <CardDescription className="text-slate-500">

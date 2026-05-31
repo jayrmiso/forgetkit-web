@@ -24,9 +24,9 @@ export function WorkspaceHeader() {
         </div>
 
         <div className="relative min-w-[12rem] flex-1 sm:max-w-sm">
-          <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" />
+          <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500" />
           <Input
-            className="h-9 rounded-lg border-slate-200/80 bg-white pl-9 text-slate-800 shadow-sm ring-1 ring-slate-950/5 placeholder:text-slate-400"
+            className="h-9 rounded-lg border-slate-200/80 bg-white pl-9 text-slate-900 shadow-sm ring-1 ring-slate-950/5 placeholder:text-slate-500"
             placeholder="Search assets, narratives, versions"
           />
         </div>
@@ -40,7 +40,7 @@ export function WorkspaceHeader() {
         <div className="ml-auto flex items-center gap-2">
           <Button
             variant="outline"
-            className="h-9 rounded-lg border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100"
+            className="h-9 rounded-lg border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-200"
           >
             New Generation Job
           </Button>
@@ -58,14 +58,14 @@ export function WorkspaceHeader() {
               render={
                 <Button variant="ghost" className="h-9 rounded-lg gap-2 text-slate-700 hover:bg-slate-100">
                   <Avatar className="size-7">
-                    <AvatarFallback className="bg-blue-100 text-xs text-blue-800">KR</AvatarFallback>
+                    <AvatarFallback className="bg-slate-200 text-xs text-slate-700">KR</AvatarFallback>
                   </Avatar>
                   <span>Kai Rivera</span>
                   <ChevronsUpDown className="size-3.5 text-slate-500" />
                 </Button>
               }
             />
-            <DropdownMenuContent align="end" className="w-48 border-slate-200 bg-white">
+            <DropdownMenuContent align="end" className="w-48 border-slate-200 bg-white text-slate-800">
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Workspace settings</DropdownMenuItem>
               <DropdownMenuItem>Sign out</DropdownMenuItem>

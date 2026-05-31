@@ -6,38 +6,38 @@
 
 :root {
   --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --sidebar: oklch(0.98 0.003 252);
+  --sidebar-foreground: oklch(0.24 0.016 258);
+  --sidebar-border: oklch(0.9 0.01 252);
+  --sidebar-ring: oklch(0.66 0.09 255);
+  --sidebar-accent: oklch(0.95 0.008 252);
+  --sidebar-accent-foreground: oklch(0.24 0.016 258);
+  --background: oklch(0.985 0.003 252);
+  --foreground: oklch(0.24 0.016 258);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.24 0.016 258);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.24 0.016 258);
+  --primary: oklch(0.56 0.11 255);
+  --primary-foreground: oklch(0.98 0.004 252);
+  --secondary: oklch(0.95 0.008 252);
+  --secondary-foreground: oklch(0.24 0.016 258);
+  --muted: oklch(0.95 0.008 252);
+  --muted-foreground: oklch(0.52 0.012 258);
+  --accent: oklch(0.95 0.008 252);
+  --accent-foreground: oklch(0.24 0.016 258);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.9 0.01 252);
+  --input: oklch(0.9 0.01 252);
+  --ring: oklch(0.66 0.09 255);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --radius: 0.625rem;
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.56 0.11 255);
+  --sidebar-primary-foreground: oklch(0.98 0.004 252);
 }
 
 @theme inline {
@@ -90,6 +90,9 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #f8fafc !important;
+    font-size: 8px;
+    line-height: 1.4;
   }
   html {
     @apply font-sans;

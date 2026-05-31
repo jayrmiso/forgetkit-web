@@ -20,7 +20,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <TooltipProvider>
-          <div className="h-dvh overflow-hidden bg-[linear-gradient(180deg,#eef3f9_0%,#f7f9fc_28%,#f5f7fb_100%)] text-slate-900 antialiased font-sans">
+          <div className="h-dvh overflow-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#f4f6f8_32%,#eef2f6_100%)] text-slate-900 antialiased font-sans">
             <SidebarProvider defaultOpen className="min-h-dvh w-full">
               <WorkspaceSidebar />
               <SidebarInset className="flex min-h-0 flex-1 flex-col overflow-hidden">
