@@ -104,7 +104,13 @@ function iconFor(label: string) {
     ),
   };
 
-  return icons[label] ?? <DockIcon><svg className="h-3 w-3" viewBox="0 0 12 12" fill="currentColor"><circle cx="6" cy="6" r="2.5" /></svg></DockIcon>;
+  return icons[label] ?? (
+    <DockIcon>
+      <svg className="h-4 w-4" viewBox="0 0 12 12" fill="currentColor">
+        <circle cx="6" cy="6" r="2.5" />
+      </svg>
+    </DockIcon>
+  );
 }
 
 export function DashboardSidebar({ coreItems, integrationItems }: DashboardSidebarProps) {
@@ -117,26 +123,35 @@ export function DashboardSidebar({ coreItems, integrationItems }: DashboardSideb
 
   return (
     <aside className="pointer-events-none fixed inset-x-0 bottom-3 z-50 flex justify-center px-2">
-      <div className="pointer-events-auto w-auto rounded-xl border border-default-200/80 bg-background/90 p-1 shadow-sm backdrop-blur-md">
+      <div className="pointer-events-auto w-auto rounded-xl border border-app bg-app-surface/92 p-1 shadow-sm backdrop-blur-md">
         <div className="flex items-center gap-1">
           {primaryCore.map((item) => (
             <div key={item.label} title={item.label}>
               <Button
                 aria-label={item.label}
-                className="h-9 w-9 min-w-0 justify-center rounded-lg p-0"
+                className={
+                  item.isActive
+                    ? "h-9 w-9 min-w-0 justify-center rounded-lg border border-app bg-app-primary p-0 text-white"
+                    : "h-9 w-9 min-w-0 justify-center rounded-lg border border-app bg-app-raised p-0 text-app hover:bg-app-surface"
+                }
                 size="sm"
-                variant={item.isActive ? "primary" : "ghost"}
+                variant="secondary"
               >
                 {iconFor(item.label)}
               </Button>
             </div>
           ))}
 
-          <div className="h-6 w-px bg-default-200" />
+          <div className="h-6 w-px bg-app-raised" />
 
           <Dropdown>
             <DropdownTrigger>
-              <Button aria-label="More core surfaces" className="h-9 w-9 min-w-0 justify-center rounded-lg p-0" size="sm" variant="ghost">
+              <Button
+                aria-label="More core surfaces"
+                className="h-9 w-9 min-w-0 justify-center rounded-lg border border-app bg-app-raised p-0 text-app hover:bg-app-surface"
+                size="sm"
+                variant="secondary"
+              >
                 <DockIcon>
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                     <circle cx="5" cy="12" r="2" />
@@ -146,16 +161,18 @@ export function DashboardSidebar({ coreItems, integrationItems }: DashboardSideb
                 </DockIcon>
               </Button>
             </DropdownTrigger>
-            <DropdownPopover placement="top">
-              <DropdownMenu aria-label="Core Surfaces">
+            <DropdownPopover className="border border-app bg-app-surface text-app" placement="top">
+              <DropdownMenu
+                aria-label="Core Surfaces"
+              >
                 {secondaryCore.map((item) => (
-                  <DropdownItem key={item.label} textValue={item.label}>
+                  <DropdownItem key={item.label} className="text-app" textValue={item.label}>
                     <div className="flex items-center justify-between gap-3">
                       <span className="inline-flex items-center gap-2">
                         {iconFor(item.label)}
                         <span>{item.label}</span>
                       </span>
-                      {item.isSoon ? <Chip size="sm" variant="soft">Soon</Chip> : null}
+                      {item.isSoon ? <Chip className="border border-app bg-app-warning/20 text-app-warning" size="sm" variant="secondary">Soon</Chip> : null}
                     </div>
                   </DropdownItem>
                 ))}
@@ -165,20 +182,27 @@ export function DashboardSidebar({ coreItems, integrationItems }: DashboardSideb
 
           <Dropdown>
             <DropdownTrigger>
-              <Button aria-label="Integrations" className="h-9 w-9 min-w-0 justify-center rounded-lg p-0" size="sm" variant="ghost">
+              <Button
+                aria-label="Integrations"
+                className="h-9 w-9 min-w-0 justify-center rounded-lg border border-app bg-app-raised p-0 text-app hover:bg-app-surface"
+                size="sm"
+                variant="secondary"
+              >
                 {iconFor("Consistency Controls")}
               </Button>
             </DropdownTrigger>
-            <DropdownPopover placement="top">
-              <DropdownMenu aria-label="Integrations">
+            <DropdownPopover className="border border-app bg-app-surface text-app" placement="top">
+              <DropdownMenu
+                aria-label="Integrations"
+              >
                 {integrationItems.map((item) => (
-                  <DropdownItem key={item.label} textValue={item.label}>
+                  <DropdownItem key={item.label} className="text-app" textValue={item.label}>
                     <div className="flex items-center justify-between gap-3">
                       <span className="inline-flex items-center gap-2">
                         {iconFor(item.label)}
                         <span>{item.label}</span>
                       </span>
-                      {item.isSoon ? <Chip size="sm" variant="soft">Soon</Chip> : null}
+                      {item.isSoon ? <Chip className="border border-app bg-app-warning/20 text-app-warning" size="sm" variant="secondary">Soon</Chip> : null}
                     </div>
                   </DropdownItem>
                 ))}
