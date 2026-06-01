@@ -2,34 +2,31 @@
 
 import { Button } from "@heroui/react";
 import { useEffect, useState } from "react";
-
-type ThemeName = "light" | "dark";
-
-const THEME_KEY = "forgetkit-theme";
-
-function isThemeName(value: string | null): value is ThemeName {
-  return value === "light" || value === "dark";
-}
+import { THEME_KEY, applyTheme, resolveInitialTheme, toggleTheme, type ThemeName } from "./theme-helpers";
 
 function getInitialTheme(): ThemeName {
   if (typeof window === "undefined") {
     return "light";
   }
 
-  const storedTheme = localStorage.getItem(THEME_KEY);
-  return isThemeName(storedTheme) ? storedTheme : "light";
+  return resolveInitialTheme({
+    storageTheme: window.localStorage.getItem(THEME_KEY),
+    documentTheme: document.documentElement.getAttribute("data-theme"),
+  });
 }
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<ThemeName>(getInitialTheme);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem(THEME_KEY, theme);
+    applyTheme(theme, {
+      documentElement: document.documentElement,
+      storage: window.localStorage,
+    });
   }, [theme]);
 
   const handleToggle = () => {
-    setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
+    setTheme((currentTheme) => toggleTheme(currentTheme));
   };
 
   return (
@@ -40,7 +37,7 @@ export function ThemeToggle() {
       variant="secondary"
       onClick={handleToggle}
     >
-      {theme === "light" ? "Dark" : "Light"}
+      Theme
     </Button>
   );
 }
