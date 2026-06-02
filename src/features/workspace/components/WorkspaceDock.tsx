@@ -28,7 +28,7 @@ export function WorkspaceDock() {
           const showSeparator = index === coreRoutes.length;
 
           return (
-            <div key={route.href} className="flex items-center gap-1.5">
+            <div key={route.href} className="group relative flex items-center gap-1.5">
               {showSeparator ? <span aria-hidden="true" className="mx-1 h-6 w-px bg-app-border/80" /> : null}
               <Link
                 href={route.href}
@@ -36,13 +36,19 @@ export function WorkspaceDock() {
                 aria-label={route.label}
                 className={
                   active
-                    ? "group inline-flex size-10 items-center justify-center rounded-2xl border border-app bg-app-primary text-white shadow-sm transition hover:-translate-y-px hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/40"
-                    : "group inline-flex size-10 items-center justify-center rounded-2xl border border-transparent bg-app-raised text-app-muted transition hover:-translate-y-px hover:border-app hover:bg-app-surface hover:text-app focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
+                    ? "inline-flex size-10 items-center justify-center rounded-2xl border border-app bg-app-primary text-white shadow-sm transition duration-200 ease-out hover:scale-110 hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/40"
+                    : "inline-flex size-10 items-center justify-center rounded-2xl border border-transparent bg-app-raised text-app-muted transition duration-200 ease-out hover:scale-110 hover:-translate-y-1 hover:border-app hover:bg-app-surface hover:text-app hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
                 }
-                title={`${route.label} · ${route.description}`}
+                title={route.label}
               >
                 <Icon aria-hidden="true" className="size-5 shrink-0" strokeWidth={2} />
               </Link>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-[calc(100%+0.6rem)] left-1/2 z-50 -translate-x-1/2 translate-y-1 scale-95 whitespace-nowrap rounded-full border border-app bg-app-surface px-3 py-1 text-xs font-medium text-app opacity-0 shadow-lg transition duration-200 ease-out group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100"
+              >
+                {route.label}
+              </span>
             </div>
           );
         })}

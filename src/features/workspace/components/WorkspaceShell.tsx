@@ -9,9 +9,11 @@ type WorkspaceShellProps = {
 
 export function WorkspaceShell({ children }: WorkspaceShellProps) {
   return (
-    <div className="min-h-screen bg-app-bg text-app">
+    <div className="flex h-full flex-col overflow-hidden bg-app-bg text-app">
       <WorkspaceHeader />
-      <div className="min-h-[calc(100vh-65px)]">{children}</div>
+      <div className="min-h-0 flex-1 overflow-hidden">
+        <div className="h-full overflow-y-auto overflow-x-hidden">{children}</div>
+      </div>
       <WorkspaceDock />
     </div>
   );
