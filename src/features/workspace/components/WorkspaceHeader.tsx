@@ -73,7 +73,7 @@ export function WorkspaceHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-app bg-app-surface/96 px-3 py-3 shadow-md backdrop-blur-md md:px-4 lg:px-6">
+    <header className="sticky top-0 z-40 border-b border-app bg-app-surface/96 px-2 py-3 shadow-md backdrop-blur-md md:px-3 lg:px-4">
       <div className="mx-auto grid w-full max-w-[1560px] grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-3">
         <div className="flex min-w-0 items-center gap-2 justify-self-start">
           <div ref={workspaceRef} className="relative">
@@ -135,7 +135,7 @@ export function WorkspaceHeader() {
           </div>
         </div>
 
-        <div className="flex min-w-0 items-center gap-2 justify-self-end">
+        <div className="flex min-w-0 items-center gap-2 justify-self-end pr-1">
           <div ref={userRef} className="relative">
             <button
               aria-expanded={userOpen}
