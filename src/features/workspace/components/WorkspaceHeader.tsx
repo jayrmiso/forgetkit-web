@@ -73,8 +73,8 @@ export function WorkspaceHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-app bg-app-surface/96 px-4 py-3 shadow-md backdrop-blur-md md:px-6">
-      <div className="mx-auto flex max-w-[1560px] items-center gap-3">
+    <header className="sticky top-0 z-40 border-b border-app bg-app-surface/96 px-3 py-3 shadow-md backdrop-blur-md md:px-4 lg:px-6">
+      <div className="mx-auto flex w-full max-w-[1560px] items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2">
           <div ref={workspaceRef} className="relative">
             <button
@@ -135,7 +135,7 @@ export function WorkspaceHeader() {
           </div>
         </div>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <div ref={userRef} className="relative">
             <button
               aria-expanded={userOpen}
