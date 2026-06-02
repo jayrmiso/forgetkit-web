@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { ThemeToggle } from "@/templates/dashboard/components/ThemeToggle";
+
 import { workspaceRouteGroups, workspaceRoutes } from "../data/navigation";
 
 function isActiveRoute(pathname: string, href: string) {
@@ -52,6 +54,8 @@ export function WorkspaceDock() {
             </div>
           );
         })}
+        <span aria-hidden="true" className="mx-1 h-6 w-px bg-app-border/80" />
+        <ThemeToggle />
       </div>
     </nav>
   );

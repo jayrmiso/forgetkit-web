@@ -2,10 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { Button } from "@heroui/react";
-
-import { ThemeToggle } from "@/templates/dashboard/components/ThemeToggle";
-
 type WorkspaceOption = {
   label: string;
   note: string;
@@ -88,7 +84,7 @@ export function WorkspaceHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-app bg-app-surface/92 px-4 py-3 shadow-sm backdrop-blur-md md:px-6">
+    <header className="sticky top-0 z-40 border-b border-app bg-app-surface/96 px-4 py-3 shadow-md backdrop-blur-md md:px-6">
       <div className="mx-auto flex max-w-[1480px] items-center gap-3">
         <div className="flex min-w-0 items-center gap-2">
           <span className="hidden text-xs font-semibold uppercase tracking-[0.22em] text-app-muted sm:inline">Workspace:</span>
@@ -189,8 +185,6 @@ export function WorkspaceHeader() {
               </div>
             ) : null}
           </div>
-
-          <ThemeToggle />
         </div>
       </div>
     </header>
