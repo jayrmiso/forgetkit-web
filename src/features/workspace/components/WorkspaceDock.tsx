@@ -45,7 +45,7 @@ export function WorkspaceDock() {
               </Link>
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute bottom-[calc(100%+0.6rem)] left-1/2 z-50 -translate-x-1/2 translate-y-1 scale-95 whitespace-nowrap rounded-full border border-app bg-app-surface px-3 py-1 text-xs font-medium text-app opacity-0 shadow-lg transition duration-200 ease-out group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100"
+                className="pointer-events-none absolute bottom-[calc(100%+0.6rem)] left-1/2 z-50 -translate-x-1/2 translate-y-1 scale-95 whitespace-nowrap rounded-full border border-app bg-app-surface px-3 py-1 text-xs font-medium text-app opacity-0 shadow-lg transition duration-200 ease-out group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100"
               >
                 {route.label}
               </span>

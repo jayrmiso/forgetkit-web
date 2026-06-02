@@ -14,7 +14,7 @@ export function WorkspaceShell({ children }: WorkspaceShellProps) {
       <div className="min-h-0 flex-1 overflow-hidden">
         <div className="h-full overflow-y-auto overflow-x-hidden">{children}</div>
       </div>
-      <footer className="sticky bottom-0 z-50 flex shrink-0 justify-center px-3 pb-3 pt-2">
+      <footer className="sticky bottom-0 z-50 flex shrink-0 justify-center bg-transparent px-3 pb-3 pt-2">
         <WorkspaceDock />
       </footer>
     </div>
