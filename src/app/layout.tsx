@@ -21,9 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className="h-full" data-theme="light" suppressHydrationWarning>
       <body className="h-dvh overflow-hidden bg-app-bg text-app">
-        <Script id="theme-bootstrap" strategy="beforeInteractive">
-          {themeBootstrapScript}
-        </Script>
+        <Script id="theme-bootstrap" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
         <WorkspaceShell>{children}</WorkspaceShell>
       </body>
     </html>
