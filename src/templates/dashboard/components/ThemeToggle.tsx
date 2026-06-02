@@ -49,7 +49,7 @@ export function ThemeToggle() {
   return (
     <Button
       aria-label="Toggle theme"
-      className="h-8 w-8 min-w-0 border border-app bg-app-raised text-app hover:bg-app-surface"
+      className="h-8 w-8 min-w-0 cursor-pointer border border-app bg-app-raised text-app hover:bg-app-surface"
       title="Toggle theme"
       isIconOnly
       suppressHydrationWarning

@@ -94,7 +94,7 @@ export function WorkspaceHeader() {
               aria-expanded={workspaceOpen}
               aria-haspopup="menu"
               aria-label="Select workspace"
-              className="inline-flex h-9 items-center gap-2 rounded-xl px-2 text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
+              className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl px-2 text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
               type="button"
               onClick={() => {
                 setUserOpen(false);
@@ -154,7 +154,7 @@ export function WorkspaceHeader() {
               aria-expanded={userOpen}
               aria-haspopup="menu"
               aria-label="Open user menu"
-              className="inline-flex h-9 items-center gap-2 rounded-xl px-2 text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
+              className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl px-2 text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
               type="button"
               onClick={() => {
                 setWorkspaceOpen(false);
