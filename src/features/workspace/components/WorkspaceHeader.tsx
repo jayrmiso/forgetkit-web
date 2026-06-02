@@ -1,76 +1,60 @@
-import { Bell, ChevronsUpDown, Search } from "lucide-react";
+import { Avatar, Button, Input } from "@heroui/react";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { ThemeToggle } from "@/templates/dashboard/components/ThemeToggle";
+
+function SearchIcon() {
+  return (
+    <svg aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m16 16 4 4" />
+    </svg>
+  );
+}
+
+function BellIcon() {
+  return (
+    <svg aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+      <path d="M10 21h4" />
+    </svg>
+  );
+}
 
 export function WorkspaceHeader() {
   return (
-    <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/95 shadow-sm ring-1 ring-slate-950/5 backdrop-blur">
-      <div className="flex flex-wrap items-center gap-3 px-4 py-3 md:px-6">
-        <SidebarTrigger className="h-9 w-9 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900" />
-
+    <header className="sticky top-0 z-40 border-b border-app bg-app-surface/92 px-4 py-3 shadow-sm backdrop-blur-md md:px-6">
+      <div className="mx-auto flex max-w-[1480px] flex-wrap items-center gap-3">
         <div className="min-w-[10rem]">
-          <p className="text-sm font-semibold text-slate-900">Workspace</p>
-          <p className="text-xs text-slate-500">Sprint 08 · v0.1</p>
+          <p className="text-sm font-semibold text-app">ForgetKit Workspace</p>
+          <p className="text-xs text-app-muted">Sprint 08 / Project Eclipse</p>
         </div>
 
-        <div className="relative min-w-[12rem] flex-1 sm:max-w-sm">
-          <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-500" />
+        <div className="relative min-w-[14rem] flex-1 sm:max-w-md">
+          <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-app-muted">
+            <SearchIcon />
+          </span>
           <Input
-            className="h-9 rounded-lg border-slate-200/80 bg-white pl-9 text-slate-900 shadow-sm ring-1 ring-slate-950/5 placeholder:text-slate-500"
+            aria-label="Search workspace"
+            className="border border-app bg-app-raised pl-9 text-app"
             placeholder="Search assets, narratives, versions"
           />
         </div>
 
-        <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600 shadow-sm ring-1 ring-slate-950/5">
-          <span className="font-medium text-slate-700">Connected:</span> Supabase
-          <span className="mx-1.5 text-slate-300">|</span>
-          <span className="font-medium text-slate-700">Readiness:</span> Synced
+        <div className="hidden rounded-xl border border-app bg-app-raised px-3 py-2 text-xs text-app-muted lg:block">
+          <span className="font-medium text-app">Storage:</span> planned
+          <span className="mx-2 text-app-muted">/</span>
+          <span className="font-medium text-app">Export:</span> review-ready
         </div>
 
         <div className="ml-auto flex items-center gap-2">
-          <Button
-            variant="outline"
-            className="h-9 rounded-lg border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-200"
-          >
-            New Generation Job
+          <Button className="hidden border border-app bg-app-primary text-white sm:inline-flex" size="sm" variant="primary">
+            New Job
           </Button>
-          <Button
-            size="icon"
-            variant="ghost"
-            aria-label="Open notifications"
-            className="h-9 w-9 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-          >
-            <Bell className="size-4" />
+          <Button aria-label="Open notifications" className="border border-app bg-app-raised text-app" isIconOnly size="sm" variant="secondary">
+            <BellIcon />
           </Button>
-          <Separator orientation="vertical" className="hidden h-8 bg-slate-200 sm:block" />
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <Button variant="ghost" className="h-9 rounded-lg gap-2 text-slate-700 hover:bg-slate-100">
-                  <Avatar className="size-7">
-                    <AvatarFallback className="bg-slate-200 text-xs text-slate-700">KR</AvatarFallback>
-                  </Avatar>
-                  <span>Kai Rivera</span>
-                  <ChevronsUpDown className="size-3.5 text-slate-500" />
-                </Button>
-              }
-            />
-            <DropdownMenuContent align="end" className="w-48 border-slate-200 bg-white text-slate-800">
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Workspace settings</DropdownMenuItem>
-              <DropdownMenuItem>Sign out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ThemeToggle />
+          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-app bg-app-raised text-xs font-medium text-app" aria-label="Kai Rivera">KR</div>
         </div>
       </div>
     </header>

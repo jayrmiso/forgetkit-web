@@ -4,24 +4,47 @@ import fs from "node:fs";
 import path from "node:path";
 
 const layoutPath = path.resolve("src/app/layout.tsx");
-const pagePath = path.resolve("src/app/page.tsx");
-
+const dockPath = path.resolve("src/features/workspace/components/WorkspaceDock.tsx");
 const layoutSource = fs.readFileSync(layoutPath, "utf8");
-const pageSource = fs.readFileSync(pagePath, "utf8");
+const dockSource = fs.readFileSync(dockPath, "utf8");
 
-test("layout owns workspace shell primitives and renders children slot", () => {
-  assert.match(layoutSource, /<WorkspaceSidebar\s*\/?\s*>|<WorkspaceSidebar\s*\/>/);
-  assert.match(layoutSource, /<WorkspaceHeader\s*\/?\s*>|<WorkspaceHeader\s*\/>/);
-  assert.match(layoutSource, /<SidebarProvider\b/);
-  assert.match(layoutSource, /<SidebarInset\b/);
+const routePagePaths = [
+  "src/app/page.tsx",
+  "src/app/generation-workbench/page.tsx",
+  "src/app/asset-library/page.tsx",
+  "src/app/narrative-library/page.tsx",
+  "src/app/review-compare/page.tsx",
+  "src/app/version-history/page.tsx",
+  "src/app/integrations/supabase-storage/page.tsx",
+  "src/app/integrations/godot-export-readiness/page.tsx",
+  "src/app/integrations/aseprite-integration/page.tsx",
+  "src/app/consistency-controls/page.tsx",
+];
+
+test("layout owns persistent workspace shell while preserving theme bootstrap", () => {
+  assert.match(layoutSource, /<WorkspaceShell>\{children\}<\/WorkspaceShell>/);
+  assert.match(layoutSource, /getThemeBootstrapScript/);
+  assert.match(layoutSource, /id="theme-bootstrap"/);
+  assert.match(layoutSource, /strategy="beforeInteractive"/);
   assert.match(layoutSource, /\{children\}/);
 });
 
-test("page renders WorkspaceContent and does not own shell primitives", () => {
-  assert.match(pageSource, /<WorkspaceContent\s*\/?\s*>|<WorkspaceContent\s*\/>/);
-  assert.doesNotMatch(pageSource, /WorkspaceSidebar/);
-  assert.doesNotMatch(pageSource, /WorkspaceHeader/);
-  assert.doesNotMatch(pageSource, /SidebarProvider/);
-  assert.doesNotMatch(pageSource, /SidebarInset/);
-  assert.doesNotMatch(pageSource, /\{children\}/);
+test("dock is a client route-aware navigation component", () => {
+  assert.match(dockSource, /^"use client";/);
+  assert.match(dockSource, /usePathname/);
+  assert.match(dockSource, /next\/link/);
+  assert.match(dockSource, /aria-current=\{active \? "page" : undefined\}/);
+});
+
+test("all workspace routes exist and own page-specific composition", () => {
+  for (const routePagePath of routePagePaths) {
+    const source = fs.readFileSync(path.resolve(routePagePath), "utf8");
+
+    assert.match(source, /WorkspacePageFrame/);
+    assert.doesNotMatch(source, new RegExp("Workspace" + "Content"));
+    assert.doesNotMatch(source, /WorkspaceShell/);
+    assert.doesNotMatch(source, /WorkspaceHeader/);
+    assert.doesNotMatch(source, /WorkspaceDock/);
+    assert.doesNotMatch(source, /\{children\}/);
+  }
 });

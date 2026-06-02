@@ -9,7 +9,7 @@ const tooltipSource = fs.readFileSync(tooltipPath, "utf8");
 test("Tooltip injects TooltipProvider so it can render without external provider", () => {
   assert.match(
     tooltipSource,
-    /function Tooltip\(\{\s*\.\.\.props\s*\}:\s*React\.ComponentProps<typeof TooltipPrimitive\.Root>\)\s*\{\s*return\s*\(\s*<TooltipProvider>\s*<TooltipPrimitive\.Root data-slot="tooltip" \{\.\.\.props\} \/>\s*<\/TooltipProvider>\s*\)\s*\}/s
+    /function Tooltip\(\{\s*\.\.\.props\s*\}:\s*TooltipBase\.Root\.Props\)\s*\{\s*return\s*\(\s*<TooltipProvider>\s*<TooltipBase\.Root data-slot="tooltip" \{\.\.\.props\} \/>\s*<\/TooltipProvider>\s*\)\s*\}/s
   );
 });
 

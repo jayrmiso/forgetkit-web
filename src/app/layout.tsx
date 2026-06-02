@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import type { ReactNode } from "react";
 
+import { WorkspaceShell } from "@/features/workspace/components/WorkspaceShell";
 import { getThemeBootstrapScript } from "@/templates/dashboard/components/theme-helpers";
 import "./globals.css";
 
@@ -23,7 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <Script id="theme-bootstrap" strategy="beforeInteractive">
           {themeBootstrapScript}
         </Script>
-        {children}
+        <WorkspaceShell>{children}</WorkspaceShell>
       </body>
     </html>
   );
