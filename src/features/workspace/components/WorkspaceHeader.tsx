@@ -135,7 +135,7 @@ export function WorkspaceHeader() {
           </div>
         </div>
 
-        <div className="flex min-w-0 items-center gap-2 justify-self-end -translate-x-6 lg:-translate-x-10">
+        <div className="flex min-w-0 items-center gap-2 justify-self-end -translate-x-3 lg:-translate-x-5">
           <div ref={userRef} className="relative">
             <button
               aria-expanded={userOpen}
