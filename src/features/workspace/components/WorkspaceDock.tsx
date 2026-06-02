@@ -15,35 +15,37 @@ function isActiveRoute(pathname: string, href: string) {
 
 export function WorkspaceDock() {
   const pathname = usePathname();
+  const coreRoutes = workspaceRoutes.filter((route) => route.group === workspaceRouteGroups[0]);
+  const integrationRoutes = workspaceRoutes.filter((route) => route.group === workspaceRouteGroups[1]);
+  const dockRoutes = [...coreRoutes, ...integrationRoutes];
 
   return (
     <nav aria-label="Workspace routes" className="fixed inset-x-0 bottom-3 z-50 flex justify-center px-3">
-      <div className="flex max-w-[calc(100vw-24px)] gap-2 overflow-x-auto rounded-2xl border border-app bg-app-surface/94 p-1.5 shadow-lg backdrop-blur-md">
-        {workspaceRouteGroups.map((group) => (
-          <div key={group} className="flex items-center gap-1 border-app pr-2 last:pr-0 [&:not(:last-child)]:border-r">
-            {workspaceRoutes
-              .filter((route) => route.group === group)
-              .map((route) => {
-                const active = isActiveRoute(pathname, route.href);
-                return (
-                  <Link
-                    key={route.href}
-                    href={route.href}
-                    aria-current={active ? "page" : undefined}
-                    className={
-                      active
-                        ? "inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-xl border border-app bg-app-primary px-3 text-sm font-medium text-white"
-                        : "inline-flex h-10 min-w-10 items-center justify-center gap-2 rounded-xl border border-transparent bg-app-raised px-3 text-sm font-medium text-app hover:border-app hover:bg-app-surface"
-                    }
-                    title={route.description}
-                  >
-                    <span className="inline-flex size-4 items-center justify-center text-xs font-semibold" aria-hidden="true">{route.icon}</span>
-                    <span className="hidden whitespace-nowrap xl:inline">{route.label}</span>
-                  </Link>
-                );
-              })}
-          </div>
-        ))}
+      <div className="flex max-w-[calc(100vw-24px)] items-center gap-1.5 overflow-x-auto rounded-[1.4rem] border border-app bg-app-surface/94 p-1.5 shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-md">
+        {dockRoutes.map((route, index) => {
+          const active = isActiveRoute(pathname, route.href);
+          const Icon = route.icon;
+          const showSeparator = index === coreRoutes.length;
+
+          return (
+            <div key={route.href} className="flex items-center gap-1.5">
+              {showSeparator ? <span aria-hidden="true" className="mx-1 h-6 w-px bg-app-border/80" /> : null}
+              <Link
+                href={route.href}
+                aria-current={active ? "page" : undefined}
+                aria-label={route.label}
+                className={
+                  active
+                    ? "group inline-flex size-10 items-center justify-center rounded-2xl border border-app bg-app-primary text-white shadow-sm transition hover:-translate-y-px hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/40"
+                    : "group inline-flex size-10 items-center justify-center rounded-2xl border border-transparent bg-app-raised text-app-muted transition hover:-translate-y-px hover:border-app hover:bg-app-surface hover:text-app focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
+                }
+                title={`${route.label} · ${route.description}`}
+              >
+                <Icon aria-hidden="true" className="size-5 shrink-0" strokeWidth={2} />
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </nav>
   );
