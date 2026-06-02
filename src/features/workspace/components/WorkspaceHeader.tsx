@@ -19,16 +19,6 @@ const userActions = [
   { label: "Sign out" },
 ] as const;
 
-function WorkspaceGlyph() {
-  return (
-    <svg aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24">
-      <rect height="14" width="16" x="4" y="5" rx="3" />
-      <path d="M4 10h16" />
-      <path d="M8 5v14" />
-    </svg>
-  );
-}
-
 function ChevronDownIcon() {
   return (
     <svg aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -40,9 +30,8 @@ function ChevronDownIcon() {
 function WorkspaceSelectorIcon() {
   return (
     <svg aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" viewBox="0 0 24 24">
-      <rect height="14" width="16" x="4" y="5" rx="3" />
-      <path d="M4 10h16" />
-      <path d="M8 5v14" />
+      <path d="m10 6-5 6 5 6" />
+      <path d="m14 6 5 6-5 6" />
     </svg>
   );
 }
@@ -87,21 +76,19 @@ export function WorkspaceHeader() {
     <header className="sticky top-0 z-40 border-b border-app bg-app-surface/96 px-4 py-3 shadow-md backdrop-blur-md md:px-6">
       <div className="mx-auto flex max-w-[1480px] items-center gap-3">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="hidden text-xs font-semibold uppercase tracking-[0.22em] text-app-muted sm:inline">Workspace:</span>
-
           <div ref={workspaceRef} className="relative">
             <button
               aria-expanded={workspaceOpen}
               aria-haspopup="menu"
               aria-label="Select workspace"
-              className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl px-2 text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
+              className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl border border-app bg-app-raised px-3 text-sm font-medium text-app shadow-sm transition hover:bg-app-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
               type="button"
               onClick={() => {
                 setUserOpen(false);
                 setWorkspaceOpen((current) => !current);
               }}
             >
-              <span className="flex size-6 items-center justify-center text-app-primary">
+              <span className="flex size-6 items-center justify-center rounded-lg border border-app bg-app-surface text-app-primary">
                 <WorkspaceSelectorIcon />
               </span>
               <span className="max-w-[10rem] truncate">{workspace.label}</span>
@@ -133,7 +120,7 @@ export function WorkspaceHeader() {
                         setWorkspaceOpen(false);
                       }}
                     >
-                      <span className="mt-0.5 flex size-8 items-center justify-center text-app-primary">
+                      <span className="mt-0.5 flex size-8 items-center justify-center rounded-lg border border-app bg-app-raised text-app-primary">
                         <WorkspaceSelectorIcon />
                       </span>
                       <span className="min-w-0">
