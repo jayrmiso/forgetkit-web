@@ -15,7 +15,7 @@ type WorkspacePageFrameProps = {
 
 export function WorkspacePageFrame({ eyebrow, title, description, status, children, className }: WorkspacePageFrameProps) {
   return (
-    <main className={cn("mx-auto flex w-full max-w-[1480px] flex-col gap-5 px-4 py-5 pb-36 md:px-6 lg:px-8", className)}>
+    <main className={cn("mx-auto flex w-full max-w-[1480px] flex-col gap-5 px-4 py-5 pb-48 md:px-6 lg:px-8", className)}>
       <section className="rounded-3xl border border-app bg-app-surface p-5 shadow-sm">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">

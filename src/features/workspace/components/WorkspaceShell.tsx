@@ -14,7 +14,13 @@ export function WorkspaceShell({ children }: WorkspaceShellProps) {
       <div className="min-h-0 flex-1 overflow-hidden">
         <div className="h-full overflow-y-auto overflow-x-hidden">{children}</div>
       </div>
-      <footer className="sticky bottom-0 z-50 flex shrink-0 justify-center bg-transparent px-3 pb-3 pt-2">
+      <footer
+        className="pointer-events-none sticky bottom-0 z-50 flex shrink-0 justify-center px-3 pb-3 pt-10"
+        style={{
+          background:
+            "linear-gradient(to top, color-mix(in srgb, var(--bg) 96%, transparent) 0%, color-mix(in srgb, var(--bg) 82%, transparent) 55%, transparent 100%)",
+        }}
+      >
         <WorkspaceDock />
       </footer>
     </div>

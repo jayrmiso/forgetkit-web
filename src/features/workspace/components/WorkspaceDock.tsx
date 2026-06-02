@@ -20,7 +20,7 @@ export function WorkspaceDock() {
   const dockRoutes = [...coreRoutes, ...integrationRoutes];
 
   return (
-    <nav aria-label="Workspace routes" className="flex w-fit max-w-full items-center justify-center">
+    <nav aria-label="Workspace routes" className="pointer-events-auto flex w-fit max-w-full items-center justify-center">
       <div className="flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-[1.4rem] border border-app bg-app-surface/94 p-1.5 shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-md">
         {dockRoutes.map((route, index) => {
           const active = isActiveRoute(pathname, route.href);
