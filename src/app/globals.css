@@ -41,6 +41,14 @@
     color-scheme: dark;
   }
 
+  html[data-theme="light"] .theme-toggle-dark-icon {
+    display: none;
+  }
+
+  html[data-theme="dark"] .theme-toggle-light-icon {
+    display: none;
+  }
+
   body {
     @apply antialiased;
     background-color: var(--bg);
