@@ -81,14 +81,14 @@ export function WorkspaceHeader() {
               aria-expanded={workspaceOpen}
               aria-haspopup="menu"
               aria-label="Select workspace"
-              className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl border border-app bg-app-raised px-3 text-sm font-medium text-app shadow-sm transition hover:bg-app-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
+              className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl px-2 text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
               type="button"
               onClick={() => {
                 setUserOpen(false);
                 setWorkspaceOpen((current) => !current);
               }}
             >
-              <span className="flex size-6 items-center justify-center rounded-lg border border-app bg-app-surface text-app-primary">
+              <span className="flex size-6 items-center justify-center text-app-primary">
                 <WorkspaceSelectorIcon />
               </span>
               <span className="max-w-[10rem] truncate">{workspace.label}</span>
