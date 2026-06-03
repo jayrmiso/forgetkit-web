@@ -31,6 +31,8 @@ export function RegisterForm() {
 
   const shouldShowPasswordHint = passwordFocused || password.length > 0;
   const passwordMeetsLengthRequirement = password.length >= 8;
+  const passwordMeetsUppercaseRequirement = /[A-Z]/.test(password);
+  const passwordMeetsSpecialRequirement = /[^A-Za-z0-9]/.test(password);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -136,19 +138,6 @@ export function RegisterForm() {
           }}
           required
         />
-        <div className="min-h-4 text-xs leading-4" aria-live="polite">
-          {shouldShowPasswordHint ? (
-            <p
-              className={
-                passwordMeetsLengthRequirement
-                  ? "text-emerald-700 dark:text-emerald-400"
-                  : "text-app-muted"
-              }
-            >
-              {passwordMeetsLengthRequirement ? "Password length requirement met." : "Use at least 8 characters."}
-            </p>
-          ) : null}
-        </div>
       </div>
 
       <div className="space-y-2">
@@ -171,6 +160,22 @@ export function RegisterForm() {
           }}
           required
         />
+      </div>
+
+      <div className="space-y-1.5 text-xs leading-4" aria-live="polite">
+        {shouldShowPasswordHint ? (
+          <>
+            <p className={passwordMeetsLengthRequirement ? "text-emerald-700 dark:text-emerald-400" : "text-app-muted"}>
+              {passwordMeetsLengthRequirement ? "At least 8 characters." : "Use at least 8 characters."}
+            </p>
+            <p className={passwordMeetsUppercaseRequirement ? "text-emerald-700 dark:text-emerald-400" : "text-app-muted"}>
+              {passwordMeetsUppercaseRequirement ? "Includes an uppercase letter." : "Include an uppercase letter."}
+            </p>
+            <p className={passwordMeetsSpecialRequirement ? "text-emerald-700 dark:text-emerald-400" : "text-app-muted"}>
+              {passwordMeetsSpecialRequirement ? "Includes a special character." : "Include a special character."}
+            </p>
+          </>
+        ) : null}
       </div>
 
       <div className="min-h-5 text-sm" aria-live="polite">
