@@ -50,7 +50,7 @@ export function RegisterCard({ showRouteSwitch = true }: RegisterCardProps) {
           {showRouteSwitch ? <AuthRouteSwitch href="/login" label="Already have an account?" linkLabel="Sign in" /> : null}
         </div>
 
-        <div className="space-y-4 rounded-2xl border border-app bg-app-raised/70 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]">
+        <div className="space-y-4 border-l border-app/60 pl-6 lg:pl-8">
           <div className="space-y-1.5">
             <p className="text-sm font-semibold text-app">Or continue with</p>
             <p className="text-sm leading-6 text-app-muted">Use Google or GitHub to create the account faster.</p>

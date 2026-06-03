@@ -48,7 +48,7 @@ export function LoginCard({ initialIdentifier = "", showRouteSwitch = true }: Lo
           {showRouteSwitch ? <AuthRouteSwitch href="/register" label="New here?" linkLabel="Create an account" /> : null}
         </div>
 
-        <div className="space-y-4 rounded-2xl border border-app bg-app-raised/70 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]">
+        <div className="space-y-4 border-l border-app/60 pl-6 lg:pl-8">
           <div className="space-y-1.5">
             <p className="text-sm font-semibold text-app">Use a provider</p>
             <p className="text-sm leading-6 text-app-muted">Jump in faster with a saved Google or GitHub account.</p>
