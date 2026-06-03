@@ -1,6 +1,7 @@
 import { AuthCard } from "./AuthCard";
 import { AuthProviderButton } from "./AuthProviderButton";
 import { AuthRouteSwitch } from "./AuthRouteSwitch";
+import { RegisterForm } from "./RegisterForm";
 
 function GoogleIcon() {
   return (
@@ -37,8 +38,16 @@ export function RegisterCard() {
   return (
     <AuthCard
       title="Create your account"
-      description="Start a ForgetKit workspace with the provider you already use."
+      description="Start a ForgetKit workspace with email/password or the provider you already use."
     >
+      <RegisterForm />
+
+      <div className="flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-app-muted">
+        <span className="h-px flex-1 bg-app-border" />
+        <span>or continue with</span>
+        <span className="h-px flex-1 bg-app-border" />
+      </div>
+
       <div className="space-y-3">
         <AuthProviderButton icon={<GoogleIcon />} label="Continue with Google" />
         <AuthProviderButton icon={<GitHubIcon />} label="Continue with GitHub" />
