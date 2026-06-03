@@ -44,20 +44,24 @@ export function RegisterCard({ showRouteSwitch = true }: RegisterCardProps) {
       title="Create your account"
       description="Create a username, email, and password. You will verify your email before signing in."
     >
-      <RegisterForm />
+      <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
+        <div className="space-y-5">
+          <RegisterForm />
+          {showRouteSwitch ? <AuthRouteSwitch href="/login" label="Already have an account?" linkLabel="Sign in" /> : null}
+        </div>
 
-      <div className="flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-app-muted">
-        <span className="h-px flex-1 bg-app-border" />
-        <span>or continue with</span>
-        <span className="h-px flex-1 bg-app-border" />
+        <div className="space-y-4 rounded-2xl border border-app bg-app-raised/70 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]">
+          <div className="space-y-1.5">
+            <p className="text-sm font-semibold text-app">Or continue with</p>
+            <p className="text-sm leading-6 text-app-muted">Use Google or GitHub to create the account faster.</p>
+          </div>
+
+          <div className="space-y-3">
+            <AuthProviderButton icon={<GoogleIcon />} label="Continue with Google" />
+            <AuthProviderButton icon={<GitHubIcon />} label="Continue with GitHub" />
+          </div>
+        </div>
       </div>
-
-      <div className="space-y-3">
-        <AuthProviderButton icon={<GoogleIcon />} label="Continue with Google" />
-        <AuthProviderButton icon={<GitHubIcon />} label="Continue with GitHub" />
-      </div>
-
-      {showRouteSwitch ? <AuthRouteSwitch href="/login" label="Already have an account?" linkLabel="Sign in" /> : null}
     </AuthCard>
   );
 }

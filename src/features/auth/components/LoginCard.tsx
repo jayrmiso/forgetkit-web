@@ -42,20 +42,24 @@ type LoginCardProps = Readonly<{
 export function LoginCard({ initialIdentifier = "", showRouteSwitch = true }: LoginCardProps) {
   return (
     <AuthCard title="Sign in to ForgetKit" description="Use your username or email to get back into your workspace.">
-      <div className="space-y-3">
-        <AuthProviderButton icon={<GoogleIcon />} label="Sign in with Google" />
-        <AuthProviderButton icon={<GitHubIcon />} label="Sign in with GitHub" />
+      <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
+        <div className="space-y-5">
+          <LoginForm initialIdentifier={initialIdentifier} />
+          {showRouteSwitch ? <AuthRouteSwitch href="/register" label="New here?" linkLabel="Create an account" /> : null}
+        </div>
+
+        <div className="space-y-4 rounded-2xl border border-app bg-app-raised/70 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]">
+          <div className="space-y-1.5">
+            <p className="text-sm font-semibold text-app">Use a provider</p>
+            <p className="text-sm leading-6 text-app-muted">Jump in faster with a saved Google or GitHub account.</p>
+          </div>
+
+          <div className="space-y-3">
+            <AuthProviderButton icon={<GoogleIcon />} label="Sign in with Google" />
+            <AuthProviderButton icon={<GitHubIcon />} label="Sign in with GitHub" />
+          </div>
+        </div>
       </div>
-
-      <div className="flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-app-muted">
-        <span className="h-px flex-1 bg-app-border" />
-        <span>or continue with email</span>
-        <span className="h-px flex-1 bg-app-border" />
-      </div>
-
-      <LoginForm initialIdentifier={initialIdentifier} />
-
-      {showRouteSwitch ? <AuthRouteSwitch href="/register" label="New here?" linkLabel="Create an account" /> : null}
     </AuthCard>
   );
 }
