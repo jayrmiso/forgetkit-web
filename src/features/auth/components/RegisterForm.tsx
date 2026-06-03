@@ -13,12 +13,12 @@ const sharedFieldClassName =
 
 export function RegisterForm() {
   const router = useRouter();
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const passwordsMatch = useMemo(() => {
@@ -35,17 +35,28 @@ export function RegisterForm() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    setSuccess("");
 
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
+    const normalizedUsername = username.trim().toLowerCase();
+
+    if (!normalizedUsername) {
+      setError("Username is required.");
+      return;
+    }
+
+    if (/\s/.test(normalizedUsername)) {
+      setError("Username cannot contain spaces.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      const payload = await registerAccount({ email, password });
+      const payload = await registerAccount({ username: normalizedUsername, email, password });
 
       if (payload.session) {
         router.replace("/");
@@ -53,7 +64,7 @@ export function RegisterForm() {
         return;
       }
 
-      setSuccess("Check your email to confirm your account.");
+      router.replace(`/register/verify?email=${encodeURIComponent(email.trim())}&username=${encodeURIComponent(normalizedUsername)}`);
     } catch (registerError) {
       setError(registerError instanceof Error ? registerError.message : "Unable to create account.");
     } finally {
@@ -63,6 +74,28 @@ export function RegisterForm() {
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-app" htmlFor="register-username">
+          Username
+        </label>
+        <Input
+          id="register-username"
+          name="username"
+          autoComplete="username"
+          placeholder="kai-rivera"
+          type="text"
+          className={sharedFieldClassName}
+          value={username}
+          onChange={(event) => {
+            setUsername(event.target.value.toLowerCase());
+            if (error) {
+              setError("");
+            }
+          }}
+          required
+        />
+      </div>
+
       <div className="space-y-2">
         <label className="text-sm font-medium text-app" htmlFor="register-email">
           Email
@@ -78,9 +111,6 @@ export function RegisterForm() {
             setEmail(event.target.value);
             if (error) {
               setError("");
-            }
-            if (success) {
-              setSuccess("");
             }
           }}
           required
@@ -151,13 +181,7 @@ export function RegisterForm() {
       </div>
 
       <div className="min-h-5 text-sm" aria-live="polite">
-        {error ? (
-          <p className="text-rose-600 dark:text-rose-400">{error}</p>
-        ) : success ? (
-          <p className="text-emerald-700 dark:text-emerald-400">{success}</p>
-        ) : !passwordsMatch ? (
-          <p className="text-rose-600 dark:text-rose-400">Passwords do not match.</p>
-        ) : null}
+        {error ? <p className="text-rose-600 dark:text-rose-400">{error}</p> : !passwordsMatch ? <p className="text-rose-600 dark:text-rose-400">Passwords do not match.</p> : null}
       </div>
 
       <button

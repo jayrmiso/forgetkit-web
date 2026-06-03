@@ -34,9 +34,13 @@ function GitHubIcon() {
   );
 }
 
-export function LoginCard() {
+type LoginCardProps = Readonly<{
+  initialIdentifier?: string;
+}>;
+
+export function LoginCard({ initialIdentifier = "" }: LoginCardProps) {
   return (
-    <AuthCard title="Sign in to ForgetKit" description="The workspace for game ideas, docs, assets, and production planning.">
+    <AuthCard title="Sign in to ForgetKit" description="Use your username or email to get back into your workspace.">
       <div className="space-y-3">
         <AuthProviderButton icon={<GoogleIcon />} label="Sign in with Google" />
         <AuthProviderButton icon={<GitHubIcon />} label="Sign in with GitHub" />
@@ -48,7 +52,7 @@ export function LoginCard() {
         <span className="h-px flex-1 bg-app-border" />
       </div>
 
-      <LoginForm />
+      <LoginForm initialIdentifier={initialIdentifier} />
 
       <AuthRouteSwitch href="/register" label="New here?" linkLabel="Create an account" />
     </AuthCard>

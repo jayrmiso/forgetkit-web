@@ -38,7 +38,7 @@ export function RegisterCard() {
   return (
     <AuthCard
       title="Create your account"
-      description="Start a ForgetKit workspace with email/password or the provider you already use."
+      description="Create a username, email, and password for your ForgetKit workspace."
     >
       <RegisterForm />
 

@@ -1,9 +1,19 @@
-type RegisterAccountInput = Readonly<{
-  email: string;
-  password: string;
+type SupabaseAuthConfig = Readonly<{
+  url: string;
+  anonKey: string;
 }>;
 
-type SupabaseSignupResponse = Readonly<{
+export class AuthApiError extends Error {
+  code: string;
+
+  constructor(code: string, message: string) {
+    super(message);
+    this.name = "AuthApiError";
+    this.code = code;
+  }
+}
+
+type SupabaseAuthResponse = Readonly<{
   error_description?: string;
   msg?: string;
   message?: string;
@@ -11,7 +21,35 @@ type SupabaseSignupResponse = Readonly<{
   user?: unknown;
 }>;
 
-function getSupabaseAuthConfig() {
+type IdentifierResolution = Readonly<{
+  email: string;
+  username: string | null;
+  verified: boolean;
+}>;
+
+type VerificationStatus = Readonly<{
+  email: string;
+  verified: boolean;
+  verifiedAt: string | null;
+}>;
+
+type VerificationSendResult = Readonly<{
+  email: string;
+  sent: boolean;
+}>;
+
+type RegisterAccountInput = Readonly<{
+  username: string;
+  email: string;
+  password: string;
+}>;
+
+type LoginAccountInput = Readonly<{
+  identifier: string;
+  password: string;
+}>;
+
+function getSupabaseAuthConfig(): SupabaseAuthConfig {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -22,25 +60,149 @@ function getSupabaseAuthConfig() {
   return { url, anonKey };
 }
 
-async function parseResponse(response: Response) {
+function getApiBaseUrl() {
+  const url = process.env.NEXT_PUBLIC_FORGETKIT_API_URL;
+
+  if (!url) {
+    throw new Error("Missing ForgetKit API environment variables.");
+  }
+
+  return url.replace(/\/$/, "");
+}
+
+async function parseResponse<T>(response: Response) {
   const text = await response.text();
 
   if (!text) {
-    return {};
+    return {} as T;
+  }
+
+  return JSON.parse(text) as T;
+}
+
+async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(`${getApiBaseUrl()}${path}`, {
+    ...init,
+    headers: {
+      "Content-Type": "application/json",
+      ...(init?.headers ?? {}),
+    },
+  });
+
+  const payload = await parseResponse<{
+    data?: T;
+    error?: { code?: string; message?: string };
+  }>(response);
+
+  if (!response.ok) {
+    throw new AuthApiError(payload.error?.code ?? "REQUEST_FAILED", payload.error?.message ?? "Request failed.");
+  }
+
+  if (!payload.data) {
+    throw new AuthApiError("INVALID_RESPONSE", "Invalid response from auth service.");
+  }
+
+  return payload.data;
+}
+
+function normalizeIdentifier(value: string) {
+  return value.trim().toLowerCase();
+}
+
+function normalizeUsername(value: string) {
+  return value.trim().toLowerCase();
+}
+
+function hasWhitespace(value: string) {
+  return /\s/.test(value);
+}
+
+export async function resolveIdentifier(identifier: string) {
+  const payload = await apiRequest<{ user: IdentifierResolution }>("/v1/auth/resolve-identifier", {
+    body: JSON.stringify({ identifier: normalizeIdentifier(identifier) }),
+    method: "POST",
+  });
+
+  return payload.user;
+}
+
+export async function getVerificationStatus(email: string) {
+  const params = new URLSearchParams({ email: normalizeIdentifier(email) });
+  const payload = await apiRequest<{ verification: VerificationStatus }>(`/v1/auth/verification-status?${params.toString()}`);
+  return payload.verification;
+}
+
+export async function resendVerificationEmail(email: string) {
+  const payload = await apiRequest<{ verification: VerificationSendResult }>("/v1/auth/resend-verification", {
+    body: JSON.stringify({ email: normalizeIdentifier(email) }),
+    method: "POST",
+  });
+
+  return payload.verification;
+}
+
+export async function registerAccount({ username, email, password }: RegisterAccountInput) {
+  const normalizedUsername = normalizeUsername(username);
+
+  if (!normalizedUsername) {
+    throw new AuthApiError("USERNAME_REQUIRED", "Username is required.");
+  }
+
+  if (hasWhitespace(normalizedUsername)) {
+    throw new AuthApiError("USERNAME_INVALID", "Username cannot contain spaces.");
   }
 
   try {
-    return JSON.parse(text) as SupabaseSignupResponse;
-  } catch {
-    return {};
+    await resolveIdentifier(normalizedUsername);
+    throw new AuthApiError("USERNAME_TAKEN", "Username is already taken.");
+  } catch (error) {
+    if (error instanceof AuthApiError && error.code !== "NOT_FOUND") {
+      throw error;
+    }
   }
-}
 
-export async function registerAccount({ email, password }: RegisterAccountInput) {
   const { url, anonKey } = getSupabaseAuthConfig();
   const response = await fetch(`${url}/auth/v1/signup`, {
     body: JSON.stringify({
-      email,
+      email: email.trim(),
+      password,
+      data: {
+        username: normalizedUsername,
+      },
+    }),
+    headers: {
+      apikey: anonKey,
+      Authorization: `Bearer ${anonKey}`,
+      "Content-Type": "application/json",
+      "X-Client-Info": "forgetkit-web",
+    },
+    method: "POST",
+  });
+
+  const payload = (await parseResponse<SupabaseAuthResponse>(response)) as SupabaseAuthResponse;
+
+  if (!response.ok) {
+    throw new AuthApiError(
+      "REGISTER_FAILED",
+      payload.error_description ?? payload.msg ?? payload.message ?? "Unable to create account.",
+    );
+  }
+
+  return payload;
+}
+
+export async function loginWithIdentifier({ identifier, password }: LoginAccountInput) {
+  const resolved = await resolveIdentifier(identifier);
+  const verification = await getVerificationStatus(resolved.email);
+
+  if (!verification.verified) {
+    throw new AuthApiError("EMAIL_UNVERIFIED", "Please verify your email before signing in.");
+  }
+
+  const { url, anonKey } = getSupabaseAuthConfig();
+  const response = await fetch(`${url}/auth/v1/token?grant_type=password`, {
+    body: JSON.stringify({
+      email: resolved.email,
       password,
     }),
     headers: {
@@ -52,10 +214,10 @@ export async function registerAccount({ email, password }: RegisterAccountInput)
     method: "POST",
   });
 
-  const payload = (await parseResponse(response)) as SupabaseSignupResponse;
+  const payload = (await parseResponse<SupabaseAuthResponse>(response)) as SupabaseAuthResponse;
 
   if (!response.ok) {
-    throw new Error(payload.error_description ?? payload.msg ?? payload.message ?? "Unable to create account.");
+    throw new AuthApiError("LOGIN_FAILED", payload.error_description ?? payload.msg ?? payload.message ?? "Unable to sign in.");
   }
 
   return payload;
