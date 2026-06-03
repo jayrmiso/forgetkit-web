@@ -16,7 +16,9 @@ export default function ConsistencyControlsPage() {
         {consistencyControls.map((control) => (
           <WorkspaceCard key={control.label} title={control.label} description={control.detail}>
             <p className="text-2xl font-semibold tracking-[-0.04em] text-app">{control.value}</p>
-            <Chip className="mt-4 border border-app bg-app-primary/15 text-app-primary" size="sm" variant="soft">{control.state}</Chip>
+            <Chip className="mt-4 border border-app bg-app-primary/15 text-app-primary" size="sm" variant="soft">
+              {control.state}
+            </Chip>
           </WorkspaceCard>
         ))}
       </section>

@@ -39,9 +39,13 @@ export default function DashboardPage() {
               <div key={mode.name} className="rounded-xl border border-app bg-app-raised p-3">
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-sm font-medium text-app">{mode.name}</p>
-                  <Chip className={toneClass[mode.tone]} size="sm" variant="soft">{mode.status}</Chip>
+                  <Chip className={toneClass[mode.tone]} size="sm" variant="soft">
+                    {mode.status}
+                  </Chip>
                 </div>
-                <p className="mt-2 text-xs text-app-muted">{mode.queue} / {mode.output}</p>
+                <p className="mt-2 text-xs text-app-muted">
+                  {mode.queue} / {mode.output}
+                </p>
               </div>
             ))}
           </div>
@@ -50,7 +54,9 @@ export default function DashboardPage() {
         <WorkspaceCard title="Active Filters" description="Current planning filters across libraries and review.">
           <div className="flex flex-wrap gap-2">
             {activeFilters.map((filter) => (
-              <Chip key={filter} className="border border-app bg-app-raised text-app" size="sm" variant="soft">{filter}</Chip>
+              <Chip key={filter} className="border border-app bg-app-raised text-app" size="sm" variant="soft">
+                {filter}
+              </Chip>
             ))}
           </div>
         </WorkspaceCard>

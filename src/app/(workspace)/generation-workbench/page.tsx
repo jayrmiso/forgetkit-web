@@ -25,7 +25,9 @@ export default function GenerationWorkbenchPage() {
         {workbenchModes.map((mode) => (
           <WorkspaceCard key={mode.name} title={mode.name} description={mode.output}>
             <div className="flex items-center justify-between gap-3">
-              <Chip className={toneClass[mode.tone]} size="sm" variant="soft">{mode.status}</Chip>
+              <Chip className={toneClass[mode.tone]} size="sm" variant="soft">
+                {mode.status}
+              </Chip>
               <span className="text-sm font-medium text-app">{mode.queue}</span>
             </div>
             <div className="mt-4 rounded-xl border border-app bg-app-raised p-3 text-xs leading-5 text-app-muted">

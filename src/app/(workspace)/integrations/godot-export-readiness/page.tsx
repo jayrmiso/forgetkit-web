@@ -2,7 +2,7 @@ import { Chip } from "@heroui/react";
 
 import { WorkspaceCard } from "@/features/workspace/components/WorkspaceCard";
 import { WorkspacePageFrame } from "@/features/workspace/components/WorkspacePageFrame";
-import { asepriteChecks } from "@/features/workspace/data/mockData";
+import { godotExportChecks } from "@/features/workspace/data/mockData";
 
 const toneClass = {
   neutral: "border-app bg-app-raised text-app",
@@ -12,18 +12,20 @@ const toneClass = {
   primary: "border-app bg-app-primary/15 text-app-primary",
 };
 
-export default function AsepriteIntegrationPage() {
+export default function GodotExportReadinessPage() {
   return (
     <WorkspacePageFrame
       eyebrow="Integration readiness"
-      title="Aseprite handoff preparation"
-      description="Plan slice naming, palette parity, and plugin sync readiness for pixel-art production."
-      status="Sync pending"
+      title="Godot export preparation"
+      description="Track texture formats, scene metadata, and export blockers before engine handoff."
+      status="Engine handoff plan"
     >
       <section className="grid gap-4 lg:grid-cols-3">
-        {asepriteChecks.map((check) => (
+        {godotExportChecks.map((check) => (
           <WorkspaceCard key={check.label} title={check.label} description={check.detail}>
-            <Chip className={toneClass[check.tone]} size="sm" variant="soft">{check.state}</Chip>
+            <Chip className={toneClass[check.tone]} size="sm" variant="soft">
+              {check.state}
+            </Chip>
           </WorkspaceCard>
         ))}
       </section>

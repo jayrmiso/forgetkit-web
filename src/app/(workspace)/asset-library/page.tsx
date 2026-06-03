@@ -17,9 +17,15 @@ export default function AssetLibraryPage() {
         {assetRows.slice(0, 3).map((asset) => (
           <WorkspaceCard key={asset.id} title={asset.name} description={`${asset.type} / ${asset.collection}`}>
             <div className="flex flex-wrap gap-2">
-              {asset.tags.map((tag) => <Chip key={tag} className="border border-app bg-app-raised text-app" size="sm" variant="soft">{tag}</Chip>)}
+              {asset.tags.map((tag) => (
+                <Chip key={tag} className="border border-app bg-app-raised text-app" size="sm" variant="soft">
+                  {tag}
+                </Chip>
+              ))}
             </div>
-            <p className="mt-4 text-sm text-app-muted">{asset.status} / {asset.priority}</p>
+            <p className="mt-4 text-sm text-app-muted">
+              {asset.status} / {asset.priority}
+            </p>
           </WorkspaceCard>
         ))}
       </section>

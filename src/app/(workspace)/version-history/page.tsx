@@ -19,7 +19,9 @@ export default function VersionHistoryPage() {
             <p className="text-sm text-app-muted">{version.change}</p>
             <div className="mt-4 flex items-center justify-between gap-2">
               <span className="text-xs text-app-muted">{version.date}</span>
-              <Chip className="border border-app bg-app-raised text-app" size="sm" variant="soft">{version.rollback}</Chip>
+              <Chip className="border border-app bg-app-raised text-app" size="sm" variant="soft">
+                {version.rollback}
+              </Chip>
             </div>
           </WorkspaceCard>
         ))}

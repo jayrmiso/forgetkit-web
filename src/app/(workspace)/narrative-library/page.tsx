@@ -16,8 +16,12 @@ export default function NarrativeLibraryPage() {
       <section className="grid gap-4 lg:grid-cols-4">
         {narrativeRows.map((entry) => (
           <WorkspaceCard key={entry.id} title={entry.title} description={entry.arc}>
-            <Chip className="border border-app bg-app-raised text-app" size="sm" variant="soft">{entry.type}</Chip>
-            <p className="mt-4 text-sm text-app-muted">{entry.status} / {entry.coverage}</p>
+            <Chip className="border border-app bg-app-raised text-app" size="sm" variant="soft">
+              {entry.type}
+            </Chip>
+            <p className="mt-4 text-sm text-app-muted">
+              {entry.status} / {entry.coverage}
+            </p>
           </WorkspaceCard>
         ))}
       </section>
