@@ -16,6 +16,7 @@ export function RegisterForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -27,6 +28,9 @@ export function RegisterForm() {
 
     return password === confirmPassword;
   }, [confirmPassword, password]);
+
+  const shouldShowPasswordHint = passwordFocused || password.length > 0;
+  const passwordMeetsLengthRequirement = password.length >= 8;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -101,8 +105,27 @@ export function RegisterForm() {
               setError("");
             }
           }}
+          onBlur={() => {
+            setPasswordFocused(false);
+          }}
+          onFocus={() => {
+            setPasswordFocused(true);
+          }}
           required
         />
+        <div className="min-h-4 text-xs leading-4" aria-live="polite">
+          {shouldShowPasswordHint ? (
+            <p
+              className={
+                passwordMeetsLengthRequirement
+                  ? "text-emerald-700 dark:text-emerald-400"
+                  : "text-app-muted"
+              }
+            >
+              {passwordMeetsLengthRequirement ? "Password length requirement met." : "Use at least 8 characters."}
+            </p>
+          ) : null}
+        </div>
       </div>
 
       <div className="space-y-2">
