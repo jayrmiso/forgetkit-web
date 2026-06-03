@@ -3,19 +3,20 @@ import { redirect } from "next/navigation";
 import { RegisterVerificationCard } from "@/features/auth/components/RegisterVerificationCard";
 
 type RegisterVerifyPageProps = Readonly<{
-  searchParams?: {
+  searchParams?: Promise<{
     email?: string | string[];
     username?: string | string[];
-  };
+  }>;
 }>;
 
 function getSingleQueryValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-export default function RegisterVerifyPage({ searchParams }: RegisterVerifyPageProps) {
-  const email = getSingleQueryValue(searchParams?.email) ?? "";
-  const username = getSingleQueryValue(searchParams?.username) ?? null;
+export default async function RegisterVerifyPage({ searchParams }: RegisterVerifyPageProps) {
+  const resolvedSearchParams = (await searchParams) ?? {};
+  const email = getSingleQueryValue(resolvedSearchParams.email) ?? "";
+  const username = getSingleQueryValue(resolvedSearchParams.username) ?? null;
 
   if (!email) {
     redirect("/register");

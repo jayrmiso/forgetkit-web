@@ -1,18 +1,20 @@
 import { LoginCard } from "@/features/auth/components/LoginCard";
 
 type LoginPageProps = Readonly<{
-  searchParams?: {
+  searchParams?: Promise<{
     identifier?: string | string[];
     email?: string | string[];
-  };
+  }>;
 }>;
 
 function getSingleQueryValue(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-export default function LoginPage({ searchParams }: LoginPageProps) {
-  const initialIdentifier = getSingleQueryValue(searchParams?.identifier) ?? getSingleQueryValue(searchParams?.email) ?? "";
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const resolvedSearchParams = (await searchParams) ?? {};
+  const initialIdentifier =
+    getSingleQueryValue(resolvedSearchParams.identifier) ?? getSingleQueryValue(resolvedSearchParams.email) ?? "";
 
   return (
     <main className="relative min-h-dvh overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(183,121,31,0.10),_transparent_38%),linear-gradient(180deg,_rgba(255,255,255,0.82),_rgba(246,247,249,1))] px-4 py-6 text-app dark:bg-[radial-gradient(circle_at_top,_rgba(214,158,46,0.12),_transparent_36%),linear-gradient(180deg,_rgba(18,23,31,0.96),_rgba(14,18,24,1))]">
