@@ -56,14 +56,7 @@ export function RegisterForm() {
     setIsSubmitting(true);
 
     try {
-      const payload = await registerAccount({ username: normalizedUsername, email, password });
-
-      if (payload.session) {
-        router.replace("/");
-        router.refresh();
-        return;
-      }
-
+      await registerAccount({ username: normalizedUsername, email, password });
       router.replace(`/register/verify?email=${encodeURIComponent(email.trim())}&username=${encodeURIComponent(normalizedUsername)}`);
     } catch (registerError) {
       setError(registerError instanceof Error ? registerError.message : "Unable to create account.");
