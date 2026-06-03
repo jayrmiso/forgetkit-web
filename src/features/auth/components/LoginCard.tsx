@@ -36,9 +36,10 @@ function GitHubIcon() {
 
 type LoginCardProps = Readonly<{
   initialIdentifier?: string;
+  showRouteSwitch?: boolean;
 }>;
 
-export function LoginCard({ initialIdentifier = "" }: LoginCardProps) {
+export function LoginCard({ initialIdentifier = "", showRouteSwitch = true }: LoginCardProps) {
   return (
     <AuthCard title="Sign in to ForgetKit" description="Use your username or email to get back into your workspace.">
       <div className="space-y-3">
@@ -54,7 +55,7 @@ export function LoginCard({ initialIdentifier = "" }: LoginCardProps) {
 
       <LoginForm initialIdentifier={initialIdentifier} />
 
-      <AuthRouteSwitch href="/register" label="New here?" linkLabel="Create an account" />
+      {showRouteSwitch ? <AuthRouteSwitch href="/register" label="New here?" linkLabel="Create an account" /> : null}
     </AuthCard>
   );
 }

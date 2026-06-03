@@ -3,6 +3,10 @@ import { AuthProviderButton } from "./AuthProviderButton";
 import { AuthRouteSwitch } from "./AuthRouteSwitch";
 import { RegisterForm } from "./RegisterForm";
 
+type RegisterCardProps = Readonly<{
+  showRouteSwitch?: boolean;
+}>;
+
 function GoogleIcon() {
   return (
     <svg aria-hidden="true" className="size-4" viewBox="0 0 24 24">
@@ -34,7 +38,7 @@ function GitHubIcon() {
   );
 }
 
-export function RegisterCard() {
+export function RegisterCard({ showRouteSwitch = true }: RegisterCardProps) {
   return (
     <AuthCard
       title="Create your account"
@@ -53,7 +57,7 @@ export function RegisterCard() {
         <AuthProviderButton icon={<GitHubIcon />} label="Continue with GitHub" />
       </div>
 
-      <AuthRouteSwitch href="/login" label="Already have an account?" linkLabel="Sign in" />
+      {showRouteSwitch ? <AuthRouteSwitch href="/login" label="Already have an account?" linkLabel="Sign in" /> : null}
     </AuthCard>
   );
 }
