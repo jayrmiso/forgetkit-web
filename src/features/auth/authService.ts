@@ -1,3 +1,5 @@
+import { createAuthSession, type AuthSession } from "./authSession";
+
 type SupabaseAuthConfig = Readonly<{
   url: string;
   anonKey: string;
@@ -18,7 +20,10 @@ type SupabaseAuthResponse = Readonly<{
   msg?: string;
   message?: string;
   session?: unknown;
-  user?: unknown;
+  user?: Readonly<{
+    email?: string | null;
+    user_metadata?: Record<string, unknown> | null;
+  }>;
 }>;
 
 type IdentifierResolution = Readonly<{
@@ -47,6 +52,11 @@ type RegisterAccountInput = Readonly<{
 type LoginAccountInput = Readonly<{
   identifier: string;
   password: string;
+}>;
+
+type LoginAccountResult = Readonly<{
+  authSession: AuthSession;
+  payload: SupabaseAuthResponse;
 }>;
 
 function getSupabaseAuthConfig(): SupabaseAuthConfig {
@@ -220,5 +230,20 @@ export async function loginWithIdentifier({ identifier, password }: LoginAccount
     throw new AuthApiError("LOGIN_FAILED", payload.error_description ?? payload.msg ?? payload.message ?? "Unable to sign in.");
   }
 
-  return payload;
+  const username = resolved.username ?? (typeof payload.user?.user_metadata?.username === "string" ? payload.user.user_metadata.username : null);
+  const displayName =
+    typeof payload.user?.user_metadata?.display_name === "string"
+      ? payload.user.user_metadata.display_name
+      : typeof payload.user?.user_metadata?.full_name === "string"
+        ? payload.user.user_metadata.full_name
+        : null;
+
+  return {
+    authSession: createAuthSession({
+      email: payload.user?.email ?? resolved.email,
+      username,
+      displayName,
+    }),
+    payload,
+  } satisfies LoginAccountResult;
 }
