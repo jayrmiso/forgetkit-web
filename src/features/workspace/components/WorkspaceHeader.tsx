@@ -1,23 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
-type WorkspaceOption = {
-  label: string;
-  note: string;
-};
+import type { AuthSession } from "@/features/auth/authSession";
+import { clearAuthSession } from "@/features/auth/authSession";
 
-const workspaceOptions: WorkspaceOption[] = [
-  { label: "Project Eclipse", note: "Primary workspace" },
-  { label: "Luma Shift", note: "Secondary concept line" },
-  { label: "Atelier Grayline", note: "Experimental direction" },
-];
-
-const userActions = [
-  { label: "Profile" },
-  { label: "Workspace settings" },
-  { label: "Sign out" },
-] as const;
+import { activeWorkspace, workspaceOptions } from "../data/workspaceOptions";
 
 function ChevronDownIcon() {
   return (
@@ -36,12 +25,35 @@ function WorkspaceSelectorIcon() {
   );
 }
 
-export function WorkspaceHeader() {
+type WorkspaceHeaderProps = Readonly<{
+  session: AuthSession;
+}>;
+
+export function WorkspaceHeader({ session }: WorkspaceHeaderProps) {
+  const router = useRouter();
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
-  const [workspace, setWorkspace] = useState(workspaceOptions[0]);
+  const [workspace, setWorkspace] = useState(activeWorkspace);
   const workspaceRef = useRef<HTMLDivElement | null>(null);
   const userRef = useRef<HTMLDivElement | null>(null);
+  const userLabel = session.displayName ?? session.username ?? session.email.split("@")[0];
+
+  function handleProfileClick() {
+    setUserOpen(false);
+    router.push("/profile");
+  }
+
+  function handleWorkspaceSettingsClick() {
+    setUserOpen(false);
+    router.push("/workspace-settings");
+  }
+
+  function handleSignOut() {
+    setUserOpen(false);
+    clearAuthSession();
+    router.replace("/login");
+    router.refresh();
+  }
 
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
@@ -148,7 +160,7 @@ export function WorkspaceHeader() {
                 setUserOpen((current) => !current);
               }}
             >
-              <span>Kai Rivera</span>
+              <span>{userLabel}</span>
               <ChevronDownIcon />
             </button>
 
@@ -158,17 +170,30 @@ export function WorkspaceHeader() {
                 className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-app bg-app-surface p-1.5 shadow-xl"
                 role="menu"
               >
-                {userActions.map((action) => (
-                  <button
-                    key={action.label}
-                    className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
-                    role="menuitem"
-                    type="button"
-                    onClick={() => setUserOpen(false)}
-                  >
-                    {action.label}
-                  </button>
-                ))}
+                <button
+                  className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
+                  role="menuitem"
+                  type="button"
+                  onClick={handleProfileClick}
+                >
+                  Profile
+                </button>
+                <button
+                  className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
+                  role="menuitem"
+                  type="button"
+                  onClick={handleWorkspaceSettingsClick}
+                >
+                  Workspace settings
+                </button>
+                <button
+                  className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
+                  role="menuitem"
+                  type="button"
+                  onClick={handleSignOut}
+                >
+                  Sign out
+                </button>
               </div>
             ) : null}
           </div>
