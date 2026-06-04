@@ -1,16 +1,19 @@
 import type { ReactNode } from "react";
 
+import type { AuthSession } from "@/features/auth/authSession";
+
 import { WorkspaceDock } from "./WorkspaceDock";
 import { WorkspaceHeader } from "./WorkspaceHeader";
 
 type WorkspaceShellProps = {
   children: ReactNode;
+  session: AuthSession;
 };
 
-export function WorkspaceShell({ children }: WorkspaceShellProps) {
+export function WorkspaceShell({ children, session }: WorkspaceShellProps) {
   return (
     <div className="relative flex h-dvh flex-col overflow-hidden bg-app-bg text-app">
-      <WorkspaceHeader />
+      <WorkspaceHeader session={session} />
       <div className="min-h-0 flex-1 overflow-hidden">
         <div className="h-full overflow-y-auto overflow-x-hidden pb-48">{children}</div>
       </div>
