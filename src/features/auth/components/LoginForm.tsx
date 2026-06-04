@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { loginWithIdentifier } from "../authService";
+import { persistAuthSession } from "../authSession";
 
 type LoginFormProps = Readonly<{
   initialIdentifier?: string;
@@ -25,7 +26,8 @@ export function LoginForm({ initialIdentifier = "" }: LoginFormProps) {
     setIsSubmitting(true);
 
     try {
-      await loginWithIdentifier({ identifier, password });
+      const loginResult = await loginWithIdentifier({ identifier, password });
+      persistAuthSession(loginResult.authSession);
       router.replace("/");
       router.refresh();
     } catch (loginError) {
