@@ -27,6 +27,7 @@ type SupabaseAuthResponse = Readonly<{
     email?: string | null;
     user_metadata?: Record<string, unknown> | null;
   }>;
+  access_token?: string | null;
 }>;
 
 type IdentifierResolution = Readonly<{
@@ -246,7 +247,7 @@ export async function loginWithIdentifier({ identifier, password }: LoginAccount
       email: payload.user?.email ?? resolved.email,
       username,
       displayName,
-      accessToken: payload.session?.access_token ?? null,
+      accessToken: payload.session?.access_token ?? payload.access_token ?? null,
     }),
     payload,
   } satisfies LoginAccountResult;
