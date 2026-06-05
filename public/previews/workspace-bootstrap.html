@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Workspace Bootstrap Preview</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5f6f8;
+        --surface: rgba(255, 255, 255, 0.9);
+        --line: rgba(35, 45, 63, 0.12);
+        --muted: #687386;
+        --text: #1f2937;
+        --primary: #b8791f;
+        --success: #0f8f57;
+        --warning: #b96c00;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(183, 121, 31, 0.08), transparent 34%),
+          linear-gradient(180deg, #fafbfc 0%, #f1f3f6 100%);
+        color: var(--text);
+      }
+      .shell {
+        max-width: 1480px;
+        margin: 0 auto;
+        padding: 24px 24px 56px;
+      }
+      .banner,
+      .section {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 18px;
+        margin-bottom: 18px;
+      }
+      .eyebrow {
+        margin: 0;
+        color: var(--primary);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+      h1 {
+        margin-top: 8px;
+        font-size: 40px;
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+      }
+      .sub {
+        margin-top: 12px;
+        max-width: 900px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 0.34fr 0.66fr;
+        gap: 20px;
+      }
+      .panel {
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+      .summary {
+        display: grid;
+        gap: 10px;
+      }
+      .summary-band {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 0 18px;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .summary-band strong {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+      .muted {
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 14px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--text);
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      .sidebar {
+        display: grid;
+        gap: 8px;
+        margin-top: 16px;
+      }
+      .nav-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 10px;
+        border-left: 3px solid transparent;
+        color: var(--text);
+        text-decoration: none;
+        transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      }
+      .nav-item.active {
+        border-left-color: var(--primary);
+        background: rgba(183, 121, 31, 0.08);
+        color: var(--primary);
+      }
+      .nav-item span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .stack {
+        display: grid;
+        gap: 18px;
+      }
+      .cardless {
+        display: grid;
+        gap: 12px;
+      }
+      .form {
+        display: grid;
+        gap: 14px;
+        max-width: 520px;
+      }
+      .field {
+        display: grid;
+        gap: 8px;
+      }
+      .field label {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .input {
+        height: 46px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 0 14px;
+        font-size: 15px;
+        color: var(--text);
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 46px;
+        padding: 0 18px;
+        border-radius: 14px;
+        border: 1px solid transparent;
+        background: var(--primary);
+        color: white;
+        font-weight: 700;
+      }
+      .workspace-frame {
+        margin-top: 18px;
+        border-top: 1px solid var(--line);
+        padding-top: 16px;
+      }
+      .workspace-shell {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: var(--surface);
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+        padding: 18px;
+      }
+      .workspace-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .workspace-url {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(35, 45, 63, 0.08);
+      }
+      .row:last-child {
+        border-bottom: 0;
+      }
+      .row small {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .value {
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      .chip.primary {
+        color: var(--primary);
+        background: rgba(183, 121, 31, 0.1);
+      }
+      .chip.success {
+        color: var(--success);
+        background: rgba(15, 143, 87, 0.1);
+      }
+      .chip.warning {
+        color: var(--warning);
+        background: rgba(185, 108, 0, 0.1);
+      }
+      @media (max-width: 1080px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: 32px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="banner">
+        <p class="eyebrow">Workspace bootstrap</p>
+        <h1>Create a workspace before entering the product shell</h1>
+        <p class="sub">
+          Signed-in users without a workspace land here first. Once a workspace exists, the app routes into
+          <span class="workspace-url">/w/[workspaceId]</span> so every page stays scoped to the active workspace.
+        </p>
+      </div>
+
+      <div class="grid">
+        <section class="panel">
+          <p class="eyebrow">Onboarding</p>
+          <div class="summary">
+            <div class="summary-band">
+              <div>
+                <strong>No workspace detected</strong>
+                <div class="muted">Create the first workspace to start organizing assets, narrative, review, and export state.</div>
+              </div>
+              <div class="pill">Next step · Create workspace</div>
+            </div>
+
+            <div class="cardless">
+              <div class="row">
+                <div>
+                  <strong>Workspace name</strong>
+                  <small>This name appears in the header selector and the workspace shell.</small>
+                </div>
+                <div><span class="value">Project Eclipse</span></div>
+              </div>
+              <div class="row">
+                <div>
+                  <strong>Optional focus</strong>
+                  <small>Helpful for bootstrapping the dashboard summary and initial state.</small>
+                </div>
+                <div><span class="value">Generation and review</span></div>
+              </div>
+              <form class="form">
+                <div class="field">
+                  <label for="workspace-name">Workspace name</label>
+                  <input class="input" id="workspace-name" value="Project Eclipse" />
+                </div>
+                <div class="field">
+                  <label for="workspace-focus">Project focus</label>
+                  <input class="input" id="workspace-focus" value="Generation and review" />
+                </div>
+                <button class="button" type="button">Create workspace</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <p class="eyebrow">Scoped workspace shell</p>
+          <div class="workspace-shell">
+            <div class="workspace-grid">
+              <div class="summary-band" style="padding-top: 0;">
+                <div>
+                  <strong>Workspace: Project Eclipse</strong>
+                  <div class="muted">Workspace URL path example</div>
+                </div>
+                <div class="pill">/w/8f2a1d</div>
+              </div>
+
+              <div class="sidebar">
+                <a class="nav-item active" href="#"><strong>Workspace overview</strong><span>Selected only on the base workspace route</span></a>
+                <a class="nav-item" href="#"><strong>Asset library</strong><span>Catalog readiness</span></a>
+                <a class="nav-item" href="#"><strong>Narrative library</strong><span>Draft/review state</span></a>
+                <a class="nav-item" href="#"><strong>Generation workbench</strong><span>Queue and mode state</span></a>
+                <a class="nav-item" href="#"><strong>Workspace settings</strong><span>Workspace admin surface</span></a>
+              </div>
+
+              <div class="stack">
+                <div class="row">
+                  <div>
+                    <strong>Current route</strong>
+                    <small>The route carries the workspace id on every page so state is explicit.</small>
+                  </div>
+                  <div><span class="value">/w/8f2a1d/asset-library</span> <span class="chip success">Active</span></div>
+                </div>
+                <div class="row">
+                  <div>
+                    <strong>Header selector</strong>
+                    <small>Switching workspaces navigates to the selected workspace id instead of a static mock.</small>
+                  </div>
+                  <div><span class="value">Real workspaces</span> <span class="chip primary">Loaded</span></div>
+                </div>
+                <div class="row">
+                  <div>
+                    <strong>Access guard</strong>
+                    <small>Signed-out users still go to login; invalid workspace ids resolve back to onboarding or the first accessible workspace.</small>
+                  </div>
+                  <div><span class="value">Protected</span> <span class="chip warning">Server gate</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import type { AuthSession } from "@/features/auth/authSession";
+import type { WorkspaceRecord } from "../api/workspaceApi";
 
 import { WorkspaceDock } from "./WorkspaceDock";
 import { WorkspaceHeader } from "./WorkspaceHeader";
@@ -8,12 +9,15 @@ import { WorkspaceHeader } from "./WorkspaceHeader";
 type WorkspaceShellProps = {
   children: ReactNode;
   session: AuthSession;
+  workspaces: WorkspaceRecord[];
+  currentWorkspace: WorkspaceRecord;
+  workspaceId: string;
 };
 
-export function WorkspaceShell({ children, session }: WorkspaceShellProps) {
+export function WorkspaceShell({ children, session, workspaces, currentWorkspace, workspaceId }: WorkspaceShellProps) {
   return (
     <div className="relative flex h-dvh flex-col overflow-hidden bg-app-bg text-app">
-      <WorkspaceHeader session={session} />
+      <WorkspaceHeader session={session} workspaces={workspaces} currentWorkspace={currentWorkspace} />
       <div className="min-h-0 flex-1 overflow-hidden">
         <div className="h-full overflow-y-auto overflow-x-hidden pb-48">{children}</div>
       </div>
@@ -25,7 +29,7 @@ export function WorkspaceShell({ children, session }: WorkspaceShellProps) {
           boxShadow: "0 -24px 60px color-mix(in srgb, var(--bg) 18%, transparent)",
         }}
       >
-        <WorkspaceDock />
+        <WorkspaceDock workspaceId={workspaceId} />
       </footer>
     </div>
   );

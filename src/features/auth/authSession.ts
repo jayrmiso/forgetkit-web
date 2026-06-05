@@ -2,6 +2,7 @@ export type AuthSession = Readonly<{
   email: string;
   username: string | null;
   displayName: string | null;
+  accessToken: string | null;
 }>;
 
 export const AUTH_SESSION_COOKIE = "forgetkit-auth-session";
@@ -17,15 +18,18 @@ export function createAuthSession({
   email,
   username,
   displayName,
+  accessToken,
 }: Readonly<{
   email: string;
   username?: string | null;
   displayName?: string | null;
+  accessToken?: string | null;
 }>): AuthSession {
   return {
     email: email.trim().toLowerCase(),
     username: normalizeOptionalText(username)?.toLowerCase() ?? null,
     displayName: normalizeOptionalText(displayName),
+    accessToken: normalizeOptionalText(accessToken),
   };
 }
 
@@ -49,6 +53,7 @@ export function parseAuthSession(value: string | undefined | null): AuthSession 
       email: parsed.email,
       username: parsed.username,
       displayName: parsed.displayName,
+      accessToken: parsed.accessToken,
     });
   } catch {
     return null;

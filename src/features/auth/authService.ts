@@ -19,7 +19,10 @@ type SupabaseAuthResponse = Readonly<{
   error_description?: string;
   msg?: string;
   message?: string;
-  session?: unknown;
+  session?: Readonly<{
+    access_token?: string | null;
+    refresh_token?: string | null;
+  }>;
   user?: Readonly<{
     email?: string | null;
     user_metadata?: Record<string, unknown> | null;
@@ -243,6 +246,7 @@ export async function loginWithIdentifier({ identifier, password }: LoginAccount
       email: payload.user?.email ?? resolved.email,
       username,
       displayName,
+      accessToken: payload.session?.access_token ?? null,
     }),
     payload,
   } satisfies LoginAccountResult;

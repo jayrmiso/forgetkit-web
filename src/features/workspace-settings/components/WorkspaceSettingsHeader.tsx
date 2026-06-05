@@ -1,8 +1,12 @@
 import { Chip } from "@heroui/react";
 
-import { activeWorkspace } from "@/features/workspace/data/workspaceOptions";
+import type { WorkspaceRecord } from "@/features/workspace/api/workspaceApi";
 
-export function WorkspaceSettingsHeader() {
+type WorkspaceSettingsHeaderProps = Readonly<{
+  workspace: WorkspaceRecord;
+}>;
+
+export function WorkspaceSettingsHeader({ workspace }: WorkspaceSettingsHeaderProps) {
   return (
     <section className="rounded-2xl border border-app bg-app-surface p-5 shadow-sm">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -14,7 +18,7 @@ export function WorkspaceSettingsHeader() {
           </p>
         </div>
         <Chip className="w-fit border border-app bg-app-primary/15 text-app-primary" size="sm" variant="soft">
-          {activeWorkspace.label}
+          {workspace.name}
         </Chip>
       </div>
     </section>

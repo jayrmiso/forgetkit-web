@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import { workspacePath } from "@/features/workspace/workspacePath";
 
 type ProfileNavItem = Readonly<{
   label: string;
@@ -23,7 +24,11 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function ProfileNavigation() {
+type ProfileNavigationProps = Readonly<{
+  workspaceId: string;
+}>;
+
+export function ProfileNavigation({ workspaceId }: ProfileNavigationProps) {
   const pathname = usePathname();
 
   return (
@@ -35,7 +40,8 @@ export function ProfileNavigation() {
 
         <nav aria-label="Profile navigation" className="space-y-1">
           {profileNavItems.map((item) => {
-            const active = isActive(pathname, item.href);
+            const href = workspacePath(workspaceId, item.href);
+            const active = isActive(pathname, href);
 
             return (
               <Link
@@ -44,7 +50,7 @@ export function ProfileNavigation() {
                   "group flex flex-col rounded-xl px-3 py-2.5 text-left transition",
                   active ? "bg-app-primary/12 text-app" : "text-app-muted hover:bg-app-raised hover:text-app",
                 )}
-                href={item.href}
+                href={href}
                 aria-current={active ? "page" : undefined}
               >
                 <span className="text-sm font-medium">{item.label}</span>

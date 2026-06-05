@@ -6,7 +6,9 @@ import { useRouter } from "next/navigation";
 import type { AuthSession } from "@/features/auth/authSession";
 import { clearAuthSession } from "@/features/auth/authSession";
 
-import { activeWorkspace, workspaceOptions } from "../data/workspaceOptions";
+import type { WorkspaceRecord } from "../api/workspaceApi";
+import { clearActiveWorkspaceId, persistActiveWorkspaceId } from "../workspaceSession";
+import { workspacePath } from "../workspacePath";
 
 function ChevronDownIcon() {
   return (
@@ -27,30 +29,32 @@ function WorkspaceSelectorIcon() {
 
 type WorkspaceHeaderProps = Readonly<{
   session: AuthSession;
+  workspaces: WorkspaceRecord[];
+  currentWorkspace: WorkspaceRecord;
 }>;
 
-export function WorkspaceHeader({ session }: WorkspaceHeaderProps) {
+export function WorkspaceHeader({ session, workspaces, currentWorkspace }: WorkspaceHeaderProps) {
   const router = useRouter();
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
-  const [workspace, setWorkspace] = useState(activeWorkspace);
   const workspaceRef = useRef<HTMLDivElement | null>(null);
   const userRef = useRef<HTMLDivElement | null>(null);
   const userLabel = session.displayName ?? session.username ?? session.email.split("@")[0];
 
   function handleProfileClick() {
     setUserOpen(false);
-    router.push("/profile");
+    router.push(workspacePath(currentWorkspace.id, "/profile"));
   }
 
   function handleWorkspaceSettingsClick() {
     setUserOpen(false);
-    router.push("/workspace-settings");
+    router.push(workspacePath(currentWorkspace.id, "/workspace-settings"));
   }
 
   function handleSignOut() {
     setUserOpen(false);
     clearAuthSession();
+    clearActiveWorkspaceId();
     router.replace("/login");
     router.refresh();
   }
@@ -103,7 +107,7 @@ export function WorkspaceHeader({ session }: WorkspaceHeaderProps) {
               <span className="flex size-6 items-center justify-center text-app-primary">
                 <WorkspaceSelectorIcon />
               </span>
-              <span className="max-w-[10rem] truncate">{workspace.label}</span>
+              <span className="max-w-[10rem] truncate">{currentWorkspace.label}</span>
               <ChevronDownIcon />
             </button>
 
@@ -113,12 +117,12 @@ export function WorkspaceHeader({ session }: WorkspaceHeaderProps) {
                 className="absolute left-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-app bg-app-surface p-1.5 shadow-xl"
                 role="menu"
               >
-                {workspaceOptions.map((option) => {
-                  const selected = option.label === workspace.label;
+                {workspaces.map((option) => {
+                  const selected = option.id === currentWorkspace.id;
 
                   return (
                     <button
-                      key={option.label}
+                      key={option.id}
                       aria-checked={selected}
                       className={
                         selected
@@ -128,8 +132,9 @@ export function WorkspaceHeader({ session }: WorkspaceHeaderProps) {
                       role="menuitemradio"
                       type="button"
                       onClick={() => {
-                        setWorkspace(option);
+                        persistActiveWorkspaceId(option.id);
                         setWorkspaceOpen(false);
+                        router.push(workspacePath(option.id, "/"));
                       }}
                     >
                       <span className="mt-0.5 flex size-8 items-center justify-center rounded-lg border border-app bg-app-raised text-app-primary">

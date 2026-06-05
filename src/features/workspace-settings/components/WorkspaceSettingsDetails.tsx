@@ -1,6 +1,6 @@
 import { Chip } from "@heroui/react";
 
-import { activeWorkspace } from "@/features/workspace/data/workspaceOptions";
+import type { WorkspaceRecord } from "@/features/workspace/api/workspaceApi";
 import { WorkspaceCard } from "@/features/workspace/components/WorkspaceCard";
 
 function SettingRow({ label, value }: Readonly<{ label: string; value: string }>) {
@@ -12,15 +12,21 @@ function SettingRow({ label, value }: Readonly<{ label: string; value: string }>
   );
 }
 
-export function WorkspaceSettingsDetails() {
+type WorkspaceSettingsDetailsProps = Readonly<{
+  workspace: WorkspaceRecord;
+}>;
+
+export function WorkspaceSettingsDetails({ workspace }: WorkspaceSettingsDetailsProps) {
   return (
     <div className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
       <WorkspaceCard title="Workspace overview" description="Active workspace and current focus details.">
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-3 rounded-2xl border border-app bg-app-raised px-4 py-3">
             <div>
-              <p className="text-sm font-semibold text-app">{activeWorkspace.label}</p>
-              <p className="text-xs text-app-muted">{activeWorkspace.note}</p>
+              <p className="text-sm font-semibold text-app">{workspace.name}</p>
+              <p className="text-xs text-app-muted">
+                {workspace.status} / {workspace.engineTarget}
+              </p>
             </div>
             <Chip className="border border-app bg-app-primary/15 text-app-primary" size="sm" variant="soft">
               Active
@@ -28,9 +34,9 @@ export function WorkspaceSettingsDetails() {
           </div>
 
           <dl className="divide-y divide-app/70">
-            <SettingRow label="Workspace name" value={activeWorkspace.label} />
+            <SettingRow label="Workspace name" value={workspace.name} />
             <SettingRow label="Project focus" value="Daily production planning" />
-            <SettingRow label="Engine target" value="Godot" />
+            <SettingRow label="Engine target" value={workspace.engineTarget === "godot" ? "Godot" : "Unknown"} />
             <SettingRow label="Export target" value="Godot-compatible content packages" />
           </dl>
         </div>
@@ -53,3 +59,4 @@ export function WorkspaceSettingsDetails() {
     </div>
   );
 }
+
