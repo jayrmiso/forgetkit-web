@@ -17,6 +17,7 @@ export class AuthApiError extends Error {
 
 type SupabaseAuthResponse = Readonly<{
   error_description?: string;
+  access_token?: string | null;
   msg?: string;
   message?: string;
   session?: Readonly<{
@@ -246,7 +247,7 @@ export async function loginWithIdentifier({ identifier, password }: LoginAccount
       email: payload.user?.email ?? resolved.email,
       username,
       displayName,
-      accessToken: payload.session?.access_token ?? null,
+      accessToken: payload.session?.access_token ?? payload.access_token ?? null,
     }),
     payload,
   } satisfies LoginAccountResult;
