@@ -6,16 +6,19 @@ import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/templates/dashboard/components/ThemeToggle";
 
 import { workspaceRouteGroups, workspaceRoutes } from "../data/navigation";
+import { workspacePath } from "../workspacePath";
 
-function isActiveRoute(pathname: string, href: string) {
-  if (href === "/") {
-    return pathname === "/";
-  }
+type WorkspaceDockProps = Readonly<{
+  workspaceId: string;
+}>;
 
-  return pathname === href || pathname.startsWith(`${href}/`);
+function isActiveRoute(pathname: string, href: string, workspaceId: string) {
+  const workspaceHref = workspacePath(workspaceId, href);
+
+  return pathname === workspaceHref || pathname.startsWith(`${workspaceHref}/`);
 }
 
-export function WorkspaceDock() {
+export function WorkspaceDock({ workspaceId }: WorkspaceDockProps) {
   const pathname = usePathname();
   const coreRoutes = workspaceRoutes.filter((route) => route.group === workspaceRouteGroups[0]);
   const integrationRoutes = workspaceRoutes.filter((route) => route.group === workspaceRouteGroups[1]);
@@ -25,7 +28,7 @@ export function WorkspaceDock() {
     <nav aria-label="Workspace routes" className="pointer-events-auto flex w-fit max-w-full items-center justify-center">
       <div className="flex max-w-full flex-wrap items-center justify-center gap-1.5 rounded-[1.4rem] border border-app bg-app-surface/94 p-1.5 shadow-[0_18px_40px_rgba(15,23,42,0.12)] backdrop-blur-md">
         {dockRoutes.map((route, index) => {
-          const active = isActiveRoute(pathname, route.href);
+          const active = isActiveRoute(pathname, route.href, workspaceId);
           const Icon = route.icon;
           const showSeparator = index === coreRoutes.length;
 
@@ -33,7 +36,7 @@ export function WorkspaceDock() {
             <div key={route.href} className="group relative flex items-center gap-1.5">
               {showSeparator ? <span aria-hidden="true" className="mx-1 h-6 w-px bg-app-border/80" /> : null}
               <Link
-                href={route.href}
+                href={workspacePath(workspaceId, route.href)}
                 aria-current={active ? "page" : undefined}
                 aria-label={route.label}
                 className={
@@ -60,3 +63,4 @@ export function WorkspaceDock() {
     </nav>
   );
 }
+

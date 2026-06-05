@@ -6,18 +6,25 @@ import { ProfileDetails } from "@/features/profile/components/ProfileDetails";
 import { ProfileHeader } from "@/features/profile/components/ProfileHeader";
 import { ProfileNavigation } from "@/features/profile/components/ProfileNavigation";
 
-export default async function ProfilePage() {
+type ProfilePageProps = Readonly<{
+  params: Promise<{
+    workspaceId: string;
+  }>;
+}>;
+
+export default async function ProfilePage({ params }: ProfilePageProps) {
+  const resolvedParams = await params;
   const cookieStore = await cookies();
   const session = parseAuthSession(cookieStore.get(AUTH_SESSION_COOKIE)?.value);
 
-  if (!session) {
+  if (!session || !session.accessToken) {
     redirect("/login");
   }
 
   return (
     <main className="mx-auto w-full max-w-[1560px] px-3 py-5 md:px-4 lg:px-6">
       <div className="grid gap-5 lg:grid-cols-[240px_minmax(0,1fr)]">
-        <ProfileNavigation />
+        <ProfileNavigation workspaceId={resolvedParams.workspaceId} />
 
         <div className="space-y-5">
           <ProfileHeader session={session} />
@@ -27,3 +34,4 @@ export default async function ProfilePage() {
     </main>
   );
 }
+

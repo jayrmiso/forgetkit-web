@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { AUTH_SESSION_COOKIE, parseAuthSession } from "@/features/auth/authSession";
-import { WorkspaceShell } from "@/features/workspace/components/WorkspaceShell";
 
 type WorkspaceLayoutProps = Readonly<{
   children: ReactNode;
@@ -17,5 +16,5 @@ export default async function WorkspaceLayout({ children }: WorkspaceLayoutProps
     redirect("/login");
   }
 
-  return <WorkspaceShell session={session}>{children}</WorkspaceShell>;
+  return <>{children}</>;
 }
