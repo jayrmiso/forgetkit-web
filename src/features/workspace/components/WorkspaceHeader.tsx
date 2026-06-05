@@ -27,6 +27,16 @@ function WorkspaceSelectorIcon() {
   );
 }
 
+function formatWorkspaceSubtitle(workspace: WorkspaceRecord) {
+  const parts = [workspace.status, workspace.engineTarget === "godot" ? "Godot" : "Unknown engine"];
+
+  if (workspace.activeMilestone) {
+    parts.push(workspace.activeMilestone);
+  }
+
+  return parts.join(" / ");
+}
+
 type WorkspaceHeaderProps = Readonly<{
   session: AuthSession;
   workspaces: WorkspaceRecord[];
@@ -107,7 +117,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
               <span className="flex size-6 items-center justify-center text-app-primary">
                 <WorkspaceSelectorIcon />
               </span>
-              <span className="max-w-[10rem] truncate">{currentWorkspace.label}</span>
+              <span className="max-w-[10rem] truncate">{currentWorkspace.name}</span>
               <ChevronDownIcon />
             </button>
 
@@ -141,8 +151,8 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
                         <WorkspaceSelectorIcon />
                       </span>
                       <span className="min-w-0">
-                        <span className="block font-medium">{option.label}</span>
-                        <span className="block text-xs text-app-muted">{option.note}</span>
+                        <span className="block font-medium">{option.name}</span>
+                        <span className="block text-xs text-app-muted">{formatWorkspaceSubtitle(option)}</span>
                       </span>
                     </button>
                   );
