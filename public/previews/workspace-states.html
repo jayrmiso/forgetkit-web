@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Workspace States Preview</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5f6f8;
+        --surface: rgba(255, 255, 255, 0.9);
+        --line: rgba(35, 45, 63, 0.12);
+        --muted: #687386;
+        --text: #1f2937;
+        --primary: #b8791f;
+        --success: #0f8f57;
+        --warning: #b96c00;
+        --danger: #b42318;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at top, rgba(183, 121, 31, 0.08), transparent 34%),
+          linear-gradient(180deg, #fafbfc 0%, #f1f3f6 100%);
+        color: var(--text);
+      }
+      .shell {
+        max-width: 1480px;
+        margin: 0 auto;
+        padding: 24px 24px 56px;
+      }
+      .banner, .section {
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 18px;
+        margin-bottom: 18px;
+      }
+      .eyebrow {
+        margin: 0;
+        color: var(--primary);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .22em;
+        text-transform: uppercase;
+      }
+      h1, h2, h3, p { margin: 0; }
+      h1 { margin-top: 8px; font-size: 40px; line-height: 1.05; letter-spacing: -.04em; }
+      .sub { margin-top: 12px; max-width: 900px; color: var(--muted); line-height: 1.6; }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255,255,255,.7);
+        color: var(--text);
+        font-size: 12px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.15fr .85fr;
+        gap: 20px;
+      }
+      .group {
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+      .group h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(35,45,63,.08);
+      }
+      .row:last-child { border-bottom: 0; }
+      .row small { display: block; margin-top: 4px; color: var(--muted); line-height: 1.5; }
+      .value { font-weight: 600; white-space: nowrap; }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      .chip.primary { color: var(--primary); background: rgba(183,121,31,.1); }
+      .chip.success { color: var(--success); background: rgba(15,143,87,.1); }
+      .chip.warning { color: var(--warning); background: rgba(185,108,0,.1); }
+      .chip.danger { color: var(--danger); background: rgba(180,35,24,.1); }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      .table th, .table td {
+        text-align: left;
+        padding: 12px 10px;
+        border-bottom: 1px solid rgba(35,45,63,.08);
+      }
+      .sidebar {
+        display: grid;
+        gap: 8px;
+      }
+      .nav-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 10px;
+        border-left: 3px solid transparent;
+        color: var(--text);
+        text-decoration: none;
+        transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+      }
+      .nav-item.active {
+        border-left-color: var(--primary);
+        background: rgba(183,121,31,.08);
+        color: var(--primary);
+      }
+      .nav-item span { color: var(--muted); font-size: 12px; }
+      @media (max-width: 960px) {
+        .grid { grid-template-columns: 1fr; }
+        h1 { font-size: 32px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="banner">
+        <p class="eyebrow">Workspace dashboard</p>
+        <h1>Project Eclipse command center</h1>
+        <p class="sub">Daily workspace state for project focus, tasks, blockers, recent assets, next milestone, and quick-generation actions.</p>
+      </div>
+
+      <div class="grid">
+        <div>
+          <div class="group">
+            <h2>Current project focus</h2>
+            <div class="row">
+              <div><strong>Active project</strong><small>The workspace is centered on one solo-dev game prototype.</small></div>
+              <div><span class="value">Project Eclipse</span> <span class="chip primary">On deck</span></div>
+            </div>
+            <div class="row">
+              <div><strong>Primary lane</strong><small>Visual assets, narrative beats, and version tracking are the current focus.</small></div>
+              <div><span class="value">Generation and review</span> <span class="chip success">Ready</span></div>
+            </div>
+          </div>
+
+          <div class="group">
+            <h2>Tasks</h2>
+            <div class="row"><div><strong>Forest ruins prop icon set</strong><small>Owner Kai · Updated May 29</small></div><div><span class="value">Asset Library · Review</span> <span class="chip warning">P1</span></div></div>
+            <div class="row"><div><strong>Companion arc dialogue branch</strong><small>Owner Mina · Updated May 29</small></div><div><span class="value">Narrative Library · Draft</span> <span class="chip primary">P2</span></div></div>
+            <div class="row"><div><strong>Dungeon spritesheet batch B</strong><small>Owner Len · Updated May 28</small></div><div><span class="value">Generation Workbench · Calibrating</span> <span class="chip warning">P1</span></div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="group">
+            <h2>Blockers</h2>
+            <p class="sub">No active blockers are currently escalated. Keep an eye on spritesheet calibration and palette drift in the workbench.</p>
+          </div>
+          <div class="group">
+            <h2>Next milestone</h2>
+            <div class="row"><div><strong>Milestone</strong><small>Validate metadata, export targets, and fallback naming for current assets.</small></div><div><span class="value">Godot-ready export handoff</span> <span class="chip primary">Next</span></div></div>
+          </div>
+          <div class="group">
+            <h2>Quick-generate actions</h2>
+            <a class="nav-item active" href="#"><strong>Prompt-to-image</strong><span>34 queued · Ready</span></a>
+            <a class="nav-item" href="#"><strong>Variation generation</strong><span>22 queued · Ready</span></a>
+            <a class="nav-item" href="#"><strong>Upscale</strong><span>16 queued · Ready</span></a>
+            <a class="nav-item" href="#"><strong>Background removal</strong><span>9 queued · Ready</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <h2>Workspace filters</h2>
+        <p class="sub">Type: Spritesheet · Status: Review · Priority: P1/P2 · Collection: Biome-02 · Tag: npc-dialogue</p>
+      </div>
+
+      <div class="group">
+        <h2>Review, compare, and version queue</h2>
+        <table class="table">
+          <thead>
+            <tr><th>ID</th><th>Item</th><th>Lane</th><th>Status</th><th>Owner</th><th>Updated</th><th>Priority</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>FK-401</td><td>Forest ruins prop icon set</td><td>Asset Library</td><td>Review</td><td>Kai</td><td>May 29</td><td>P1</td></tr>
+            <tr><td>FK-407</td><td>Companion arc dialogue branch</td><td>Narrative Library</td><td>Draft</td><td>Mina</td><td>May 29</td><td>P2</td></tr>
+            <tr><td>FK-422</td><td>Boss portrait upscale set</td><td>Review & Compare</td><td>Rollback candidate</td><td>Noel</td><td>May 27</td><td>P2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

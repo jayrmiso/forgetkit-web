@@ -14,7 +14,7 @@ type WorkspaceTableProps<Row> = {
 
 export function WorkspaceTable<Row extends object>({ columns, rows, getRowKey }: WorkspaceTableProps<Row>) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-app bg-app-surface">
+    <div className="overflow-x-auto border-y border-app/70">
       <table className="w-full min-w-[720px] border-collapse text-left text-sm text-app">
         <thead>
           <tr className="border-b border-app text-xs uppercase tracking-[0.16em] text-app-muted">
