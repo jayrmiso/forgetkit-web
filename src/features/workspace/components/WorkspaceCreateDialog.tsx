@@ -46,12 +46,12 @@ export function WorkspaceCreateDialog({ open, accessToken, onClose, onCreated }:
       aria-modal="true"
       aria-describedby="workspace-create-dialog-description"
       aria-labelledby="workspace-create-dialog-title"
-      className="fixed inset-0 z-[60] flex cursor-pointer items-center justify-center bg-slate-950/35 px-4 py-6 backdrop-blur-[2px]"
+      className="fixed inset-0 z-[100] grid cursor-pointer place-items-center bg-slate-950/70 px-4 py-6 backdrop-blur-md"
       role="dialog"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md cursor-default rounded-3xl border border-app bg-app-surface p-5 shadow-2xl"
+        className="w-full max-w-md cursor-default overflow-auto rounded-3xl border border-app bg-app-surface p-5 shadow-2xl max-h-[calc(100vh-3rem)]"
         onClick={(event) => {
           event.stopPropagation();
         }}
