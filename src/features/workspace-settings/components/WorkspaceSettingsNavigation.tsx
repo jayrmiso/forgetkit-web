@@ -32,7 +32,7 @@ export function WorkspaceSettingsNavigation({ workspaceId }: WorkspaceSettingsNa
 
   return (
     <aside className="lg:sticky lg:top-4">
-      <div className="rounded-2xl border border-app bg-app-surface p-2 shadow-sm">
+      <div className="border-b border-app pb-3 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-3">
         <div className="px-2 py-2">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-app-muted">Workspace</p>
         </div>
@@ -46,8 +46,10 @@ export function WorkspaceSettingsNavigation({ workspaceId }: WorkspaceSettingsNa
               <Link
                 key={item.href}
                 className={cn(
-                  "group flex flex-col rounded-xl px-3 py-2.5 text-left transition",
-                  active ? "bg-app-primary/12 text-app" : "text-app-muted hover:bg-app-raised hover:text-app",
+                  "group flex flex-col border-l-2 px-3 py-2.5 text-left transition-colors duration-200",
+                  active
+                    ? "border-app-primary bg-app-primary/10 text-app"
+                    : "border-transparent text-app-muted hover:border-app-primary/40 hover:bg-app-raised/70 hover:text-app",
                 )}
                 href={href}
                 aria-current={active ? "page" : undefined}

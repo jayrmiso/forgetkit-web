@@ -27,6 +27,7 @@ export function WorkspaceCreateForm({
 }: WorkspaceCreateFormProps) {
   const router = useRouter();
   const [name, setName] = useState("");
+  const [engineTarget, setEngineTarget] = useState<"godot" | "unknown">("godot");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -36,7 +37,7 @@ export function WorkspaceCreateForm({
     setIsSubmitting(true);
 
     try {
-      const workspace = await createWorkspace(accessToken, { name });
+      const workspace = await createWorkspace(accessToken, { name, engineTarget });
       persistActiveWorkspaceId(workspace.id);
       onSuccess?.(workspace);
       router.replace(`/w/${workspace.id}`);
@@ -73,6 +74,30 @@ export function WorkspaceCreateForm({
           }}
           required
         />
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-app" htmlFor="workspace-engine-target">
+          Engine target
+        </label>
+        <select
+          id="workspace-engine-target"
+          name="workspaceEngineTarget"
+          className="h-11 w-full cursor-pointer rounded-xl border border-app bg-app-surface px-3.5 text-[15px] text-app shadow-[0_1px_0_rgba(15,23,42,0.02)] outline-none transition focus-visible:border-[color-mix(in_oklch,var(--primary),white_12%)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary),white_16%)]"
+          value={engineTarget}
+          onChange={(event) => {
+            setEngineTarget(event.target.value === "unknown" ? "unknown" : "godot");
+            if (error) {
+              setError("");
+            }
+          }}
+        >
+          <option value="godot">Godot</option>
+          <option value="unknown">I will decide later</option>
+        </select>
+        <p className="text-xs leading-5 text-app-muted">
+          This sets the initial export direction. More Godot and storage details can be added in workspace settings.
+        </p>
       </div>
 
       <div className="min-h-5 text-sm" aria-live="polite">

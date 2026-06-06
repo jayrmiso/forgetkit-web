@@ -1,5 +1,3 @@
-import { WorkspaceCard } from "@/features/workspace/components/WorkspaceCard";
-
 type WorkspaceSettingsSectionContentProps = Readonly<{
   title: string;
   description: string;
@@ -8,18 +6,20 @@ type WorkspaceSettingsSectionContentProps = Readonly<{
 
 export function WorkspaceSettingsSectionContent({ title, description, points }: WorkspaceSettingsSectionContentProps) {
   return (
-    <WorkspaceCard title={title} description={description}>
-      <div className="space-y-3 text-sm leading-6 text-app-muted">
-        <p>This section is a placeholder for the workspace-state work that comes later.</p>
-        <div className="rounded-2xl border border-dashed border-app px-4 py-4">
-          <p className="text-sm font-medium text-app">Planned settings</p>
-          <ul className="mt-3 space-y-2">
-            {points.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-        </div>
+    <section className="border-b border-app pb-7">
+      <div className="max-w-3xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-app-primary">Planned settings</p>
+        <h2 className="mt-1 text-xl font-semibold tracking-[-0.04em] text-app">{title}</h2>
+        <p className="mt-2 text-sm leading-6 text-app-muted">{description}</p>
       </div>
-    </WorkspaceCard>
+
+      <ul className="mt-5 divide-y divide-app/70 text-sm leading-6 text-app-muted">
+        {points.map((point) => (
+          <li key={point} className="py-3">
+            {point}
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

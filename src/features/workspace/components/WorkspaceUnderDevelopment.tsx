@@ -3,14 +3,19 @@ import { WorkspacePageFrame } from "./WorkspacePageFrame";
 type WorkspaceUnderDevelopmentProps = Readonly<{
   title: string;
   eyebrow?: string;
+  description?: string;
 }>;
 
-export function WorkspaceUnderDevelopment({ title, eyebrow = "Under development" }: WorkspaceUnderDevelopmentProps) {
+export function WorkspaceUnderDevelopment({
+  title,
+  eyebrow = "Under development",
+  description = "This workspace page is under development. The route is available, but the feature content is not ready yet.",
+}: WorkspaceUnderDevelopmentProps) {
   return (
     <WorkspacePageFrame
       eyebrow={eyebrow}
       title={title}
-      description="This workspace page is under development. The route is available, but the feature content is not ready yet."
+      description={description}
       status="Coming soon"
     >
       <section className="border-t border-app pt-8">

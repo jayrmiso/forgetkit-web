@@ -128,6 +128,29 @@ In one working session, the user can:
   - Review/compare/version history surface
   - Dashboard for daily execution
 
+## Workspace State
+
+Workspace creation should stay lightweight:
+- Workspace name
+- Engine target, defaulting to Godot
+
+Detailed setup belongs in workspace settings after creation:
+- Game title
+- Genre
+- Camera view
+- Art direction
+- Target resolution
+- Default biome
+- Default style
+- Current focus
+- Next milestone
+- Blockers
+- Storage root path
+- Godot project path
+- Naming convention
+
+Workspace settings are the shared source of state for future dashboard, asset, narrative, generation, review, storage, and export surfaces. Until backend update endpoints exist, the frontend should treat these fields as read-only or unset values returned by the workspace API.
+
 ## Open Clarifications Needed Later
 
 - Exact Godot export presets and naming conventions.

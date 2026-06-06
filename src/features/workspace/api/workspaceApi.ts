@@ -6,6 +6,7 @@ const workspaceIdSchema = z.string().trim().min(1);
 const workspaceStatusSchema = z.enum(["draft", "active", "archived"]);
 const engineTargetSchema = z.enum(["unknown", "godot"]);
 const workspaceRoleSchema = z.enum(["owner", "member"]);
+const cameraViewSchema = z.enum(["unknown", "top_down", "side_scroller", "isometric", "first_person", "third_person"]);
 
 export const workspaceSchema = z.object({
   id: workspaceIdSchema,
@@ -16,6 +17,19 @@ export const workspaceSchema = z.object({
   role: workspaceRoleSchema,
   createdAt: z.string(),
   updatedAt: z.string(),
+  gameTitle: z.string().nullable().optional(),
+  genre: z.string().nullable().optional(),
+  cameraView: cameraViewSchema.nullable().optional(),
+  artDirection: z.string().nullable().optional(),
+  targetResolution: z.string().nullable().optional(),
+  defaultBiome: z.string().nullable().optional(),
+  defaultStyle: z.string().nullable().optional(),
+  currentFocus: z.string().nullable().optional(),
+  nextMilestone: z.string().nullable().optional(),
+  blockers: z.string().nullable().optional(),
+  storageRootPath: z.string().nullable().optional(),
+  godotProjectPath: z.string().nullable().optional(),
+  namingConvention: z.string().nullable().optional(),
 });
 
 const workspaceListResponseSchema = z.object({
@@ -32,7 +46,7 @@ const workspaceResponseSchema = z.object({
 
 const createWorkspaceBodySchema = z.object({
   name: z.string().trim().min(1).max(120),
-  engineTarget: engineTargetSchema.default("unknown"),
+  engineTarget: engineTargetSchema.default("godot"),
 });
 
 export type WorkspaceRecord = z.infer<typeof workspaceSchema>;
