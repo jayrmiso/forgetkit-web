@@ -1,78 +1,9 @@
-"use client";
-
-import type { FormEvent } from "react";
-
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-
-import { Input } from "@/components/ui/input";
-
-import { createWorkspace } from "../api/workspaceApi";
-import { persistActiveWorkspaceId } from "../workspaceSession";
+import { WorkspaceCreateForm } from "./WorkspaceCreateForm";
 
 type WorkspaceOnboardingFormProps = Readonly<{
   accessToken: string;
 }>;
 
 export function WorkspaceOnboardingForm({ accessToken }: WorkspaceOnboardingFormProps) {
-  const router = useRouter();
-  const [name, setName] = useState("");
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError("");
-    setIsSubmitting(true);
-
-    try {
-      const workspace = await createWorkspace(accessToken, { name });
-      persistActiveWorkspaceId(workspace.id);
-      router.replace(`/w/${workspace.id}`);
-      router.refresh();
-    } catch (createError) {
-      setError(createError instanceof Error ? createError.message : "Unable to create workspace.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
-
-  return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-app" htmlFor="workspace-name">
-          Workspace name
-        </label>
-        <Input
-          id="workspace-name"
-          name="workspaceName"
-          autoComplete="organization"
-          placeholder="Project Eclipse"
-          type="text"
-          className="h-11 rounded-xl border-app bg-app-surface px-3.5 text-[15px] shadow-[0_1px_0_rgba(15,23,42,0.02)] placeholder:text-app-muted/60 focus-visible:border-[color-mix(in_oklch,var(--primary),white_12%)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary),white_16%)]"
-          value={name}
-          onChange={(event) => {
-            setName(event.target.value);
-            if (error) {
-              setError("");
-            }
-          }}
-          required
-        />
-      </div>
-
-      <div className="min-h-5 text-sm" aria-live="polite">
-        {error ? <p className="text-rose-600 dark:text-rose-400">{error}</p> : null}
-      </div>
-
-      <button
-        disabled={isSubmitting}
-        className="h-11 w-full rounded-xl bg-app-primary text-[15px] font-semibold text-white shadow-[0_12px_30px_-16px_rgba(183,121,31,0.8)] transition-all hover:brightness-105 hover:shadow-[0_16px_36px_-18px_rgba(183,121,31,0.9)] focus:outline-none focus:ring-2 focus:ring-[color-mix(in_oklch,var(--primary),white_18%)] focus:ring-offset-2 focus:ring-offset-[var(--surface)]"
-        type="submit"
-      >
-        {isSubmitting ? "Creating workspace..." : "Create workspace"}
-      </button>
-    </form>
-  );
+  return <WorkspaceCreateForm accessToken={accessToken} submitLabel="Create workspace" />;
 }
-
