@@ -9,6 +9,7 @@ import { clearAuthSession } from "@/features/auth/authSession";
 import type { WorkspaceRecord } from "../api/workspaceApi";
 import { clearActiveWorkspaceId, persistActiveWorkspaceId } from "../workspaceSession";
 import { workspacePath } from "../workspacePath";
+import { WorkspaceSwitcherPanel } from "./WorkspaceSwitcherPanel";
 
 function ChevronDownIcon() {
   return (
@@ -27,16 +28,6 @@ function WorkspaceSelectorIcon() {
   );
 }
 
-function formatWorkspaceSubtitle(workspace: WorkspaceRecord) {
-  const parts = [workspace.status, workspace.engineTarget === "godot" ? "Godot" : "Unknown engine"];
-
-  if (workspace.activeMilestone) {
-    parts.push(workspace.activeMilestone);
-  }
-
-  return parts.join(" / ");
-}
-
 type WorkspaceHeaderProps = Readonly<{
   session: AuthSession;
   workspaces: WorkspaceRecord[];
@@ -50,6 +41,12 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
   const workspaceRef = useRef<HTMLDivElement | null>(null);
   const userRef = useRef<HTMLDivElement | null>(null);
   const userLabel = session.displayName ?? session.username ?? session.email.split("@")[0];
+
+  function handleWorkspaceSelect(workspaceId: string) {
+    persistActiveWorkspaceId(workspaceId);
+    setWorkspaceOpen(false);
+    router.push(workspacePath(workspaceId, "/"));
+  }
 
   function handleProfileClick() {
     setUserOpen(false);
@@ -105,7 +102,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
           <div ref={workspaceRef} className="relative">
             <button
               aria-expanded={workspaceOpen}
-              aria-haspopup="menu"
+              aria-haspopup="dialog"
               aria-label="Select workspace"
               className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl px-2 text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/30"
               type="button"
@@ -122,42 +119,13 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
             </button>
 
             {workspaceOpen ? (
-              <div
-                aria-label="Workspace options"
-                className="absolute left-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-app bg-app-surface p-1.5 shadow-xl"
-                role="menu"
-              >
-                {workspaces.map((option) => {
-                  const selected = option.id === currentWorkspace.id;
-
-                  return (
-                    <button
-                      key={option.id}
-                      aria-checked={selected}
-                      className={
-                        selected
-                          ? "flex w-full items-start gap-3 rounded-xl bg-app-primary/12 px-3 py-2 text-left text-sm text-app"
-                          : "flex w-full items-start gap-3 rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
-                      }
-                      role="menuitemradio"
-                      type="button"
-                      onClick={() => {
-                        persistActiveWorkspaceId(option.id);
-                        setWorkspaceOpen(false);
-                        router.push(workspacePath(option.id, "/"));
-                      }}
-                    >
-                      <span className="mt-0.5 flex size-8 items-center justify-center rounded-lg border border-app bg-app-raised text-app-primary">
-                        <WorkspaceSelectorIcon />
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block font-medium">{option.name}</span>
-                        <span className="block text-xs text-app-muted">{formatWorkspaceSubtitle(option)}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+              <WorkspaceSwitcherPanel
+                accessToken={session.accessToken}
+                currentWorkspace={currentWorkspace}
+                workspaces={workspaces}
+                onClose={() => setWorkspaceOpen(false)}
+                onSelectWorkspace={handleWorkspaceSelect}
+              />
             ) : null}
           </div>
         </div>
