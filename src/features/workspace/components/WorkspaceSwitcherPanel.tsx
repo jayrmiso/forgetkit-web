@@ -6,7 +6,6 @@ import type { WorkspaceRecord } from "../api/workspaceApi";
 
 import { Input } from "@/components/ui/input";
 
-import { WorkspaceCreateDialog } from "./WorkspaceCreateDialog";
 import { WorkspaceSwitcherEmptyState } from "./WorkspaceSwitcherEmptyState";
 import { WorkspaceSwitcherItem } from "./WorkspaceSwitcherItem";
 
@@ -16,16 +15,15 @@ function matchesWorkspace(workspace: WorkspaceRecord, query: string) {
 }
 
 type WorkspaceSwitcherPanelProps = Readonly<{
-  accessToken: string;
   workspaces: WorkspaceRecord[];
   currentWorkspace: WorkspaceRecord;
   onClose: () => void;
+  onCreateWorkspace: () => void;
   onSelectWorkspace: (workspaceId: string) => void;
 }>;
 
-export function WorkspaceSwitcherPanel({ accessToken, workspaces, currentWorkspace, onClose, onSelectWorkspace }: WorkspaceSwitcherPanelProps) {
+export function WorkspaceSwitcherPanel({ workspaces, currentWorkspace, onClose, onCreateWorkspace, onSelectWorkspace }: WorkspaceSwitcherPanelProps) {
   const [query, setQuery] = useState("");
-  const [createOpen, setCreateOpen] = useState(false);
   const searchRef = useRef<HTMLInputElement | null>(null);
   const normalizedQuery = query.trim().toLowerCase();
 
@@ -111,13 +109,11 @@ export function WorkspaceSwitcherPanel({ accessToken, workspaces, currentWorkspa
 
       <div className="border-t border-app bg-app-surface p-2">
         <button
-          className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/25"
+          className="group flex w-full cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium text-app transition-all duration-200 hover:-translate-y-0.5 hover:bg-app-raised hover:shadow-[0_12px_28px_-22px_rgba(15,23,42,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/25"
           type="button"
-          onClick={() => {
-            setCreateOpen(true);
-          }}
+          onClick={onCreateWorkspace}
         >
-          <span className="flex size-8 items-center justify-center rounded-xl border border-dashed border-app bg-app-bg text-app-primary">
+          <span className="flex size-8 items-center justify-center rounded-xl border border-dashed border-app bg-app-bg text-app-primary transition-transform duration-200 group-hover:scale-105">
             +
           </span>
           <span className="flex-1">
@@ -126,16 +122,6 @@ export function WorkspaceSwitcherPanel({ accessToken, workspaces, currentWorkspa
           </span>
         </button>
       </div>
-
-      <WorkspaceCreateDialog
-        accessToken={accessToken}
-        open={createOpen}
-        onClose={() => setCreateOpen(false)}
-        onCreated={(workspace) => {
-          onClose();
-          onSelectWorkspace(workspace.id);
-        }}
-      />
     </div>
   );
 }

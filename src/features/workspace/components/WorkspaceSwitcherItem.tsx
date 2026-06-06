@@ -52,8 +52,8 @@ export function WorkspaceSwitcherItem({ workspace, selected = false, current = f
       aria-current={selected ? "page" : undefined}
       className={
         selected
-          ? "flex w-full items-start gap-3 rounded-xl border border-app-primary/20 bg-app-primary/10 px-3 py-2 text-left text-sm text-app shadow-[0_8px_22px_-16px_rgba(183,121,31,0.45)] transition hover:bg-app-primary/12"
-          : "flex w-full items-start gap-3 rounded-xl px-3 py-2 text-left text-sm text-app transition hover:bg-app-raised"
+          ? "group flex w-full cursor-pointer items-start gap-3 rounded-xl border border-app-primary/20 bg-app-primary/10 px-3 py-2 text-left text-sm text-app shadow-[0_8px_22px_-16px_rgba(183,121,31,0.45)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-app-primary/12 hover:shadow-[0_14px_30px_-22px_rgba(183,121,31,0.55)]"
+          : "group flex w-full cursor-pointer items-start gap-3 rounded-xl px-3 py-2 text-left text-sm text-app transition-all duration-200 hover:-translate-y-0.5 hover:bg-app-raised"
       }
       type="button"
       onClick={onSelect}
@@ -61,8 +61,8 @@ export function WorkspaceSwitcherItem({ workspace, selected = false, current = f
       <span
         className={
           selected
-            ? "mt-0.5 flex size-8 items-center justify-center rounded-lg border border-app-primary/20 bg-app-surface text-app-primary"
-            : "mt-0.5 flex size-8 items-center justify-center rounded-lg border border-app bg-app-raised text-app-primary"
+            ? "mt-0.5 flex size-8 items-center justify-center rounded-lg border border-app-primary/20 bg-app-surface text-app-primary transition-transform duration-200 group-hover:scale-105"
+            : "mt-0.5 flex size-8 items-center justify-center rounded-lg border border-app bg-app-raised text-app-primary transition-transform duration-200 group-hover:scale-105"
         }
       >
         <WorkspaceSwitcherIcon />

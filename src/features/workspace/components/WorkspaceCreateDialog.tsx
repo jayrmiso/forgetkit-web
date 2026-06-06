@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 
 import type { WorkspaceRecord } from "../api/workspaceApi";
 
@@ -36,17 +37,18 @@ export function WorkspaceCreateDialog({ open, accessToken, onClose, onCreated }:
     return null;
   }
 
-  return (
+  return createPortal(
     <div
+      data-workspace-create-dialog="true"
       aria-modal="true"
       aria-describedby="workspace-create-dialog-description"
       aria-labelledby="workspace-create-dialog-title"
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/35 px-4 py-6 backdrop-blur-[2px]"
+      className="fixed inset-0 z-[1000] grid min-h-dvh place-items-center bg-slate-950/45 px-4 py-6 backdrop-blur-[3px]"
       role="dialog"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-3xl border border-app bg-app-surface p-5 shadow-2xl"
+        className="max-h-[calc(100dvh-3rem)] w-full max-w-md overflow-y-auto rounded-3xl border border-app bg-app-surface p-5 shadow-2xl"
         onClick={(event) => {
           event.stopPropagation();
         }}
@@ -73,6 +75,7 @@ export function WorkspaceCreateDialog({ open, accessToken, onClose, onCreated }:
           />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

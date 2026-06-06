@@ -9,6 +9,7 @@ import { clearAuthSession } from "@/features/auth/authSession";
 import type { WorkspaceRecord } from "../api/workspaceApi";
 import { clearActiveWorkspaceId, persistActiveWorkspaceId } from "../workspaceSession";
 import { workspacePath } from "../workspacePath";
+import { WorkspaceCreateDialog } from "./WorkspaceCreateDialog";
 import { WorkspaceSwitcherPanel } from "./WorkspaceSwitcherPanel";
 
 function ChevronDownIcon() {
@@ -37,6 +38,7 @@ type WorkspaceHeaderProps = Readonly<{
 export function WorkspaceHeader({ session, workspaces, currentWorkspace }: WorkspaceHeaderProps) {
   const router = useRouter();
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
+  const [createWorkspaceOpen, setCreateWorkspaceOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
   const workspaceRef = useRef<HTMLDivElement | null>(null);
   const userRef = useRef<HTMLDivElement | null>(null);
@@ -44,6 +46,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
 
   function handleWorkspaceSelect(workspaceId: string) {
     persistActiveWorkspaceId(workspaceId);
+    setCreateWorkspaceOpen(false);
     setWorkspaceOpen(false);
     router.push(workspacePath(workspaceId, "/"));
   }
@@ -69,6 +72,11 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
       const target = event.target as Node;
+      const elementTarget = event.target as Element | null;
+
+      if (elementTarget?.closest("[data-workspace-create-dialog='true']")) {
+        return;
+      }
 
       if (workspaceRef.current && !workspaceRef.current.contains(target)) {
         setWorkspaceOpen(false);
@@ -82,6 +90,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
     function handleEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setWorkspaceOpen(false);
+        setCreateWorkspaceOpen(false);
         setUserOpen(false);
       }
     }
@@ -120,10 +129,13 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
 
             {workspaceOpen ? (
               <WorkspaceSwitcherPanel
-                accessToken={session.accessToken}
                 currentWorkspace={currentWorkspace}
                 workspaces={workspaces}
                 onClose={() => setWorkspaceOpen(false)}
+                onCreateWorkspace={() => {
+                  setWorkspaceOpen(false);
+                  setCreateWorkspaceOpen(true);
+                }}
                 onSelectWorkspace={handleWorkspaceSelect}
               />
             ) : null}
@@ -154,7 +166,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
                 role="menu"
               >
                 <button
-                  className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
+                  className="flex w-full cursor-pointer items-center rounded-xl px-3 py-2 text-left text-sm text-app transition-all duration-200 hover:-translate-y-0.5 hover:bg-app-raised"
                   role="menuitem"
                   type="button"
                   onClick={handleProfileClick}
@@ -162,7 +174,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
                   Profile
                 </button>
                 <button
-                  className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
+                  className="flex w-full cursor-pointer items-center rounded-xl px-3 py-2 text-left text-sm text-app transition-all duration-200 hover:-translate-y-0.5 hover:bg-app-raised"
                   role="menuitem"
                   type="button"
                   onClick={handleWorkspaceSettingsClick}
@@ -170,7 +182,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
                   Workspace settings
                 </button>
                 <button
-                  className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
+                  className="flex w-full cursor-pointer items-center rounded-xl px-3 py-2 text-left text-sm text-app transition-all duration-200 hover:-translate-y-0.5 hover:bg-app-raised"
                   role="menuitem"
                   type="button"
                   onClick={handleSignOut}
@@ -182,6 +194,15 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
           </div>
         </div>
       </div>
+
+      <WorkspaceCreateDialog
+        accessToken={session.accessToken}
+        open={createWorkspaceOpen}
+        onClose={() => setCreateWorkspaceOpen(false)}
+        onCreated={(workspace) => {
+          handleWorkspaceSelect(workspace.id);
+        }}
+      />
     </header>
   );
 }
