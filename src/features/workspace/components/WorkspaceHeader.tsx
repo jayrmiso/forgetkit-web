@@ -154,7 +154,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
                 role="menu"
               >
                 <button
-                  className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
+                  className="flex w-full cursor-pointer items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
                   role="menuitem"
                   type="button"
                   onClick={handleProfileClick}
@@ -162,7 +162,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
                   Profile
                 </button>
                 <button
-                  className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
+                  className="flex w-full cursor-pointer items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
                   role="menuitem"
                   type="button"
                   onClick={handleWorkspaceSettingsClick}
@@ -170,7 +170,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
                   Workspace settings
                 </button>
                 <button
-                  className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
+                  className="flex w-full cursor-pointer items-center rounded-xl px-3 py-2 text-left text-sm text-app hover:bg-app-raised"
                   role="menuitem"
                   type="button"
                   onClick={handleSignOut}

@@ -111,7 +111,7 @@ export function WorkspaceSwitcherPanel({ accessToken, workspaces, currentWorkspa
 
       <div className="border-t border-app bg-app-surface p-2">
         <button
-          className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/25"
+          className="flex w-full cursor-pointer items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-medium text-app transition hover:bg-app-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/25"
           type="button"
           onClick={() => {
             setCreateOpen(true);
