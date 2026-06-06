@@ -1,11 +1,14 @@
 import { z } from "zod";
 
+// Workspace ids are treated as opaque route-safe strings on the frontend.
+// The canonical backend format can change without requiring UI changes here.
+const workspaceIdSchema = z.string().trim().min(1);
 const workspaceStatusSchema = z.enum(["draft", "active", "archived"]);
 const engineTargetSchema = z.enum(["unknown", "godot"]);
 const workspaceRoleSchema = z.enum(["owner", "member"]);
 
 export const workspaceSchema = z.object({
-  id: z.string().uuid(),
+  id: workspaceIdSchema,
   name: z.string(),
   status: workspaceStatusSchema,
   engineTarget: engineTargetSchema,

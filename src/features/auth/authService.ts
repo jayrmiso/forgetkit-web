@@ -28,6 +28,7 @@ type SupabaseAuthResponse = Readonly<{
     email?: string | null;
     user_metadata?: Record<string, unknown> | null;
   }>;
+  access_token?: string | null;
 }>;
 
 type IdentifierResolution = Readonly<{
