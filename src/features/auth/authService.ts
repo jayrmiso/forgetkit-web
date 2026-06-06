@@ -17,6 +17,7 @@ export class AuthApiError extends Error {
 
 type SupabaseAuthResponse = Readonly<{
   error_description?: string;
+  access_token?: string | null;
   msg?: string;
   message?: string;
   session?: Readonly<{
