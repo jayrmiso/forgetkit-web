@@ -76,13 +76,7 @@ function getSupabaseAuthConfig(): SupabaseAuthConfig {
 }
 
 function getApiBaseUrl() {
-  const url = process.env.NEXT_PUBLIC_FORGETKIT_API_URL;
-
-  if (!url) {
-    throw new Error("Missing ForgetKit API environment variables.");
-  }
-
-  return url.replace(/\/$/, "");
+  return (process.env.NEXT_PUBLIC_FORGETKIT_API_URL ?? "http://localhost:3001").replace(/\/$/, "");
 }
 
 async function parseResponse<T>(response: Response) {
