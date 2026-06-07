@@ -39,8 +39,11 @@ export function WorkspaceCreateForm({
     try {
       const workspace = await createWorkspace(accessToken, { name, engineTarget });
       persistActiveWorkspaceId(workspace.id);
-      onSuccess?.(workspace);
-      router.replace(`/w/${workspace.id}`);
+      if (onSuccess) {
+        onSuccess(workspace);
+      } else {
+        router.push(`/w/${workspace.id}`);
+      }
       router.refresh();
     } catch (createError) {
       setError(createError instanceof Error ? createError.message : "Unable to create workspace.");

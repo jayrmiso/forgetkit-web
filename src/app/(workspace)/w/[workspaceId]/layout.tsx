@@ -42,7 +42,11 @@ export default async function WorkspaceRouteLayout({ children, params }: Workspa
   }
 
   const preferredWorkspaceId = cookieStore.get(ACTIVE_WORKSPACE_COOKIE)?.value ?? null;
-  const { currentWorkspace, redirectWorkspaceId } = resolveWorkspaceBootstrap(workspaces, preferredWorkspaceId);
+  const { currentWorkspace, redirectWorkspaceId } = resolveWorkspaceBootstrap(
+    workspaces,
+    preferredWorkspaceId,
+    resolvedParams.workspaceId,
+  );
 
   if (!currentWorkspace || !redirectWorkspaceId) {
     redirect("/");
