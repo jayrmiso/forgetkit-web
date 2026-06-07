@@ -37,16 +37,16 @@ function GitHubIcon() {
 
 type LoginCardProps = Readonly<{
   initialIdentifier?: string;
-  sessionExpired?: boolean;
+  noticeReason?: "session-expired" | "signed-out";
   showRouteSwitch?: boolean;
 }>;
 
-export function LoginCard({ initialIdentifier = "", sessionExpired = false, showRouteSwitch = true }: LoginCardProps) {
+export function LoginCard({ initialIdentifier = "", noticeReason, showRouteSwitch = true }: LoginCardProps) {
   return (
     <AuthCard title="Sign in to ForgetKit" description="Use your username or email to get back into your workspace.">
       <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8">
         <div className="space-y-5">
-          {sessionExpired ? <SessionExpiredNotice /> : null}
+          {noticeReason ? <SessionExpiredNotice reason={noticeReason} /> : null}
           <LoginForm initialIdentifier={initialIdentifier} />
           {showRouteSwitch ? <AuthRouteSwitch href="/register" label="New here?" linkLabel="Create an account" /> : null}
         </div>

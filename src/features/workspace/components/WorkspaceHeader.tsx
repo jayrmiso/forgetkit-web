@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import type { AuthSession } from "@/features/auth/authSession";
-import { clearAuthSession } from "@/features/auth/authSession";
+import { clearAuthSession, SIGNED_OUT_LOGIN_PATH } from "@/features/auth/authSession";
 
 import type { WorkspaceRecord } from "../api/workspaceApi";
 import { clearActiveWorkspaceId, persistActiveWorkspaceId } from "../workspaceSession";
@@ -65,7 +65,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
     setUserOpen(false);
     clearAuthSession();
     clearActiveWorkspaceId();
-    router.replace("/login");
+    router.replace(SIGNED_OUT_LOGIN_PATH);
     router.refresh();
   }
 
