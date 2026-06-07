@@ -52,6 +52,7 @@ const workspaceResponseSchema = z.object({
 const createWorkspaceBodySchema = z.object({
   name: z.string().trim().min(1).max(120),
   engineTarget: engineTargetSchema.default("godot"),
+  visibility: workspaceVisibilitySchema.default("private"),
 });
 
 export type WorkspaceRecord = z.infer<typeof workspaceSchema>;

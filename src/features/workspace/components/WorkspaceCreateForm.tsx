@@ -31,6 +31,7 @@ export function WorkspaceCreateForm({
   const router = useRouter();
   const [name, setName] = useState("");
   const [engineTarget, setEngineTarget] = useState<"godot" | "unknown">("godot");
+  const [visibility, setVisibility] = useState<"private" | "public">("private");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preparingWorkspaceName, setPreparingWorkspaceName] = useState("");
@@ -47,7 +48,7 @@ export function WorkspaceCreateForm({
     setIsSubmitting(true);
 
     try {
-      const workspace = await createWorkspace(accessToken, { name, engineTarget });
+      const workspace = await createWorkspace(accessToken, { name, engineTarget, visibility });
       persistActiveWorkspaceId(workspace.id);
       setPreparingWorkspaceName(workspace.name);
       await waitForWorkspacePreparation();
@@ -115,6 +116,39 @@ export function WorkspaceCreateForm({
           </select>
           <p className="text-xs leading-5 text-app-muted">
             This sets the initial export direction. More Godot and storage details can be added in workspace settings.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-app">Visibility</p>
+          <div className="grid grid-cols-2 gap-2 rounded-2xl border border-app bg-app-bg p-1">
+            {(["private", "public"] as const).map((option) => {
+              const selected = visibility === option;
+
+              return (
+                <button
+                  key={option}
+                  className={
+                    selected
+                      ? "cursor-pointer rounded-xl bg-app-primary px-3 py-2 text-sm font-semibold text-white shadow-[0_10px_24px_-18px_rgba(183,121,31,0.8)] transition"
+                      : "cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-app-muted transition hover:bg-app-raised hover:text-app"
+                  }
+                  type="button"
+                  aria-pressed={selected}
+                  onClick={() => {
+                    setVisibility(option);
+                    if (error) {
+                      setError("");
+                    }
+                  }}
+                >
+                  {option === "private" ? "Private" : "Public"}
+                </button>
+              );
+            })}
+          </div>
+          <p className="text-xs leading-5 text-app-muted">
+            Private workspaces stay in your app. Public workspaces are intended for your future /u profile showcase.
           </p>
         </div>
 
