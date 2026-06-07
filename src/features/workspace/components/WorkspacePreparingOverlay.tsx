@@ -19,6 +19,7 @@ const loadingMessages = [
 export function WorkspacePreparingOverlay({ workspaceName }: WorkspacePreparingOverlayProps) {
   const [messageIndex, setMessageIndex] = useState(0);
   const message = loadingMessages[messageIndex] ?? loadingMessages[loadingMessages.length - 1];
+  const progress = Math.round(((messageIndex + 1) / loadingMessages.length) * 100);
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -52,8 +53,18 @@ export function WorkspacePreparingOverlay({ workspaceName }: WorkspacePreparingO
           We created <span className="font-semibold text-white">{workspaceName}</span>. Hold on while ForgetKit makes it the active workspace and loads the right shell.
         </p>
 
-        <div className="mt-8 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-          <div className="h-full w-1/2 animate-pulse rounded-full bg-app-primary shadow-[0_0_22px_rgba(183,121,31,0.5)]" />
+        <div
+          aria-label="Workspace preparation progress"
+          aria-valuemax={100}
+          aria-valuemin={0}
+          aria-valuenow={progress}
+          className="mt-8 h-1.5 w-full overflow-hidden rounded-full bg-white/10"
+          role="progressbar"
+        >
+          <div
+            className="h-full rounded-full bg-app-primary shadow-[0_0_22px_rgba(183,121,31,0.5)] transition-[width] duration-700 ease-out"
+            style={{ width: `${progress}%` }}
+          />
         </div>
       </div>
     </div>,
