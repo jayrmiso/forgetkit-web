@@ -11,7 +11,7 @@ import { createWorkspace, type WorkspaceRecord } from "../api/workspaceApi";
 import { persistActiveWorkspaceId } from "../workspaceSession";
 import { WorkspacePreparingOverlay } from "./WorkspacePreparingOverlay";
 
-const WORKSPACE_PREPARATION_DELAY_MS = 2800;
+const WORKSPACE_PREPARATION_DELAY_MS = 6200;
 
 type WorkspaceCreateFormProps = Readonly<{
   accessToken: string;
