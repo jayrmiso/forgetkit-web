@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { WorkspaceSwitcherEmptyState } from "./WorkspaceSwitcherEmptyState";
 import { WorkspaceSwitcherItem } from "./WorkspaceSwitcherItem";
 
+const WORKSPACE_LIST_BATCH_SIZE = 3;
+
 function matchesWorkspace(workspace: WorkspaceRecord, query: string) {
   const haystack = [workspace.name, workspace.status, workspace.engineTarget, workspace.activeMilestone ?? ""].join(" ").toLowerCase();
   return haystack.includes(query);
@@ -24,15 +26,22 @@ type WorkspaceSwitcherPanelProps = Readonly<{
 
 export function WorkspaceSwitcherPanel({ workspaces, currentWorkspace, onClose, onCreateWorkspace, onSelectWorkspace }: WorkspaceSwitcherPanelProps) {
   const [query, setQuery] = useState("");
+  const [visibleWorkspaceState, setVisibleWorkspaceState] = useState({
+    count: WORKSPACE_LIST_BATCH_SIZE,
+    scope: "",
+  });
   const searchRef = useRef<HTMLInputElement | null>(null);
   const normalizedQuery = query.trim().toLowerCase();
+  const workspaceListScope = `${currentWorkspace.id}:${normalizedQuery}`;
+  const visibleWorkspaceCount =
+    visibleWorkspaceState.scope === workspaceListScope ? visibleWorkspaceState.count : WORKSPACE_LIST_BATCH_SIZE;
 
   useEffect(() => {
     searchRef.current?.focus();
   }, []);
 
   const recentWorkspaces = useMemo(
-    () => workspaces.filter((workspace) => workspace.id !== currentWorkspace.id).slice(0, 3),
+    () => workspaces.filter((workspace) => workspace.id !== currentWorkspace.id),
     [currentWorkspace.id, workspaces],
   );
 
@@ -45,6 +54,8 @@ export function WorkspaceSwitcherPanel({ workspaces, currentWorkspace, onClose, 
   }, [currentWorkspace.id, normalizedQuery, workspaces]);
 
   const hasQuery = normalizedQuery.length > 0;
+  const visibleWorkspaces = (hasQuery ? filteredWorkspaces : recentWorkspaces).slice(0, visibleWorkspaceCount);
+  const hiddenWorkspaceCount = Math.max((hasQuery ? filteredWorkspaces : recentWorkspaces).length - visibleWorkspaceCount, 0);
 
   return (
     <div
@@ -80,27 +91,63 @@ export function WorkspaceSwitcherPanel({ workspaces, currentWorkspace, onClose, 
 
         {hasQuery ? (
           filteredWorkspaces.length > 0 ? (
-            <div className="space-y-1">
-              {filteredWorkspaces.map((workspace) => (
-                <WorkspaceSwitcherItem
-                  key={workspace.id}
-                  workspace={workspace}
-                  onSelect={() => onSelectWorkspace(workspace.id)}
-                />
-              ))}
+            <div className="space-y-2">
+              <div className="max-h-[10.75rem] overflow-y-auto pr-1">
+                <div className="space-y-1">
+                  {visibleWorkspaces.map((workspace) => (
+                    <WorkspaceSwitcherItem
+                      key={workspace.id}
+                      workspace={workspace}
+                      onSelect={() => onSelectWorkspace(workspace.id)}
+                    />
+                  ))}
+                </div>
+              </div>
+              {hiddenWorkspaceCount > 0 ? (
+                <button
+                  className="w-full cursor-pointer rounded-xl px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.18em] text-app-primary transition hover:bg-app-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/25"
+                  type="button"
+                  onClick={() =>
+                    setVisibleWorkspaceState({
+                      count: visibleWorkspaceCount + WORKSPACE_LIST_BATCH_SIZE,
+                      scope: workspaceListScope,
+                    })
+                  }
+                >
+                  Show more ({hiddenWorkspaceCount} left)
+                </button>
+              ) : null}
             </div>
           ) : (
             <WorkspaceSwitcherEmptyState description={`No workspaces match “${query.trim()}”.`} />
           )
         ) : recentWorkspaces.length > 0 ? (
-          <div className="space-y-1">
-            {recentWorkspaces.map((workspace) => (
-              <WorkspaceSwitcherItem
-                key={workspace.id}
-                workspace={workspace}
-                onSelect={() => onSelectWorkspace(workspace.id)}
-              />
-            ))}
+          <div className="space-y-2">
+            <div className="max-h-[10.75rem] overflow-y-auto pr-1">
+              <div className="space-y-1">
+                {visibleWorkspaces.map((workspace) => (
+                  <WorkspaceSwitcherItem
+                    key={workspace.id}
+                    workspace={workspace}
+                    onSelect={() => onSelectWorkspace(workspace.id)}
+                  />
+                ))}
+              </div>
+            </div>
+            {hiddenWorkspaceCount > 0 ? (
+              <button
+                className="w-full cursor-pointer rounded-xl px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.18em] text-app-primary transition hover:bg-app-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/25"
+                type="button"
+                onClick={() =>
+                  setVisibleWorkspaceState({
+                    count: visibleWorkspaceCount + WORKSPACE_LIST_BATCH_SIZE,
+                    scope: workspaceListScope,
+                  })
+                }
+              >
+                Show more ({hiddenWorkspaceCount} left)
+              </button>
+            ) : null}
           </div>
         ) : (
           <WorkspaceSwitcherEmptyState description="No other workspaces yet. Create another workspace to switch between them here." />
