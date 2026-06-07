@@ -151,6 +151,26 @@ Detailed setup belongs in workspace settings after creation:
 
 Workspace settings are the shared source of state for future dashboard, asset, narrative, generation, review, storage, and export surfaces. Until backend update endpoints exist, the frontend should treat these fields as read-only or unset values returned by the workspace API.
 
+## Public Profile And Showcase
+
+ForgetKit should separate private workspace tooling from public showcase routes:
+- `/w/[workspaceId]` is the authenticated workspace app.
+- `/u/[username]` is the public profile.
+- `/u/[username]/[workspaceSlug]` is the public workspace showcase.
+
+Workspace visibility should start with:
+- `private`: visible only to the owner.
+- `unlisted`: readable by link, not shown on the profile.
+- `public`: shown on the profile and readable through public routes.
+
+Public workspace settings should include:
+- Visibility
+- Public slug
+- Public description
+- Comments toggle
+
+Public showcase routes are read-only. Editing remains owner-only inside `/w/[workspaceId]`. Assets and documents should eventually have their own visibility controls, but the first version can show route shells until backend visibility enforcement exists.
+
 ## Open Clarifications Needed Later
 
 - Exact Godot export presets and naming conventions.

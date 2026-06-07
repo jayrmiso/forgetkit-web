@@ -7,6 +7,7 @@ const workspaceStatusSchema = z.enum(["draft", "active", "archived"]);
 const engineTargetSchema = z.enum(["unknown", "godot"]);
 const workspaceRoleSchema = z.enum(["owner", "member"]);
 const cameraViewSchema = z.enum(["unknown", "top_down", "side_scroller", "isometric", "first_person", "third_person"]);
+const workspaceVisibilitySchema = z.enum(["private", "unlisted", "public"]);
 
 export const workspaceSchema = z.object({
   id: workspaceIdSchema,
@@ -17,6 +18,10 @@ export const workspaceSchema = z.object({
   role: workspaceRoleSchema,
   createdAt: z.string(),
   updatedAt: z.string(),
+  visibility: workspaceVisibilitySchema.default("private").optional(),
+  slug: z.string().nullable().optional(),
+  description: z.string().nullable().optional(),
+  allowComments: z.boolean().nullable().optional(),
   gameTitle: z.string().nullable().optional(),
   genre: z.string().nullable().optional(),
   cameraView: cameraViewSchema.nullable().optional(),

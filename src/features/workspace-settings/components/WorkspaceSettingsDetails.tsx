@@ -44,6 +44,33 @@ function formatCameraView(value?: WorkspaceRecord["cameraView"] | null) {
   return value ? labels[value] : "Not set";
 }
 
+function formatVisibility(value?: WorkspaceRecord["visibility"]) {
+  const labels = {
+    private: "Private",
+    unlisted: "Unlisted",
+    public: "Public",
+  } satisfies Record<NonNullable<WorkspaceRecord["visibility"]>, string>;
+
+  return labels[value ?? "private"];
+}
+
+function formatComments(value?: boolean | null) {
+  if (value === true) {
+    return "Enabled";
+  }
+
+  if (value === false) {
+    return "Disabled";
+  }
+
+  return "Not set";
+}
+
+function buildPublicWorkspacePath(workspace: WorkspaceRecord) {
+  const slug = workspace.slug?.trim();
+  return slug ? `/u/[username]/${slug}` : "Not set";
+}
+
 function FieldRow({ label, value, detail }: FieldRowProps) {
   const displayValue = formatValue(value);
   const isMissing = displayValue === "Not set";
@@ -138,6 +165,11 @@ export function WorkspaceSettingsDetails({ workspace }: WorkspaceSettingsDetails
       complete: Boolean(workspace.storageRootPath || workspace.godotProjectPath || workspace.namingConvention),
       detail: "Paths and naming rules are needed before Supabase Storage and Godot export workflows become real.",
     },
+    {
+      label: "Publishing decision",
+      complete: Boolean(workspace.visibility),
+      detail: "Visibility controls whether the workspace stays private, becomes unlisted, or appears on the public profile.",
+    },
   ];
 
   return (
@@ -150,9 +182,23 @@ export function WorkspaceSettingsDetails({ workspace }: WorkspaceSettingsDetails
         <dl className="divide-y divide-app/70">
           <FieldRow label="Workspace name" value={workspace.name} />
           <FieldRow label="Status" value={workspace.status} />
+          <FieldRow label="Visibility" value={formatVisibility(workspace.visibility)} />
           <FieldRow label="Engine target" value={formatEngineTarget(workspace.engineTarget)} />
           <FieldRow label="Active milestone" value={workspace.activeMilestone} />
           <FieldRow label="Role" value={workspace.role} />
+        </dl>
+      </SettingsSection>
+
+      <SettingsSection
+        eyebrow="Publishing"
+        title="Public profile and showcase"
+        description="Public workspaces will appear on the owner profile and use /u/[username]/[workspaceSlug] as the read-only showcase route."
+      >
+        <dl className="divide-y divide-app/70">
+          <FieldRow label="Public slug" value={workspace.slug} detail="Reserved for /u/[username]/[workspaceSlug]." />
+          <FieldRow label="Public URL" value={buildPublicWorkspacePath(workspace)} detail="Username is resolved from the owner profile once the public profile API exists." />
+          <FieldRow label="Description" value={workspace.description} detail="Short public summary for the profile and workspace showcase." />
+          <FieldRow label="Comments" value={formatComments(workspace.allowComments)} detail="Comments should be logged-in only and owner-moderated when backend support is added." />
         </dl>
       </SettingsSection>
 
