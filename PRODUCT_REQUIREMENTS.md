@@ -133,8 +133,17 @@ In one working session, the user can:
 Workspace creation should stay lightweight:
 - Workspace name
 - Engine target, defaulting to Godot
+- Visibility, defaulting to private
 
-Detailed setup belongs in workspace settings after creation:
+Current workspace settings should only show fields that the API actually returns:
+- Workspace name
+- Status
+- Engine target
+- Active milestone
+- Role
+- Visibility
+
+Future workspace settings should include:
 - Game title
 - Genre
 - Camera view
@@ -163,8 +172,10 @@ Workspace visibility should start with:
 - `unlisted`: readable by link, not shown on the profile.
 - `public`: shown on the profile and readable through public routes.
 
-Public workspace settings should include:
-- Visibility
+Current public workspace settings should include:
+- Visibility only
+
+Future public workspace settings should include:
 - Public slug
 - Public description
 - Comments toggle
