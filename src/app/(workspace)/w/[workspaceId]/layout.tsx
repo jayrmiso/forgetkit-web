@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { AUTH_SESSION_COOKIE, parseAuthSession } from "@/features/auth/authSession";
-import { listWorkspaces } from "@/features/workspace/api/workspaceApi";
+import { AUTH_SESSION_COOKIE, parseAuthSession, SESSION_EXPIRED_LOGIN_PATH } from "@/features/auth/authSession";
+import { listWorkspaces, WorkspaceApiError } from "@/features/workspace/api/workspaceApi";
 import { resolveWorkspaceBootstrap } from "@/features/workspace/api/workspaceBootstrap";
 import { WorkspaceShell } from "@/features/workspace/components/WorkspaceShell";
 import { ACTIVE_WORKSPACE_COOKIE } from "@/features/workspace/workspaceSession";
@@ -25,7 +25,17 @@ export default async function WorkspaceRouteLayout({ children, params }: Workspa
     redirect("/login");
   }
 
-  const workspaces = await listWorkspaces(session.accessToken);
+  let workspaces;
+
+  try {
+    workspaces = await listWorkspaces(session.accessToken);
+  } catch (error) {
+    if (error instanceof WorkspaceApiError && error.status === 401) {
+      redirect(SESSION_EXPIRED_LOGIN_PATH);
+    }
+
+    throw error;
+  }
 
   if (workspaces.length === 0) {
     redirect("/");
@@ -48,4 +58,3 @@ export default async function WorkspaceRouteLayout({ children, params }: Workspa
     </WorkspaceShell>
   );
 }
-

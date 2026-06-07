@@ -6,6 +6,7 @@ export type AuthSession = Readonly<{
 }>;
 
 export const AUTH_SESSION_COOKIE = "forgetkit-auth-session";
+export const SESSION_EXPIRED_LOGIN_PATH = "/login?reason=session-expired";
 
 const AUTH_SESSION_MAX_AGE = 60 * 60 * 24 * 7;
 

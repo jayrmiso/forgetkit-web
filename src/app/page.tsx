@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { AUTH_SESSION_COOKIE, parseAuthSession } from "@/features/auth/authSession";
+import { AUTH_SESSION_COOKIE, parseAuthSession, SESSION_EXPIRED_LOGIN_PATH } from "@/features/auth/authSession";
 import { listWorkspaces, WorkspaceApiError } from "@/features/workspace/api/workspaceApi";
 import { resolveWorkspaceBootstrap } from "@/features/workspace/api/workspaceBootstrap";
 import { WorkspaceOnboardingForm } from "@/features/workspace/components/WorkspaceOnboardingForm";
@@ -22,7 +22,7 @@ export default async function HomePage() {
     workspaces = await listWorkspaces(session.accessToken);
   } catch (error) {
     if (error instanceof WorkspaceApiError && error.status === 401) {
-      redirect("/login");
+      redirect(SESSION_EXPIRED_LOGIN_PATH);
     }
 
     throw error;
@@ -62,4 +62,3 @@ export default async function HomePage() {
     </main>
   );
 }
-
