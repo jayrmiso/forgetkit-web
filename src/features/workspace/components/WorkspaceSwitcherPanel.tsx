@@ -16,6 +16,29 @@ function matchesWorkspace(workspace: WorkspaceRecord, query: string) {
   return haystack.includes(query);
 }
 
+function WorkspaceScrollableList({
+  children,
+  scrollable,
+}: Readonly<{
+  children: React.ReactNode;
+  scrollable: boolean;
+}>) {
+  return (
+    <div className="relative">
+      <div className="max-h-[10.75rem] overflow-y-auto pr-1">
+        <div className="space-y-1 pb-1">{children}</div>
+      </div>
+      {scrollable ? (
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center bg-gradient-to-t from-app-surface via-app-surface/90 to-transparent pb-1 pt-8">
+          <span className="rounded-full border border-app bg-app-surface/95 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-app-muted shadow-sm">
+            Scroll for more
+          </span>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 type WorkspaceSwitcherPanelProps = Readonly<{
   workspaces: WorkspaceRecord[];
   currentWorkspace: WorkspaceRecord;
@@ -56,6 +79,7 @@ export function WorkspaceSwitcherPanel({ workspaces, currentWorkspace, onClose, 
   const hasQuery = normalizedQuery.length > 0;
   const visibleWorkspaces = (hasQuery ? filteredWorkspaces : recentWorkspaces).slice(0, visibleWorkspaceCount);
   const hiddenWorkspaceCount = Math.max((hasQuery ? filteredWorkspaces : recentWorkspaces).length - visibleWorkspaceCount, 0);
+  const hasScrollableWorkspaceList = visibleWorkspaces.length > WORKSPACE_LIST_BATCH_SIZE;
 
   return (
     <div
@@ -92,17 +116,15 @@ export function WorkspaceSwitcherPanel({ workspaces, currentWorkspace, onClose, 
         {hasQuery ? (
           filteredWorkspaces.length > 0 ? (
             <div className="space-y-2">
-              <div className="max-h-[10.75rem] overflow-y-auto pr-1">
-                <div className="space-y-1">
-                  {visibleWorkspaces.map((workspace) => (
-                    <WorkspaceSwitcherItem
-                      key={workspace.id}
-                      workspace={workspace}
-                      onSelect={() => onSelectWorkspace(workspace.id)}
-                    />
-                  ))}
-                </div>
-              </div>
+              <WorkspaceScrollableList scrollable={hasScrollableWorkspaceList}>
+                {visibleWorkspaces.map((workspace) => (
+                  <WorkspaceSwitcherItem
+                    key={workspace.id}
+                    workspace={workspace}
+                    onSelect={() => onSelectWorkspace(workspace.id)}
+                  />
+                ))}
+              </WorkspaceScrollableList>
               {hiddenWorkspaceCount > 0 ? (
                 <button
                   className="w-full cursor-pointer rounded-xl px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.18em] text-app-primary transition hover:bg-app-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/25"
@@ -123,17 +145,15 @@ export function WorkspaceSwitcherPanel({ workspaces, currentWorkspace, onClose, 
           )
         ) : recentWorkspaces.length > 0 ? (
           <div className="space-y-2">
-            <div className="max-h-[10.75rem] overflow-y-auto pr-1">
-              <div className="space-y-1">
-                {visibleWorkspaces.map((workspace) => (
-                  <WorkspaceSwitcherItem
-                    key={workspace.id}
-                    workspace={workspace}
-                    onSelect={() => onSelectWorkspace(workspace.id)}
-                  />
-                ))}
-              </div>
-            </div>
+            <WorkspaceScrollableList scrollable={hasScrollableWorkspaceList}>
+              {visibleWorkspaces.map((workspace) => (
+                <WorkspaceSwitcherItem
+                  key={workspace.id}
+                  workspace={workspace}
+                  onSelect={() => onSelectWorkspace(workspace.id)}
+                />
+              ))}
+            </WorkspaceScrollableList>
             {hiddenWorkspaceCount > 0 ? (
               <button
                 className="w-full cursor-pointer rounded-xl px-3 py-2 text-center text-xs font-semibold uppercase tracking-[0.18em] text-app-primary transition hover:bg-app-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-app-primary/25"
