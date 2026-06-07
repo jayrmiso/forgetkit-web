@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode, UIEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import type { WorkspaceRecord } from "../api/workspaceApi";
@@ -20,15 +21,23 @@ function WorkspaceScrollableList({
   children,
   scrollable,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
   scrollable: boolean;
 }>) {
+  const [isAtScrollEnd, setIsAtScrollEnd] = useState(false);
+
+  function handleScroll(event: UIEvent<HTMLDivElement>) {
+    const element = event.currentTarget;
+    const scrollEndThreshold = 4;
+    setIsAtScrollEnd(element.scrollTop + element.clientHeight >= element.scrollHeight - scrollEndThreshold);
+  }
+
   return (
     <div className="relative">
-      <div className="max-h-[10.75rem] overflow-y-auto pr-1">
+      <div className="max-h-[10.75rem] overflow-y-auto pr-1" onScroll={handleScroll}>
         <div className="space-y-1 pb-1">{children}</div>
       </div>
-      {scrollable ? (
+      {scrollable && !isAtScrollEnd ? (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center bg-gradient-to-t from-app-surface via-app-surface/90 to-transparent pb-1 pt-8">
           <span className="rounded-full border border-app bg-app-surface/95 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-app-muted shadow-sm">
             Scroll for more
@@ -116,7 +125,7 @@ export function WorkspaceSwitcherPanel({ workspaces, currentWorkspace, onClose, 
         {hasQuery ? (
           filteredWorkspaces.length > 0 ? (
             <div className="space-y-2">
-              <WorkspaceScrollableList scrollable={hasScrollableWorkspaceList}>
+              <WorkspaceScrollableList key={`${workspaceListScope}:${visibleWorkspaceCount}:search`} scrollable={hasScrollableWorkspaceList}>
                 {visibleWorkspaces.map((workspace) => (
                   <WorkspaceSwitcherItem
                     key={workspace.id}
@@ -145,7 +154,7 @@ export function WorkspaceSwitcherPanel({ workspaces, currentWorkspace, onClose, 
           )
         ) : recentWorkspaces.length > 0 ? (
           <div className="space-y-2">
-            <WorkspaceScrollableList scrollable={hasScrollableWorkspaceList}>
+            <WorkspaceScrollableList key={`${workspaceListScope}:${visibleWorkspaceCount}:recent`} scrollable={hasScrollableWorkspaceList}>
               {visibleWorkspaces.map((workspace) => (
                 <WorkspaceSwitcherItem
                   key={workspace.id}

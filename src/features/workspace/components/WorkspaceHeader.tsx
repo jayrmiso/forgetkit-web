@@ -10,7 +10,10 @@ import type { WorkspaceRecord } from "../api/workspaceApi";
 import { clearActiveWorkspaceId, persistActiveWorkspaceId } from "../workspaceSession";
 import { workspacePath } from "../workspacePath";
 import { WorkspaceCreateDialog } from "./WorkspaceCreateDialog";
+import { WorkspacePreparingOverlay } from "./WorkspacePreparingOverlay";
 import { WorkspaceSwitcherPanel } from "./WorkspaceSwitcherPanel";
+
+const WORKSPACE_SWITCH_DELAY_MS = 3200;
 
 function ChevronDownIcon() {
   return (
@@ -39,16 +42,33 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
   const router = useRouter();
   const [workspaceOpen, setWorkspaceOpen] = useState(false);
   const [createWorkspaceOpen, setCreateWorkspaceOpen] = useState(false);
+  const [switchingWorkspaceName, setSwitchingWorkspaceName] = useState("");
   const [userOpen, setUserOpen] = useState(false);
   const workspaceRef = useRef<HTMLDivElement | null>(null);
   const userRef = useRef<HTMLDivElement | null>(null);
   const userLabel = session.displayName ?? session.username ?? session.email.split("@")[0];
 
-  function handleWorkspaceSelect(workspaceId: string) {
+  function waitForWorkspaceSwitch() {
+    return new Promise((resolve) => {
+      window.setTimeout(resolve, WORKSPACE_SWITCH_DELAY_MS);
+    });
+  }
+
+  async function handleWorkspaceSelect(workspaceId: string, options?: Readonly<{ skipLoading?: boolean }>) {
+    const workspace = workspaces.find((item) => item.id === workspaceId);
+
     persistActiveWorkspaceId(workspaceId);
     setCreateWorkspaceOpen(false);
     setWorkspaceOpen(false);
+    setUserOpen(false);
+
+    if (!options?.skipLoading && workspaceId !== currentWorkspace.id) {
+      setSwitchingWorkspaceName(workspace?.name ?? "workspace");
+      await waitForWorkspaceSwitch();
+    }
+
     router.push(workspacePath(workspaceId, "/"));
+    setSwitchingWorkspaceName("");
   }
 
   function handleProfileClick() {
@@ -200,9 +220,11 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
         open={createWorkspaceOpen}
         onClose={() => setCreateWorkspaceOpen(false)}
         onCreated={(workspace) => {
-          handleWorkspaceSelect(workspace.id);
+          void handleWorkspaceSelect(workspace.id, { skipLoading: true });
         }}
       />
+
+      {switchingWorkspaceName ? <WorkspacePreparingOverlay mode="switch" workspaceName={switchingWorkspaceName} /> : null}
     </header>
   );
 }
