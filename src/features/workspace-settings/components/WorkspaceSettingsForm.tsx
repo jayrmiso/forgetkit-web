@@ -1,6 +1,7 @@
 "use client";
 
 import type { FormEvent } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -35,7 +36,22 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
   const [engineTarget, setEngineTarget] = useState<"unknown" | "godot">(workspace.engineTarget);
   const [visibility, setVisibility] = useState<"private" | "unlisted" | "public">(workspace.visibility ?? "private");
   const [status, setStatus] = useState<"idle" | "saving" | "saved">("idle");
+  const [showSavedToast, setShowSavedToast] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!showSavedToast) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setShowSavedToast(false);
+    }, 3200);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [showSavedToast]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -49,6 +65,7 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
         visibility,
       });
       setStatus("saved");
+      setShowSavedToast(true);
       router.refresh();
     } catch (updateError) {
       if (updateError instanceof WorkspaceApiError && updateError.status === 401) {
@@ -86,6 +103,7 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
               onChange={(event) => {
                 setName(event.target.value);
                 setStatus("idle");
+                setShowSavedToast(false);
                 if (error) setError("");
               }}
               required
@@ -103,6 +121,7 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
               onChange={(event) => {
                 setEngineTarget(event.target.value === "godot" ? "godot" : "unknown");
                 setStatus("idle");
+                setShowSavedToast(false);
                 if (error) setError("");
               }}
             >
@@ -130,6 +149,7 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
                     onClick={() => {
                       setVisibility(option);
                       setStatus("idle");
+                      setShowSavedToast(false);
                       if (error) setError("");
                     }}
                   >
@@ -167,10 +187,24 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
           {status === "saving" ? "Saving..." : "Save workspace settings"}
         </button>
         <div className="min-h-5 text-sm" aria-live="polite">
-          {status === "saved" ? <p className="text-app-success">Workspace settings saved.</p> : null}
           {error ? <p className="text-rose-600 dark:text-rose-400">{error}</p> : null}
         </div>
       </div>
+
+      {showSavedToast ? (
+        <div
+          className="fixed inset-x-0 bottom-6 z-[1100] flex justify-center px-4"
+          role="status"
+          aria-live="polite"
+        >
+          <div className="flex items-center gap-3 rounded-2xl border border-white/18 bg-slate-950/82 px-4 py-3 text-sm text-white shadow-[0_18px_60px_-24px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+            <span className="flex size-6 items-center justify-center rounded-full bg-emerald-400 text-[11px] font-bold text-slate-950">
+              OK
+            </span>
+            <span className="font-medium">Workspace settings saved</span>
+          </div>
+        </div>
+      ) : null}
     </form>
   );
 }
