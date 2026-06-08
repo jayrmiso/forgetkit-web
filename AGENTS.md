@@ -75,6 +75,10 @@ This repository is the frontend application only.
 - `main` should be treated as protected and deployable.
 - Do not push directly to `main` unless explicitly instructed.
 - Do not run destructive git commands unless explicitly requested.
+- At implementation handoff, leave completed work committed on a feature branch whenever possible.
+- Final handoff for feature-branch work must include the feature branch name, worktree path, commit SHA, validation results, and exact manual recovery commands to merge and push.
+- If the user explicitly asks to merge completed work into `main`, merge after gates pass and report the resulting `main` commit SHA.
+- If pushing is blocked by tool policy or session limits, report the exact `git push origin main` command and current ahead/behind state.
 
 ## Documentation
 - Update documentation when product behavior, architecture, API contracts, environment variables, or setup steps change.
