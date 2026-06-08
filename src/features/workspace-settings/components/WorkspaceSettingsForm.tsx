@@ -193,15 +193,18 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
 
       {showSavedToast ? (
         <div
-          className="fixed inset-x-0 bottom-6 z-[1100] flex justify-center px-4"
+          className="fixed inset-x-0 bottom-24 z-[1100] flex justify-center px-4 sm:bottom-28"
           role="status"
           aria-live="polite"
         >
-          <div className="flex items-center gap-3 rounded-2xl border border-white/18 bg-slate-950/82 px-4 py-3 text-sm text-white shadow-[0_18px_60px_-24px_rgba(0,0,0,0.8)] backdrop-blur-xl">
-            <span className="flex size-6 items-center justify-center rounded-full bg-emerald-400 text-[11px] font-bold text-slate-950">
+          <div className="workspace-toast-enter flex w-full max-w-sm items-center gap-3 rounded-[1.35rem] border border-white/20 bg-slate-950/88 px-4 py-3.5 text-white shadow-[0_26px_80px_-28px_rgba(0,0,0,0.9)] ring-1 ring-black/10 backdrop-blur-2xl dark:border-white/15 dark:bg-slate-950/82">
+            <span className="grid size-8 shrink-0 place-items-center rounded-full bg-emerald-400 text-sm font-black text-slate-950 shadow-[0_0_0_5px_rgba(52,211,153,0.14)]">
               OK
             </span>
-            <span className="font-medium">Workspace settings saved</span>
+            <span className="min-w-0">
+              <span className="block text-sm font-semibold tracking-[-0.02em]">Workspace settings saved</span>
+              <span className="block truncate text-xs text-slate-300">Your workspace updates are active.</span>
+            </span>
           </div>
         </div>
       ) : null}
