@@ -193,7 +193,7 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
 
       {showSavedToast ? (
         <div
-          className="fixed inset-x-0 bottom-24 z-[1100] flex justify-center px-4 sm:bottom-28"
+          className="fixed inset-x-0 bottom-24 z-[1100] flex justify-center px-4 sm:bottom-28 sm:justify-end sm:px-6 lg:px-8"
           role="status"
           aria-live="polite"
         >
