@@ -10,6 +10,7 @@ import type { WorkspaceRecord } from "../api/workspaceApi";
 import { clearActiveWorkspaceId, persistActiveWorkspaceId } from "../workspaceSession";
 import { workspacePath } from "../workspacePath";
 import { WorkspaceCreateDialog } from "./WorkspaceCreateDialog";
+import { WorkspaceGlobalSearch } from "./WorkspaceGlobalSearch";
 import { WorkspacePreparingOverlay } from "./WorkspacePreparingOverlay";
 import { WorkspaceSwitcherPanel } from "./WorkspaceSwitcherPanel";
 
@@ -32,6 +33,19 @@ function WorkspaceSelectorIcon() {
   );
 }
 
+function getUserInitials(label: string) {
+  const parts = label
+    .split(/\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  }
+
+  return (parts[0]?.slice(0, 2) ?? "FK").toUpperCase();
+}
+
 type WorkspaceHeaderProps = Readonly<{
   session: AuthSession;
   workspaces: WorkspaceRecord[];
@@ -47,6 +61,7 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
   const workspaceRef = useRef<HTMLDivElement | null>(null);
   const userRef = useRef<HTMLDivElement | null>(null);
   const userLabel = session.displayName ?? session.username ?? session.email.split("@")[0];
+  const userInitials = getUserInitials(userLabel);
 
   function waitForWorkspaceSwitch() {
     return new Promise((resolve) => {
@@ -163,6 +178,15 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
         </div>
 
         <div className="flex min-w-0 items-center gap-2 justify-self-end -translate-x-3 lg:-translate-x-5">
+          <WorkspaceGlobalSearch
+            accessToken={session.accessToken}
+            onOpenChange={(open) => {
+              if (open) {
+                setWorkspaceOpen(false);
+                setUserOpen(false);
+              }
+            }}
+          />
           <div ref={userRef} className="relative">
             <button
               aria-expanded={userOpen}
@@ -175,7 +199,10 @@ export function WorkspaceHeader({ session, workspaces, currentWorkspace }: Works
                 setUserOpen((current) => !current);
               }}
             >
-              <span>{userLabel}</span>
+              <span className="flex size-7 shrink-0 items-center justify-center rounded-xl border border-app bg-app-bg text-[11px] font-semibold text-app-primary">
+                {userInitials}
+              </span>
+              <span className="max-w-[9rem] truncate">{userLabel}</span>
               <ChevronDownIcon />
             </button>
 
