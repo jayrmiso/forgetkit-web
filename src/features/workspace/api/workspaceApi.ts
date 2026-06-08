@@ -55,8 +55,15 @@ const createWorkspaceBodySchema = z.object({
   visibility: workspaceVisibilitySchema.default("private"),
 });
 
+const updateWorkspaceBodySchema = z.object({
+  name: z.string().trim().min(1).max(120).optional(),
+  engineTarget: engineTargetSchema.optional(),
+  visibility: workspaceVisibilitySchema.optional(),
+});
+
 export type WorkspaceRecord = z.infer<typeof workspaceSchema>;
 export type CreateWorkspaceInput = z.infer<typeof createWorkspaceBodySchema>;
+export type UpdateWorkspaceInput = z.infer<typeof updateWorkspaceBodySchema>;
 
 export class WorkspaceApiError extends Error {
   status: number;
@@ -115,6 +122,16 @@ export async function createWorkspace(token: string, input: CreateWorkspaceInput
   const payload = await workspaceRequest<unknown>(token, "/v1/workspaces", {
     body: JSON.stringify(parsedInput),
     method: "POST",
+  });
+  const parsed = workspaceResponseSchema.parse(payload);
+  return parsed.data.workspace;
+}
+
+export async function updateWorkspace(token: string, workspaceId: string, input: UpdateWorkspaceInput) {
+  const parsedInput = updateWorkspaceBodySchema.parse(input);
+  const payload = await workspaceRequest<unknown>(token, `/v1/workspaces/${workspaceId}`, {
+    body: JSON.stringify(parsedInput),
+    method: "PATCH",
   });
   const parsed = workspaceResponseSchema.parse(payload);
   return parsed.data.workspace;

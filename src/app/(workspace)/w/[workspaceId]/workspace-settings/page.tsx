@@ -58,7 +58,7 @@ export default async function WorkspaceSettingsPage({ params }: WorkspaceSetting
 
         <div className="space-y-8">
           <WorkspaceSettingsHeader workspace={currentWorkspace} />
-          <WorkspaceSettingsDetails workspace={currentWorkspace} />
+          <WorkspaceSettingsDetails accessToken={session.accessToken} workspace={currentWorkspace} />
         </div>
       </div>
     </main>
