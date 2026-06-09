@@ -1,8 +1,7 @@
 "use client";
 
-import type { FormEvent } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import type { FormEvent, ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { clearAuthSession, SESSION_EXPIRED_LOGIN_PATH } from "@/features/auth/authSession";
@@ -14,9 +13,44 @@ type WorkspaceSettingsFormProps = Readonly<{
   workspace: WorkspaceRecord;
 }>;
 
+type CameraView = NonNullable<WorkspaceRecord["cameraView"]>;
+
+type WorkspaceSettingsState = {
+  gameTitle: string;
+  genre: string;
+  artDirection: string;
+  targetResolution: string;
+  defaultBiome: string;
+  defaultStyle: string;
+  currentFocus: string;
+  nextMilestone: string;
+  blockers: string;
+  storageRootPath: string;
+  godotProjectPath: string;
+  namingConvention: string;
+};
+
+const cameraViewOptions: Array<Readonly<{ value: CameraView; label: string }>> = [
+  { value: "unknown", label: "Unknown" },
+  { value: "top_down", label: "Top down" },
+  { value: "side_scroller", label: "Side scroller" },
+  { value: "isometric", label: "Isometric" },
+  { value: "first_person", label: "First person" },
+  { value: "third_person", label: "Third person" },
+];
+
 function formatReadonlyValue(value?: string | null) {
   const trimmed = value?.trim();
   return trimmed ? trimmed : "Not set";
+}
+
+function toFieldValue(value?: string | null) {
+  return value ?? "";
+}
+
+function toNullableText(value: string) {
+  const trimmed = value.trim();
+  return trimmed ? trimmed : null;
 }
 
 function ReadonlyRow({ label, value }: Readonly<{ label: string; value?: string | null }>) {
@@ -30,14 +64,152 @@ function ReadonlyRow({ label, value }: Readonly<{ label: string; value?: string 
   );
 }
 
+function Section({
+  eyebrow,
+  title,
+  description,
+  children,
+}: Readonly<{
+  eyebrow: string;
+  title: string;
+  description: string;
+  children: ReactNode;
+}>) {
+  return (
+    <section className="border-b border-app pb-7">
+      <div className="mb-4 max-w-3xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-app-primary">{eyebrow}</p>
+        <h2 className="mt-1 text-xl font-semibold tracking-[-0.04em] text-app">{title}</h2>
+        <p className="mt-2 text-sm leading-6 text-app-muted">{description}</p>
+      </div>
+      <div className="divide-y divide-app/70">{children}</div>
+    </section>
+  );
+}
+
+function TextField({
+  id,
+  label,
+  value,
+  onChange,
+  required,
+}: Readonly<{
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  required?: boolean;
+}>) {
+  return (
+    <div className="grid gap-2 border-b border-app/70 py-4 last:border-b-0 md:grid-cols-[220px_minmax(0,1fr)] md:gap-6">
+      <label className="text-sm font-medium text-app-muted" htmlFor={id}>
+        {label}
+      </label>
+      <input
+        id={id}
+        className="h-11 rounded-xl border border-app bg-app-surface px-3.5 text-sm text-app outline-none transition focus-visible:border-[color-mix(in_oklch,var(--primary),white_12%)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary),white_16%)]"
+        required={required}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      />
+    </div>
+  );
+}
+
+function TextAreaField({
+  id,
+  label,
+  value,
+  onChange,
+}: Readonly<{
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}>) {
+  return (
+    <div className="grid gap-2 border-b border-app/70 py-4 last:border-b-0 md:grid-cols-[220px_minmax(0,1fr)] md:gap-6">
+      <label className="text-sm font-medium text-app-muted" htmlFor={id}>
+        {label}
+      </label>
+      <textarea
+        id={id}
+        className="min-h-24 rounded-xl border border-app bg-app-surface px-3.5 py-3 text-sm leading-6 text-app outline-none transition focus-visible:border-[color-mix(in_oklch,var(--primary),white_12%)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary),white_16%)]"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      />
+    </div>
+  );
+}
+
+function SelectField({
+  id,
+  label,
+  value,
+  options,
+  onChange,
+}: Readonly<{
+  id: string;
+  label: string;
+  value: string;
+  options: ReadonlyArray<Readonly<{ value: string; label: string }>>;
+  onChange: (value: string) => void;
+}>) {
+  return (
+    <div className="grid gap-2 border-b border-app/70 py-4 last:border-b-0 md:grid-cols-[220px_minmax(0,1fr)] md:gap-6">
+      <label className="text-sm font-medium text-app-muted" htmlFor={id}>
+        {label}
+      </label>
+      <select
+        id={id}
+        className="h-11 cursor-pointer rounded-xl border border-app bg-app-surface px-3.5 text-sm text-app outline-none transition focus-visible:border-[color-mix(in_oklch,var(--primary),white_12%)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary),white_16%)]"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
 export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSettingsFormProps) {
   const router = useRouter();
   const [name, setName] = useState(workspace.name);
   const [engineTarget, setEngineTarget] = useState<"unknown" | "godot">(workspace.engineTarget);
+  const [cameraView, setCameraView] = useState<CameraView>(workspace.cameraView ?? "unknown");
   const [visibility, setVisibility] = useState<"private" | "unlisted" | "public">(workspace.visibility ?? "private");
+  const [settings, setSettings] = useState<WorkspaceSettingsState>({
+    gameTitle: toFieldValue(workspace.gameTitle),
+    genre: toFieldValue(workspace.genre),
+    artDirection: toFieldValue(workspace.artDirection),
+    targetResolution: toFieldValue(workspace.targetResolution),
+    defaultBiome: toFieldValue(workspace.defaultBiome),
+    defaultStyle: toFieldValue(workspace.defaultStyle),
+    currentFocus: toFieldValue(workspace.currentFocus),
+    nextMilestone: toFieldValue(workspace.nextMilestone),
+    blockers: toFieldValue(workspace.blockers),
+    storageRootPath: toFieldValue(workspace.storageRootPath),
+    godotProjectPath: toFieldValue(workspace.godotProjectPath),
+    namingConvention: toFieldValue(workspace.namingConvention),
+  });
   const [status, setStatus] = useState<"idle" | "saving" | "saved">("idle");
   const [showSavedToast, setShowSavedToast] = useState(false);
   const [error, setError] = useState("");
+
+  function markDirty() {
+    setStatus("idle");
+    setShowSavedToast(false);
+    if (error) setError("");
+  }
+
+  function updateSetting(key: keyof WorkspaceSettingsState, value: string) {
+    setSettings((current) => ({ ...current, [key]: value }));
+    markDirty();
+  }
 
   useEffect(() => {
     if (!showSavedToast) {
@@ -63,6 +235,19 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
         name,
         engineTarget,
         visibility,
+        cameraView,
+        gameTitle: toNullableText(settings.gameTitle),
+        genre: toNullableText(settings.genre),
+        artDirection: toNullableText(settings.artDirection),
+        targetResolution: toNullableText(settings.targetResolution),
+        defaultBiome: toNullableText(settings.defaultBiome),
+        defaultStyle: toNullableText(settings.defaultStyle),
+        currentFocus: toNullableText(settings.currentFocus),
+        nextMilestone: toNullableText(settings.nextMilestone),
+        blockers: toNullableText(settings.blockers),
+        storageRootPath: toNullableText(settings.storageRootPath),
+        godotProjectPath: toNullableText(settings.godotProjectPath),
+        namingConvention: toNullableText(settings.namingConvention),
       });
       setStatus("saved");
       setShowSavedToast(true);
@@ -82,93 +267,98 @@ export function WorkspaceSettingsForm({ accessToken, workspace }: WorkspaceSetti
 
   return (
     <form className="space-y-8" onSubmit={handleSubmit}>
-      <section className="border-b border-app pb-7">
-        <div className="mb-4 max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-app-primary">Editable settings</p>
-          <h2 className="mt-1 text-xl font-semibold tracking-[-0.04em] text-app">Workspace identity</h2>
-          <p className="mt-2 text-sm leading-6 text-app-muted">
-            Edit the settings currently supported by the workspace API.
-          </p>
+      <Section eyebrow="Editable settings" title="Workspace identity" description="Name the workspace and describe the game being prepared.">
+        <TextField
+          id="workspace-settings-name"
+          label="Workspace name"
+          required
+          value={name}
+          onChange={(value) => {
+            setName(value);
+            markDirty();
+          }}
+        />
+        <TextField id="workspace-settings-game-title" label="Game title" value={settings.gameTitle} onChange={(value) => updateSetting("gameTitle", value)} />
+        <TextField id="workspace-settings-genre" label="Genre" value={settings.genre} onChange={(value) => updateSetting("genre", value)} />
+        <SelectField
+          id="workspace-settings-camera-view"
+          label="Camera view"
+          options={cameraViewOptions}
+          value={cameraView}
+          onChange={(value) => {
+            setCameraView(value as CameraView);
+            markDirty();
+          }}
+        />
+      </Section>
+
+      <Section eyebrow="Production defaults" title="Generation and asset defaults" description="Set defaults that future generation, asset, and export surfaces can reuse.">
+        <SelectField
+          id="workspace-settings-engine"
+          label="Engine target"
+          options={[
+            { value: "godot", label: "Godot" },
+            { value: "unknown", label: "Unknown" },
+          ]}
+          value={engineTarget}
+          onChange={(value) => {
+            setEngineTarget(value === "godot" ? "godot" : "unknown");
+            markDirty();
+          }}
+        />
+        <TextAreaField id="workspace-settings-art-direction" label="Art direction" value={settings.artDirection} onChange={(value) => updateSetting("artDirection", value)} />
+        <TextField id="workspace-settings-target-resolution" label="Target resolution" value={settings.targetResolution} onChange={(value) => updateSetting("targetResolution", value)} />
+        <TextField id="workspace-settings-default-biome" label="Default biome" value={settings.defaultBiome} onChange={(value) => updateSetting("defaultBiome", value)} />
+        <TextField id="workspace-settings-default-style" label="Default style" value={settings.defaultStyle} onChange={(value) => updateSetting("defaultStyle", value)} />
+      </Section>
+
+      <Section eyebrow="Planning" title="Current production focus" description="Keep the workspace pointed at the next useful milestone.">
+        <TextAreaField id="workspace-settings-current-focus" label="Current focus" value={settings.currentFocus} onChange={(value) => updateSetting("currentFocus", value)} />
+        <TextAreaField id="workspace-settings-next-milestone" label="Next milestone" value={settings.nextMilestone} onChange={(value) => updateSetting("nextMilestone", value)} />
+        <TextAreaField id="workspace-settings-blockers" label="Blockers" value={settings.blockers} onChange={(value) => updateSetting("blockers", value)} />
+      </Section>
+
+      <Section eyebrow="Paths and export" title="Storage and Godot readiness" description="Capture paths and naming rules before export workflows are wired.">
+        <TextField id="workspace-settings-storage-root" label="Storage root path" value={settings.storageRootPath} onChange={(value) => updateSetting("storageRootPath", value)} />
+        <TextField id="workspace-settings-godot-path" label="Godot project path" value={settings.godotProjectPath} onChange={(value) => updateSetting("godotProjectPath", value)} />
+        <TextAreaField id="workspace-settings-naming" label="Naming convention" value={settings.namingConvention} onChange={(value) => updateSetting("namingConvention", value)} />
+      </Section>
+
+      <Section eyebrow="Publishing" title="Workspace visibility" description="Control whether this workspace can be discovered or opened from shared routes.">
+        <div className="grid gap-2 py-4 md:grid-cols-[220px_minmax(0,1fr)] md:gap-6">
+          <p className="text-sm font-medium text-app-muted">Visibility</p>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {(["private", "unlisted", "public"] as const).map((option) => {
+              const selected = visibility === option;
+
+              return (
+                <button
+                  key={option}
+                  aria-pressed={selected}
+                  className={
+                    selected
+                      ? "cursor-pointer rounded-xl bg-app-primary px-3 py-2 text-sm font-semibold capitalize text-white shadow-[0_10px_24px_-18px_rgba(183,121,31,0.8)] transition"
+                      : "cursor-pointer rounded-xl border border-app px-3 py-2 text-sm font-medium capitalize text-app-muted transition hover:bg-app-raised hover:text-app"
+                  }
+                  type="button"
+                  onClick={() => {
+                    setVisibility(option);
+                    markDirty();
+                  }}
+                >
+                  {option}
+                </button>
+              );
+            })}
+          </div>
         </div>
-
-        <div className="divide-y divide-app/70">
-          <div className="grid gap-2 border-b border-app/70 py-4 md:grid-cols-[220px_minmax(0,1fr)] md:gap-6">
-            <label className="text-sm font-medium text-app-muted" htmlFor="workspace-settings-name">
-              Workspace name
-            </label>
-            <input
-              id="workspace-settings-name"
-              className="h-11 rounded-xl border border-app bg-app-surface px-3.5 text-sm text-app outline-none transition focus-visible:border-[color-mix(in_oklch,var(--primary),white_12%)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary),white_16%)]"
-              value={name}
-              onChange={(event) => {
-                setName(event.target.value);
-                setStatus("idle");
-                setShowSavedToast(false);
-                if (error) setError("");
-              }}
-              required
-            />
-          </div>
-
-          <div className="grid gap-2 border-b border-app/70 py-4 md:grid-cols-[220px_minmax(0,1fr)] md:gap-6">
-            <label className="text-sm font-medium text-app-muted" htmlFor="workspace-settings-engine">
-              Engine target
-            </label>
-            <select
-              id="workspace-settings-engine"
-              className="h-11 cursor-pointer rounded-xl border border-app bg-app-surface px-3.5 text-sm text-app outline-none transition focus-visible:border-[color-mix(in_oklch,var(--primary),white_12%)] focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklch,var(--primary),white_16%)]"
-              value={engineTarget}
-              onChange={(event) => {
-                setEngineTarget(event.target.value === "godot" ? "godot" : "unknown");
-                setStatus("idle");
-                setShowSavedToast(false);
-                if (error) setError("");
-              }}
-            >
-              <option value="godot">Godot</option>
-              <option value="unknown">Unknown</option>
-            </select>
-          </div>
-
-          <div className="grid gap-2 py-4 md:grid-cols-[220px_minmax(0,1fr)] md:gap-6">
-            <p className="text-sm font-medium text-app-muted">Visibility</p>
-            <div className="grid gap-2 sm:grid-cols-3">
-              {(["private", "unlisted", "public"] as const).map((option) => {
-                const selected = visibility === option;
-
-                return (
-                  <button
-                    key={option}
-                    aria-pressed={selected}
-                    className={
-                      selected
-                        ? "cursor-pointer rounded-xl bg-app-primary px-3 py-2 text-sm font-semibold capitalize text-white shadow-[0_10px_24px_-18px_rgba(183,121,31,0.8)] transition"
-                        : "cursor-pointer rounded-xl border border-app px-3 py-2 text-sm font-medium capitalize text-app-muted transition hover:bg-app-raised hover:text-app"
-                    }
-                    type="button"
-                    onClick={() => {
-                      setVisibility(option);
-                      setStatus("idle");
-                      setShowSavedToast(false);
-                      if (error) setError("");
-                    }}
-                  >
-                    {option}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
+      </Section>
 
       <section className="border-b border-app pb-7">
         <div className="mb-4 max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-app-primary">Read-only</p>
           <h2 className="mt-1 text-xl font-semibold tracking-[-0.04em] text-app">System state</h2>
-          <p className="mt-2 text-sm leading-6 text-app-muted">
-            These fields are returned by the API but are not editable in workspace settings yet.
-          </p>
+          <p className="mt-2 text-sm leading-6 text-app-muted">These fields are owned by workspace lifecycle and membership state.</p>
         </div>
 
         <dl className="divide-y divide-app/70">

@@ -59,6 +59,19 @@ const updateWorkspaceBodySchema = z.object({
   name: z.string().trim().min(1).max(120).optional(),
   engineTarget: engineTargetSchema.optional(),
   visibility: workspaceVisibilitySchema.optional(),
+  gameTitle: z.string().nullable().optional(),
+  genre: z.string().nullable().optional(),
+  cameraView: cameraViewSchema.nullable().optional(),
+  artDirection: z.string().nullable().optional(),
+  targetResolution: z.string().nullable().optional(),
+  defaultBiome: z.string().nullable().optional(),
+  defaultStyle: z.string().nullable().optional(),
+  currentFocus: z.string().nullable().optional(),
+  nextMilestone: z.string().nullable().optional(),
+  blockers: z.string().nullable().optional(),
+  storageRootPath: z.string().nullable().optional(),
+  godotProjectPath: z.string().nullable().optional(),
+  namingConvention: z.string().nullable().optional(),
 });
 
 export type WorkspaceRecord = z.infer<typeof workspaceSchema>;
